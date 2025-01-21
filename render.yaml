@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: "book_platform"
+    buildCommand: "./build.sh"
+    env: python
+    startCommand: "gunicorn book_platform.wsgi:application"

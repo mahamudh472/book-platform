@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-==x%n*b1%pulu&5#qs2@v&lz1)7dbx*1bb!k-3re(jc89%*)+c
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -51,6 +51,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = 'book_platform.urls'
@@ -124,7 +126,7 @@ STATIC_ROOT = 'staticfiles'
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
-
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
