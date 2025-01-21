@@ -1,0 +1,19 @@
+{% extends 'author/content_base.html' %}
+{% load static %}
+{% block content %}
+<header class="flex items-center justify-between mb-6">
+    <div>
+        <h2 class="text-3xl font-semibold">Book copyright</h2>
+    </div>
+</header>
+<div class="flex justify-between items-end border-b">
+    <ul class="flex gap-4 font-medium text-gray-600 text-sm">
+        <li class="p-2 cursor-pointer text-black border-b-2 font-bold border-gray-500">
+            Remvoal Requests
+        </li>
+    </ul>
+    <button class="py-2 my-2 px-4 bg-gray-100 rounded-full text-sm font-medium hover:bg-gray-200">New
+        removal request</button>
+</div>
+<div class="text-center my-9">Nothing to see yet</div>
+{% endblock %}

@@ -1,0 +1,185 @@
+{% extends 'author/content_base.html' %}
+{% load static %}
+{% block content %}
+<header class="flex items-center justify-between mb-6">
+    <div>
+        <h2 class="text-3xl font-semibold">
+            Book analytics
+        </h2>
+    </div>
+    <button class="py-2 px-4 bg-gray-100 rounded-full text-sm font-medium hover:bg-gray-200">
+        Advanced
+        Mode
+    </button>
+</header>
+<div class="flex justify-between items-end border-b">
+    <ul class="flex gap-4 font-medium text-gray-600 text-sm">
+        <li class="p-2 cursor-pointer text-black border-b-2 font-bold border-gray-500">
+            Overview
+        </li>
+        <li class="hover:border-b-2 hover:border-gray-300 p-2 cursor-pointer">
+            Reach
+        </li>
+        <li class="hover:border-b-2 hover:border-gray-300 p-2 cursor-pointer">
+            Engagement
+        </li>
+        <li class="hover:border-b-2 hover:border-gray-300 p-2 cursor-pointer">
+            Audience
+        </li>
+    </ul>
+    <div class="relative pb-2">
+        <div class="flex gap-6 cursor-pointer dropdownButton">
+            <div class="text-xs">
+                Oct 5, 2024 - Jan 05, 2025
+                <div class="text-sm">
+                    Last 90 days
+                </div>
+            </div>
+            <button>
+                <i class="fa fa-chevron-down p-2 rounded-full">
+                </i>
+            </button>
+        </div>
+        <!-- Dropdown Menu -->
+        <div class="dropdownMenu absolute right-0 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden"
+            id="dropdownMenu">
+            <ul class="py-1">
+                <li>
+                    <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+                        Last 7 days
+                    </a>
+                </li>
+                <li>
+                    <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+                        Last 28 days
+                    </a>
+                </li>
+                <li>
+                    <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+                        Last 90 days
+                    </a>
+                </li>
+                <li>
+                    <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+                        Last 365 days
+                    </a>
+                </li>
+                <li class="border-b">
+                    <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+                        Lifetime
+                    </a>
+                </li>
+                <li>
+                    <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+                        2024
+                    </a>
+                </li>
+                <li class="border-b">
+                    <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+                        2025
+                    </a>
+                </li>
+                <li>
+                    <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+                        Custom
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="flex gap-4">
+    <div class="w-9/12">
+        <div class="text-center text-3xl font-medium py-6">
+            Your book got 20 views in last 90 days
+        </div>
+        <div class="border rounded-xl">
+            <div class="grid grid-cols-3">
+                <div class="text-center border-r space-y-2 my-2 p-2 cursor-pointer">
+                    <div class="text-sm">
+                        Views
+                    </div>
+                    <div class="text-xl">
+                        20
+                        <i class="fa fa-circle-arrow-down text-gray-400">
+                        </i>
+                    </div>
+                    <div class="text-sm text-black opacity-80">
+                        82% less then previous 90days
+                    </div>
+                </div>
+                <div class="text-center border-r space-y-2 my-2 p-2 cursor-pointer bg-gray-50">
+                    <div class="text-sm">
+                        Watch time(hours)
+                    </div>
+                    <div class="text-xl">
+                        0.4
+                        <i class="fa fa-circle-arrow-down text-gray-400">
+                        </i>
+                    </div>
+                    <div class="text-sm text-black opacity-80">
+                        82% less then previous 90days
+                    </div>
+                </div>
+                <div class="text-center space-y-2 my-2 p-2 cursor-pointer bg-gray-50">
+                    <div class="text-sm">
+                        Subscribers
+                    </div>
+                    <div class="text-xl">
+                        +2
+                        <i class="fa fa-circle-arrow-down text-gray-400">
+                        </i>
+                    </div>
+                    <div class="text-sm text-black opacity-80">
+                        82% less then previous 90days
+                    </div>
+                </div>
+            </div>
+            <canvas class="h-72 px-6" id="myChart">
+            </canvas>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js">
+            </script>
+            <button class="py-2 px-4 mx-6 my-3 rounded-full bg-gray-100 hover:bg-gray-200 font-medium text-sm">
+                See
+                more
+            </button>
+        </div>
+    </div>
+    <div class="w-3/12">
+        <div class="border rounded-xl my-4 p-2 px-4">
+            <div class="font-bold text-lg">
+                Realtime
+            </div>
+            <div class="text-sm font-light">
+                Updating live
+            </div>
+            <hr class="my-4" />
+            <div class="font-bold text-lg">
+                14
+            </div>
+            <div class="text-sm font-light">
+                Subscribers
+            </div>
+            <button class="py-2 px-4 bg-gray-100 hover:bg-gray-200 rounded-full font-medium text-sm my-2">
+                See
+                live count
+            </button>
+            <hr class="my-2" />
+            <div class="font-medium text-lg">
+                0
+            </div>
+            <div class="text-sm font-light">
+                Views - last 48 hours
+            </div>
+            <button class="py-2 px-4 bg-gray-100 hover:bg-gray-200 rounded-full font-medium text-sm my-2">
+                See
+                more
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/chart_data.js' %}"></script>
+{% endblock %}

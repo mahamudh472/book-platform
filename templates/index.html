@@ -1,0 +1,280 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+    <h2 class="text-xl font-bold text-gray-700 mb-4">
+        Recommended Books
+    </h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+        <!-- Book Card -->
+        <div class="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer"
+            onclick="location.href='book_view.html'">
+            <div class="relative bg-slate-300" style="padding-bottom: 150%;">
+                <!-- 16:9 Aspect Ratio -->
+                <img alt="Book Thumbnail" class="absolute object-cover h-full w-full"
+                    src="https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/Rich_Dad_Poor_Dad-Robert_T_Kiyosaki-a28a3-150615.jpg" />
+            </div>
+            <div class="p-1 my-2">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <img alt="" class="h-10 w-10 mx-1 border rounded-full"
+                            src="https://cdn.vectorstock.com/i/500p/53/42/user-member-avatar-face-profile-icon-vector-22965342.jpg" />
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-gray-800">
+                            Book Title
+                        </h3>
+                        <p class="text-xs text-gray-500">
+                            Channel Name
+                        </p>
+                        <p class="text-xs text-gray-400">
+                            10K views • 2 days ago
+                        </p>
+                    </div>
+                    <div>
+                        <button class="p-2" onclick="event.stopPropagation()">
+                            <i class="fa fa-ellipsis-vertical">
+                            </i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Book Card -->
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <div class="relative bg-slate-300" style="padding-bottom: 150%;">
+                <!-- 16:9 Aspect Ratio -->
+                <img alt="Book Thumbnail" class="absolute object-cover h-full w-full"
+                    src="{% static 'book images/img1.jpg' %}" />
+            </div>
+            <div class="p-1 my-2">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <img alt="" class="h-10 w-10 mx-1 rounded-full border"
+                            src="{% static 'profile_img/profile_img1.webp' %}" />
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-gray-800">
+                            Book Title
+                        </h3>
+                        <p class="text-xs text-gray-500">
+                            Channel Name
+                        </p>
+                        <p class="text-xs text-gray-400">
+                            10K views • 2 days ago
+                        </p>
+                    </div>
+                    <div>
+                        <button class="p-2" onclick="event.stopPropagation()">
+                            <i class="fa fa-ellipsis-vertical">
+                            </i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Book Card -->
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <div class="relative bg-slate-300" style="padding-bottom: 150%;">
+                <!-- 16:9 Aspect Ratio -->
+                <img alt="Book Thumbnail" class="absolute object-cover h-full w-full"
+                    src="{% static 'book images/img2.jpg' %}" />
+            </div>
+            <div class="p-1 my-2">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <img alt="" class="h-10 w-10 rounded-full mx-1" src="{% static 'profile_img/profile_img2.webp' %}" />
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-gray-800">
+                            Book Title
+                        </h3>
+                        <p class="text-xs text-gray-500">
+                            Channel Name
+                        </p>
+                        <p class="text-xs text-gray-400">
+                            10K views • 2 days ago
+                        </p>
+                    </div>
+                    <div>
+                        <button class="p-2" onclick="event.stopPropagation()">
+                            <i class="fa fa-ellipsis-vertical">
+                            </i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Book Card -->
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <div class="relative bg-slate-300" style="padding-bottom: 150%;">
+                <!-- 16:9 Aspect Ratio -->
+                <img alt="Book Thumbnail" class="absolute object-cover h-full w-full"
+                    src="{% static 'book images/img3.jpg' %}" />
+            </div>
+            <div class="p-1 my-2">
+                <div class="flex justify-between">
+                    <div>
+                        <img alt="" class="h-10 w-10 rounded-full" src="{% static 'profile_img/profile_img3.png' %}" />
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-gray-800">
+                            Book Title
+                        </h3>
+                        <p class="text-xs text-gray-500">
+                            Channel Name
+                        </p>
+                        <p class="text-xs text-gray-400">
+                            10K views • 2 days ago
+                        </p>
+                    </div>
+                    <div>
+                        <button class="p-2" onclick="event.stopPropagation()">
+                            <i class="fa fa-ellipsis-vertical">
+                            </i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Book Card -->
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <div class="relative bg-slate-300" style="padding-bottom: 150%;">
+                <!-- 16:9 Aspect Ratio -->
+                <img alt="Book Thumbnail" class="absolute object-cover h-full w-full"
+                    src="{% static 'book images/img4.jpeg' %}" />
+            </div>
+            <div class="p-1 my-2">
+                <div class="flex justify-between">
+                    <div>
+                        <img alt="" class="h-10 w-10 rounded-full" src="{% static 'profile_img/profile_img4.png' %}" />
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-gray-800">
+                            Book Title
+                        </h3>
+                        <p class="text-xs text-gray-500">
+                            Channel Name
+                        </p>
+                        <p class="text-xs text-gray-400">
+                            10K views • 2 days ago
+                        </p>
+                    </div>
+                    <div>
+                        <button class="p-2" onclick="event.stopPropagation()">
+                            <i class="fa fa-ellipsis-vertical">
+                            </i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Book Card -->
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <div class="relative bg-slate-300" style="padding-bottom: 150%;">
+                <!-- 16:9 Aspect Ratio -->
+                <img alt="Book Thumbnail" class="absolute object-cover h-full w-full"
+                    src="{% static 'book images/img5.jpg' %}" />
+            </div>
+            <div class="p-1 my-2">
+                <div class="flex justify-between">
+                    <div>
+                        <img alt="" class="h-10 w-10 rounded-full" src="{% static 'profile_img/profile_img5.png' %}" />
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-gray-800">
+                            Book Title
+                        </h3>
+                        <p class="text-xs text-gray-500">
+                            Channel Name
+                        </p>
+                        <p class="text-xs text-gray-400">
+                            10K views • 2 days ago
+                        </p>
+                    </div>
+                    <div>
+                        <button class="p-2" onclick="event.stopPropagation()">
+                            <i class="fa fa-ellipsis-vertical">
+                            </i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Book Card -->
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <div class="relative bg-slate-300" style="padding-bottom: 150%;">
+                <!-- 16:9 Aspect Ratio -->
+                <img alt="Book Thumbnail" class="absolute object-cover h-full w-full"
+                    src="https://media.licdn.com/dms/image/D4E12AQG0hyhZmq0AyQ/article-cover_image-shrink_600_2000/0/1700488940348?e=2147483647&v=beta&t=eZtDe_xSbm65L-mR1tnM8vnfMpM3aWcSe8rw8o7sjSs" />
+            </div>
+            <div class="p-1 my-2">
+                <div class="flex justify-between">
+                    <div>
+                        <img alt="" class="h-10 w-10"
+                            src="https://cdn.vectorstock.com/i/500p/53/42/user-member-avatar-face-profile-icon-vector-22965342.jpg" />
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-gray-800">
+                            Book Title
+                        </h3>
+                        <p class="text-xs text-gray-500">
+                            Channel Name
+                        </p>
+                        <p class="text-xs text-gray-400">
+                            10K views • 2 days ago
+                        </p>
+                    </div>
+                    <div>
+                        <button class="p-2" onclick="event.stopPropagation()">
+                            <i class="fa fa-ellipsis-vertical">
+                            </i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Book Card -->
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <div class="relative bg-slate-300" style="padding-bottom: 150%;">
+                <!-- 16:9 Aspect Ratio -->
+                <img alt="Book Thumbnail" class="absolute object-cover h-full w-full"
+                    src="https://media.licdn.com/dms/image/D4E12AQG0hyhZmq0AyQ/article-cover_image-shrink_600_2000/0/1700488940348?e=2147483647&v=beta&t=eZtDe_xSbm65L-mR1tnM8vnfMpM3aWcSe8rw8o7sjSs" />
+            </div>
+            <div class="p-1 my-2">
+                <div class="flex justify-between">
+                    <div>
+                        <img alt="" class="h-10 w-10"
+                            src="https://cdn.vectorstock.com/i/500p/53/42/user-member-avatar-face-profile-icon-vector-22965342.jpg" />
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-gray-800">
+                            Book Title
+                        </h3>
+                        <p class="text-xs text-gray-500">
+                            Channel Name
+                        </p>
+                        <p class="text-xs text-gray-400">
+                            10K views • 2 days ago
+                        </p>
+                    </div>
+                    <div>
+                        <button class="p-2" onclick="event.stopPropagation()">
+                            <i class="fa fa-ellipsis-vertical">
+                            </i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Repeat for more Books -->
+    </div>
+   
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        let halfMenu = true;
+        let fullMenuHide = false;
+    </script>
+{% endblock %}

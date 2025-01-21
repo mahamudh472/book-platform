@@ -1,0 +1,238 @@
+{% extends 'author/base.html' %}
+{% load static %}
+
+{% block content %}
+<header class="flex items-center justify-between mb-6">
+    <div>
+        <h2 class="text-3xl font-semibold">Channel Content</h2>
+    </div>
+</header>
+<ul class="flex gap-4 font-medium text-gray-600 border-b-2">
+    <li class="p-2 cursor-pointer text-black border-b-2 font-bold border-gray-500">
+        Books
+    </li>
+    <li class="hover:border-b-2 hover:border-gray-300 p-2 cursor-pointer">
+        Shorts
+    </li>
+    <li class="hover:border-b-2 hover:border-gray-300 p-2 cursor-pointer">
+        Live
+    </li>
+    <li class="hover:border-b-2 hover:border-gray-300 p-2 cursor-pointer">
+        Posts
+    </li>
+    <li class="hover:border-b-2 hover:border-gray-300 p-2 cursor-pointer">
+        Playlist
+    </li>
+</ul>
+<div class="relative overflow-x-auto">
+    <table class="w-full text-sm text-left rtl:text-right dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th class="px-6 py-5 flex gap-3 items-center border-r h-full" scope="col">
+                    <input id="" name="" type="checkbox" /> Books
+                </th>
+                <th class="px-2 py-3" scope="col">Visibility</th>
+                <th class="px-2 py-3" scope="col">Restrictions</th>
+                <th class="px-2 py-3" scope="col">Date</th>
+                <th class="px-2 py-3" scope="col">Views</th>
+                <th class="px-2 py-3" scope="col">Comments</th>
+                <th class="px-2 py-3 text-end" scope="col">Likes(vs Dislikes)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- ------------------------ -->
+            <!-- Content item row -->
+            <!-- ------------------------ -->
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 align-top text-xs">
+                <th class="px-6 py-4 font-medium text-gray-900 dark:text-white flex gap-3 border-r" scope="col">
+                    <input id="" name="" type="checkbox" />
+                    <img alt="" class="h-20 w-12 object-cover" src="{% static 'book images/img1.jpg' %}" />
+                    <div class="text-sm cursor-pointer" onclick="location.href=`{% url 'author:content_details' %}`">
+                        <div class="font-bold">Lorem ipsum dolor sit amet.</div>
+                        <div class="text-gray-600">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                            Iste, cupiditate.
+                        </div>
+                    </div>
+                </th>
+                <td class="px-2 py-4 whitespace-nowrap">
+                    <i class="fa fa-earth-asia"></i> <span>Public</span>
+                    <i class="fa fa-chevron-down cursor-pointer p-2 rounded-full hover:bg-gray-200"></i>
+                </td>
+                <td class="px-2 py-6">None</td>
+                <td class="px-2 py-4 whitespace-nowrap">
+                    <div class="">
+                        <div class="font-bold">Oct 15, 2024</div>
+                        <div class="text-gray-600">Published</div>
+                    </div>
+                </td>
+                <td class="px-2 py-4 text-end">3</td>
+                <td class="px-2 py-4 text-end">0</td>
+                <td class="px-2 py-4 text-end">
+                    <div class="text-sm">
+                        <div class="font-bold">100%</div>
+                        <div class="text-gray-600">2 Likes</div>
+                    </div>
+                </td>
+            </tr>
+            <!-- ------------------------ -->
+            <!-- Content item row -->
+            <!-- ------------------------ -->
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 align-top text-xs">
+                <th class="px-6 py-4 font-medium text-gray-900 dark:text-white flex gap-3 border-r" scope="col">
+                    <input id="" name="" type="checkbox" />
+                    <img alt="" class="h-20 w-12 object-cover" src="{% static 'book images/img2.jpg' %}" />
+                    <div class="text-sm">
+                        <div class="font-bold">Lorem ipsum dolor sit amet.</div>
+                        <div class="text-gray-600">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                            Iste, cupiditate.
+                        </div>
+                    </div>
+                </th>
+                <td class="px-2 py-4 whitespace-nowrap">
+                    <i class="fa fa-earth-asia"></i> <span>Public</span>
+                    <i class="fa fa-chevron-down cursor-pointer p-2 rounded-full hover:bg-gray-200"></i>
+                </td>
+                <td class="px-2 py-6">None</td>
+                <td class="px-2 py-4 whitespace-nowrap">
+                    <div>
+                        <div class="font-bold">Oct 15, 2024</div>
+                        <div class="text-gray-600">Published</div>
+                    </div>
+                </td>
+                <td class="px-2 py-4 text-end">3</td>
+                <td class="px-2 py-4 text-end">0</td>
+                <td class="px-2 py-4 text-end">
+                    <div class="text-sm">
+                        <div class="font-bold">100%</div>
+                        <div class="text-gray-600">2 Likes</div>
+                    </div>
+                </td>
+            </tr>
+            <!-- ------------------------ -->
+            <!-- Content item row -->
+            <!-- ------------------------ -->
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 align-top text-xs">
+                <th class="px-6 py-4 font-medium text-gray-900 dark:text-white flex gap-3 border-r" scope="col">
+                    <input id="" name="" type="checkbox" />
+                    <img alt="" class="h-20 w-12 object-cover" src="{% static 'book images/img3.jpg' %}" />
+                    <div class="text-sm">
+                        <div class="font-bold">Lorem ipsum dolor sit amet.</div>
+                        <div class="text-gray-600">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                            Iste, cupiditate.
+                        </div>
+                    </div>
+                </th>
+                <td class="px-2 py-4 whitespace-nowrap">
+                    <i class="fa fa-earth-asia"></i> <span>Public</span>
+                    <i class="fa fa-chevron-down cursor-pointer p-2 rounded-full hover:bg-gray-200"></i>
+                </td>
+                <td class="px-2 py-6">None</td>
+                <td class="px-2 py-4 whitespace-nowrap">
+                    <div>
+                        <div class="font-bold">Oct 15, 2024</div>
+                        <div class="text-gray-600">Published</div>
+                    </div>
+                </td>
+                <td class="px-2 py-4 text-end">3</td>
+                <td class="px-2 py-4 text-end">0</td>
+                <td class="px-2 py-4 text-end">
+                    <div class="text-sm">
+                        <div class="font-bold">100%</div>
+                        <div class="text-gray-600">2 Likes</div>
+                    </div>
+                </td>
+            </tr>
+            <!-- ------------------------ -->
+            <!-- Content item row -->
+            <!-- ------------------------ -->
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 align-top text-xs">
+                <th class="px-6 py-4 font-medium text-gray-900 dark:text-white flex gap-3 border-r" scope="col">
+                    <input id="" name="" type="checkbox" />
+                    <img alt="" class="h-20 w-12 object-cover" src="{% static 'book images/img4.jpeg' %}" />
+                    <div class="text-sm">
+                        <div class="font-bold">Lorem ipsum dolor sit amet.</div>
+                        <div class="text-gray-600">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                            Iste, cupiditate.
+                        </div>
+                    </div>
+                </th>
+                <td class="px-2 py-4 whitespace-nowrap">
+                    <i class="fa fa-earth-asia"></i> <span>Public</span>
+                    <i class="fa fa-chevron-down cursor-pointer p-2 rounded-full hover:bg-gray-200"></i>
+                </td>
+                <td class="px-2 py-6">None</td>
+                <td class="px-2 py-4 whitespace-nowrap">
+                    <div class="">
+                        <div class="font-bold">Oct 15, 2024</div>
+                        <div class="text-gray-600">Published</div>
+                    </div>
+                </td>
+                <td class="px-2 py-4 text-end">3</td>
+                <td class="px-2 py-4 text-end">0</td>
+                <td class="px-2 py-4 text-end">
+                    <div class="text-sm">
+                        <div class="font-bold">100%</div>
+                        <div class="text-gray-600">2 Likes</div>
+                    </div>
+                </td>
+            </tr>
+            <!-- ------------------------ -->
+            <!-- Content item row -->
+            <!-- ------------------------ -->
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 align-top text-xs">
+                <th class="px-6 py-4 font-medium text-gray-900 dark:text-white flex gap-3 border-r" scope="col">
+                    <input id="" name="" type="checkbox" />
+                    <img alt="" class="h-20 w-12 object-cover" src="{% static 'book images/img5.jpg' %}" />
+                    <div class="text-sm">
+                        <div class="font-bold">Lorem ipsum dolor sit amet.</div>
+                        <div class="text-gray-600">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                            Iste, cupiditate.
+                        </div>
+                    </div>
+                </th>
+                <td class="px-2 py-4 whitespace-nowrap">
+                    <i class="fa fa-earth-asia"></i> <span>Public</span>
+                    <i class="fa fa-chevron-down cursor-pointer p-2 rounded-full hover:bg-gray-200"></i>
+                </td>
+                <td class="px-2 py-6">None</td>
+                <td class="px-2 py-4 whitespace-nowrap">
+                    <div class="">
+                        <div class="font-bold">Oct 15, 2024</div>
+                        <div class="text-gray-600">Published</div>
+                    </div>
+                </td>
+                <td class="px-2 py-4 text-end">3</td>
+                <td class="px-2 py-4 text-end">0</td>
+                <td class="px-2 py-4 text-end">
+                    <div class="text-sm">
+                        <div class="font-bold">100%</div>
+                        <div class="text-gray-600">2 Likes</div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="flex text-sm justify-end gap-6 p-4 bg-white border-b items-center text-gray-600">
+    <div class="flex items-center gap-2">
+        <div>Rows per page</div>
+        <select
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            id="" name="">
+            <option value="">10</option>
+            <option value="">30</option>
+            <option value="">50</option>
+        </select>
+    </div>
+    <div>1-9 of 9</div>
+    <i class="fa fa-angles-left block cursor-pointer" title="First page"></i>
+    <i class="fa fa-angle-left block cursor-pointer" title="Previous page"></i>
+    <i class="fa fa-angle-right block cursor-pointer" title="Next page"></i>
+    <i class="fa fa-angles-right block cursor-pointer" title="Last page"></i>
+</div>
+{% endblock %}

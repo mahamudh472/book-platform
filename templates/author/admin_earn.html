@@ -1,0 +1,106 @@
+{% extends 'author/base.html' %}
+{% load static %}
+
+{% block content %}
+<header class="flex items-center justify-between mb-6">
+    <div>
+        <h2 class="text-3xl font-semibold">Earn on Bookish</h2>
+    </div>
+</header>
+<div class="felx max-w-3xl m-auto">
+    <div class="my-4">
+        <div class="text-xl font-bold">Become a partner</div>
+        <div class="text-neutral-500 text-sm font-medium">
+            Join the YouTube Partner Program to earn money, get creator support, and more.
+        </div>
+
+
+        <div class="my-8 space-y-2">
+            <div class="text-xl font-bold ">Creator Support & Tools </div>
+            <div class="border p-6 rounded-xl grid grid-cols-2 gap-6">
+                <div class="flex items-center gap-4">
+                    <i class="fa-regular fa-message"></i>
+                    <a href="" class="text-sm font-medium text-blue-600">Chat & email support </a>
+                </div>
+                <div class="flex items-center gap-4">
+                    <i class="fa-regular fa-copyright"></i>
+                    <a href="" class="text-sm font-medium text-blue-600">Copyright Match Tool </a>
+                </div>
+                <div class="flex items-center gap-4">
+                    <i class="fa fa-hand-holding-heart"></i>
+                    <a href="" class="text-sm font-medium text-blue-600">Giving fundraisers </a>
+                </div>
+            </div>
+            <div class="text-xs font-medium text-neutral-500">
+                Some benefits may have additional eligibility criteria.
+            </div>
+        </div>
+
+        <!-- How do I join section  -->
+        <div class="my-8 space-y-2">
+            <div class="text-xl font-bold ">How do I join? </div>
+            <div class="border p-6 rounded-xl">
+                <div class="font-bold text-sm">1. Reach requirements to apply <i class="fa fa-circle-info mx-2"></i>
+                </div>
+                <div class="text-xs font-medium text-neutral-500 my-1">Showing data as of: Jan 2, 2025</div>
+
+                <!-- custom progress bar -->
+                <div class="bg-gray-200 h-2 rounded-full overflow-hidden my-2">
+                    <div class="bg-blue-700 h-full" style="width: 30%;"></div>
+                </div>
+                <div class="flex justify-between my-2">
+                    <div class="text-sm">14 Subscribers</div>
+                    <div class="text-neutral-500">1000</div>
+                </div>
+                <div class="text-xs text-center my-4 font-bold">and the following</div>
+                <!-- custom progress bar -->
+                <div class="bg-gray-200 h-2 rounded-full overflow-hidden my-2">
+                    <div class="bg-blue-700 h-full" style="width: 3%;"></div>
+                </div>
+                <div class="flex justify-between my-2 mb-6">
+                    <div class="text-sm">2 book reads
+                        <div class="text-neutral-500">last 365 days</div>
+                    </div>
+                    <div class="text-neutral-500">5,000</div>
+                </div>
+
+
+            </div>
+
+            <div class="text-xs font-medium flex justify-end items-center gap-4 py-2">
+                Some benefits may have additional eligibility criteria.
+                <button class="px-4 py-2 bg-black text-white rounded-full">Email me</button>
+            </div>
+        </div>
+
+        <div class="border my-8 p-6 rounded-xl">
+            <div class="font-bold text-sm">2. Complete the basics </div>
+            <div class="grid grid-cols-2 mt-4">
+                <div class="flex gap-3 items-center">
+                    <i class="fa-regular fa-circle-check text-green-600 block"></i>
+                    <div class="text-sm font-medium">2 step verification</div>
+                </div>
+                <div class="flex gap-3 items-center">
+                    <i class="fa-regular fa-circle-check text-green-600 block"></i>
+                    <div class="text-sm font-medium">Follow Community Guidelines
+                        <div class="text-neutral-600 font-normal">Ineligible if you have active strikes
+                            <i class="fa fa-circle-info mx-2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="border my-8 p-6 rounded-xl">
+            <div class="font-bold text-sm">3. Pass channel reviews</div>
+            <div class="text-sm text-neutral-600 my-4">
+                After you submit your application, we'll check if your channel follows
+                <a href="#" class="text-blue-600 hover:border-b border-blue-600">Bookish's channel monetization
+                    policies</a>.
+            </div>
+            <a href="#" class="text-blue-600 text-sm hover:border-b border-blue-600">Learn about the application process
+            </a>.
+        </div>
+    </div>
+</div>
+{% endblock %}

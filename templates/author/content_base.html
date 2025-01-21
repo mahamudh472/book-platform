@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookish - Homepage</title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {% block header %} {% endblock %}
+</head>
+
+<body>
+
+    <!-- Header (Navigation Bar) -->
+    <header class="bg-white shadow-md sticky top-0 z-50 px-4">
+        <div class="flex items-center justify-between py-3">
+            <!-- Logo and Hamburger -->
+            <div class="flex items-center space-x-4">
+                <button class="px-2 pt-1 rounded hover:bg-gray-200" id="menuToggle">
+                    <i class="fa fa-bars text-2xl"></i>
+                </button>
+                <!-- <img src="https://via.placeholder.com/100x40?text=YouTube" alt="YouTube Logo" class="h-8"> -->
+                <a href="admin_dashboard.html">
+                    <img src="logo.png" class="h-12" alt=""></a>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="md:flex items-center justify-center mx-4 flex-grow">
+                <input type="text" placeholder="Search"
+                    class="w-2/4 border border-gray-300 rounded-l-full py-2 px-4 focus:outline-none">
+                <button
+                    class="px-5 py-2 bg-gray-100 border-t border-b border-r border-gray-300 rounded-r-full hover:bg-gray-200">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+
+            <!-- Profile and Icons -->
+            <div class="flex items-center space-x-4">
+                <!-- logged in view  -->
+                <div class="relative">
+                    <button class="dropdownButton p-2 border border-gray-300 rounded-full text-sm">
+                        <i class="fa fa-plus"></i> Create
+                    </button>
+                    <!-- Dropdown Menu -->
+                    <div id="dropdownMenu"
+                        class="dropdownMenu absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
+                        <ul class="py-1">
+                            <li>
+                                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                    <i class="fa fa-upload mr-2"></i> Publish Book
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                    <i class="fa fa-file-pdf mr-2"></i> Upload Pdf
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                    <i class="fa fa-headset mr-2"></i> Live
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <button class="dropdownButton text-lg fa-regular fa-bell">
+                    </button>
+                    <div id="dropdownMenu"
+                        class="dropdownMenu absolute right-0 mt-2 w-96 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
+                        <ul class="py-1">
+                            <li>
+                                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 ">
+                                    <div class="flex space-x-2">
+                                        <img class="h-10 w-10 rounded-full"
+                                            src="https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg"
+                                            alt="">
+                                        <div>
+                                            <div class="text-sm">This is notification title</div>
+                                            <div class="text-xs font-thin">ATN News -10 minutes ago</div>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                <hr>
+                                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                    <div class="flex space-x-2">
+                                        <img class="h-10 w-10 rounded-full"
+                                            src="https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg"
+                                            alt="">
+                                        <div>
+                                            <div class="text-sm">This is notification title</div>
+                                            <div class="text-xs font-thin">ATN News -10 minutes ago</div>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                <hr>
+                                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                    <div class="flex space-x-2">
+                                        <img class="h-10 w-10 rounded-full"
+                                            src="https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg"
+                                            alt="">
+                                        <div class="text-sm">
+                                            <div>This is notification title</div>
+                                            <div class="text-xs font-thin">ATN News -10 minutes ago</div>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                <hr>
+                                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                    <div class="flex space-x-2">
+                                        <img class="h-10 w-10 rounded-full"
+                                            src="https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg"
+                                            alt="">
+                                        <div>
+                                            <div class="text-sm">This is notification title</div>
+                                            <div class="text-xs font-thin">ATN News -10 minutes ago</div>
+                                        </div>
+
+                                    </div>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="relative">
+                    <button class="p-2 rounded-full hover:bg-gray-200 dropdownButton">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" viewBox="0 0 24 24"
+                            fill="currentColor">
+                            <path
+                                d="M12 2a10 10 0 110 20 10 10 0 010-20zm1 10.586l4.243 4.242-1.414 1.415L12 13.415l-3.829 3.828-1.415-1.415L11 10.586V6h2v4.586z">
+                            </path>
+                        </svg>
+                    </button>
+
+                    <!-- !-- Dropdown Menu -->
+                    <div id="dropdownMenu"
+                        class="dropdownMenu absolute right-0 mt-2 w-60 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
+                        <ul class="py-1">
+                            <li class="border-b">
+                                <a href="#" class="block px-4 py-2 hover:bg-gray-100 ">
+                                    <div class="flex space-x-2">
+                                        <img class="h-10 w-10 rounded-full"
+                                            src="https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg"
+                                            alt="">
+                                        <div>
+                                            <div class="text-sm">Channel Name</div>
+                                            <div class="text-xs">@username123</div>
+                                        </div>
+
+                                    </div>
+                                    
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-6 py-2 text-gray-700 hover:bg-gray-100">
+                                    <i class="fa fa-home mr-2"></i> Your channel
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-6 py-2 text-gray-700 hover:bg-gray-100">
+                                    <i class="fa fa-book mr-2"></i> Bookish
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-6 py-2 text-gray-700 hover:bg-gray-100">
+                                    <i class="fa fa-repeat mr-2"></i> Switch Account
+                                </a>
+                            </li>
+                            <li class="border-b">
+                                <a href="#" class="block px-6 py-2 text-gray-700 hover:bg-gray-100">
+                                    <i class="fa fa-door-open mr-2"></i> Sign out
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-6 py-2 text-gray-700 hover:bg-gray-100">
+                                    <i class="fa fa-moon mr-2"></i> Appearence
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-6 py-2 text-gray-700 hover:bg-gray-100">
+                                    <i class="fa fa-message mr-2"></i> Feedback
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+
+
+                <!-- Guest view  -->
+                <div class="relative hidden">
+                    <button class="dropdownButton p-2 rounded-full hover:bg-gray-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" viewBox="0 0 24 24"
+                            fill="currentColor">
+                            <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z">
+                            </path>
+                        </svg>
+                    </button>
+                    <!-- Dropdown Menu -->
+                    <div
+                        class="absolute dropdownMenu right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
+                        <ul class="py-1">
+                            <li>
+                                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Option 1</a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Option 2</a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Option 3</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <a href="" class="hidden">
+                    <button class="border border-blue-700 p-2 text-blue-700 rounded-full text-sm">
+                        <i class="fa fa-user pr-1"></i>
+                        Sign in
+                    </button>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside
+            class="hidden md:block pt-20 fixed left-0 top-0 h-full w-64 bg-white shadow-lg p-4 overflow-y-auto transform -translate-x-full transition-all duration-300 ease-in-out md:translate-x-0"
+            id="sidebar">
+            <nav>
+                <ul class="space-y-1 text-sm" id="sidebarItems">
+                    <li class="flex gap-4 items-center m-2 my-4 cursor-pointer" onclick="location.href=`{% url 'author:author_content' %}`">
+                        <i class="fa fa-arrow-left text-xl"></i>
+                        <div class="font-bold" id="back_text">Channel content</div>
+                    </li>
+                    <li class="flex flex-col">
+                        <img src="{% static 'book images/img1.jpg' %}" id="sidebar_profile_img"
+                            class="h-24 w-24 mb-2 transition-all duration-300" alt="">
+                        <div class="text-sm font-bold">Your book</div>
+                        <div class="text-sm font-thin">This is a book title</div>
+                    </li>
+                    <li onclick="location.href=`{% url 'author:content_details' %}`" data-page="content_details"
+                        class="flex items-center space-x-3 p-2 rounded-lg transition-all hover:bg-gray-200 cursor-pointer menu-item">
+                        <i class="fa fa-pen text-lg w-6"></i>
+                        <span class="text-gray-700">Details</span>
+                    </li>
+                    <li onclick="location.href=`{% url 'author:content_analytics' %}`" data-page="content_analytics"
+                    class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-200 cursor-pointer menu-item">
+                        <i class="fa fa-chart-line w-6"></i>
+                        <span class="text-gray-700">Analytics</span>
+                    </li>
+                    
+                    <li onclick="location.href=`{% url 'author:content_comments' %}`" data-page="content_comments"
+                    class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-200 cursor-pointer menu-item">
+                        <i class="fa fa-message w-6"></i>
+                        <span class="text-gray-700">Comments</span>
+                    </li>
+                    <li onclick="location.href=`{% url 'author:content_translate' %}`" data-page="content_translate"
+                    class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-200 cursor-pointer menu-item">
+                        <i class="fa fa-language w-6"></i>
+                        <span class="text-gray-700">Translate</span>
+                    </li>
+                    <li onclick="location.href=`{% url 'author:content_copyright' %}`" data-page="content_copyright"
+                    class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-200 cursor-pointer menu-item">
+                        <i class="fa-regular fa-copyright w-6"></i>
+                        <span class="text-gray-700">Copyright</span>
+                    </li>
+
+                    <!-- Add more menu items here -->
+                </ul>
+            </nav>
+        </aside>
+
+
+
+        <!-- Main Content -->
+        <main class="flex-1 p-4 ml-64 transition-all delay-100 ease-in-out" id="content">
+
+            {% block content %}
+
+            {% endblock %}
+
+
+        </main>
+
+    </div>
+
+    <script src="{% static 'js/admin.js' %}"></script>
+    {% block scripts %}
+    {% endblock %}
+</body>
+
+</html>

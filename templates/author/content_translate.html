@@ -1,0 +1,23 @@
+{% extends 'author/content_base.html' %}
+{% load static %}
+{% block content %}
+<div>
+    <h2 class="text-3xl font-semibold">Book translate</h2>
+</div>
+
+<div>
+    <div class="felx flex-col max-w-lg m-auto space-y-3 mt-24 text-center">
+        <select name="" id="" class="border rounded-lg px-4 py-2 bg-white m-auto w-64">
+            <option value="">Select language</option>
+            <option value="">Bangla</option>
+            <option value="">English</option>
+            <option value="">Hindi</option>
+        </select>
+        <div class="text-xs font-medium text-neutral-500 flex items-center gap-3 justify-center">
+            <input type="checkbox" name="" id="">
+            <div>Make this default for my channel.</div>
+        </div>
+        <button class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full">Confirm</button>
+    </div>
+</div>
+{% endblock %}

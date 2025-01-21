@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>YouTube Homepage</title>
+	<link rel="stylesheet" href="{% static 'css/output.css' %}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+		integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {% block header %}{% endblock %}
+</head>
+
+<body>
+
+	{% include 'components/user_nav.html' %}
+	<!-- Main Content -->
+	<div class="flex min-h-screen">
+		
+        {% include 'components/user_side_menu.html' %}
+
+
+
+		<!-- Video Grid -->
+		<main class="flex-1 p-4 ml-64" id="content">
+
+			{% block content %}
+
+            {% endblock %}
+
+		</main>
+
+	</div>
+
+	<script src="{% static 'js/main.js' %}"></script>
+    
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>
