@@ -23,7 +23,7 @@
                     <i class="fa fa-bars text-2xl"></i>
                 </button>
                 <!-- <img src="https://via.placeholder.com/100x40?text=YouTube" alt="YouTube Logo" class="h-8"> -->
-                <a href="admin_dashboard.html">
+                <a href="{% url 'author:author_dashboard' %}">
                     <img src="{% static 'logo.png' %}" class="h-12" alt=""></a>
             </div>
 
@@ -245,32 +245,32 @@
                         <div class="text-sm font-bold">Your channel</div>
                         <div class="text-sm font-thin">One man studio</div>
                     </li>
-                    <li onclick="location.href=`{% url 'author:author_dashboard' %}`" data-page="admin_dashboard"
+                    <li onclick="location.href=`{% url 'author:author_dashboard' %}`" data-page="dashboard"
                         class="flex items-center space-x-3 p-2 rounded-lg transition-all hover:bg-gray-200 cursor-pointer menu-item">
                         <i class="fa fa-table-columns text-lg w-6"></i>
                         <span class="text-gray-700">Dashboard</span>
                     </li>
-                    <li onclick="location.href=`{% url 'author:author_content' %}`" data-page="admin_content"
+                    <li onclick="location.href=`{% url 'author:author_content' %}`" data-page="content"
                         class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-200 cursor-pointer menu-item">
                         <i class="fa fa-play text-lg w-6"></i>
                         <span class="text-gray-700">Content</span>
                     </li>
-                    <li onclick="location.href=`{% url 'author:author_analytics' %}`" data-page="admin_analytics"
+                    <li onclick="location.href=`{% url 'author:author_analytics' %}`" data-page="analytics"
                     class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-200 cursor-pointer menu-item">
                         <i class="fa fa-list w-6"></i>
                         <span class="text-gray-700">Analytics</span>
                     </li>
-                    <li onclick="location.href=`{% url 'author:author_community' %}`" data-page="admin_community"
+                    <li onclick="location.href=`{% url 'author:author_community' %}`" data-page="community"
                     class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-200 cursor-pointer menu-item">
                         <i class="fa fa-message w-6"></i>
                         <span class="text-gray-700">Community</span>
                     </li>
-                    <li onclick="location.href=`{% url 'author:author_copyright' %}`" data-page="admin_copyright"
+                    <li onclick="location.href=`{% url 'author:author_copyright' %}`" data-page="copyright"
                     class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-200 cursor-pointer menu-item">
                         <i class="fa-regular fa-copyright w-6"></i>
                         <span class="text-gray-700">Copyright</span>
                     </li>
-                    <li onclick="location.href=`{% url 'author:author_earn' %}`" data-page="admin_earn"
+                    <li onclick="location.href=`{% url 'author:author_earn' %}`" data-page="earn"
                     class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-200 cursor-pointer menu-item">
                         <i class="fa fa-dollar-sign w-6"></i>
                         <span class="text-gray-700">Earn</span>

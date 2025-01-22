@@ -2,8 +2,8 @@
 {% load static %}
 {% block content %}
 
-<div class="flex gap-4 mx-6">
-    <div class="w-3/5 space-y-2">
+<div class="flex lg:flex-row flex-col gap-4 md:mx-6">
+    <div class="lg:w-3/5 space-y-2">
         <div class="container mx-auto">
             <!-- Book Container -->
             <div class="border rounded-xl shadow-md max-w-lg mx-auto bg-white overflow-hidden" id="book-container">
@@ -11,7 +11,7 @@
                     <img alt="Book Cover" class="mx-auto"
                         src="https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/Rich_Dad_Poor_Dad-Robert_T_Kiyosaki-a28a3-150615.jpg" />
                     <button
-                        class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700"
+                        class=" hidden absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700"
                         id="read-now-btn">
                         Read Now
                     </button>
@@ -113,18 +113,21 @@
             This is Book Title Lorem ipsum consectetur adipisicing elit.
             Tenetur culpa iure recusandae error illum nam similique, nihil aliquid quia doloremque!
         </div>
-        <div class="flex justify-between">
-            <div class="flex space-x-3 items-center">
-                <img alt="" class="h-10 w-10"
-                    src="https://cdn.vectorstock.com/i/500p/53/42/user-member-avatar-face-profile-icon-vector-22965342.jpg" />
-                <div class="flex flex-col">
-                    <div class="font-medium">
-                        ATN News
-                    </div>
-                    <div class="font-sm text-xs">
-                        6.21M subscribers
+        <div class="flex flex-col md:flex-row justify-between">
+            <div class="flex space-x-3  items-center justify-between">
+                <div class="flex">
+                    <img alt="" class="h-10 w-10"
+                        src="https://cdn.vectorstock.com/i/500p/53/42/user-member-avatar-face-profile-icon-vector-22965342.jpg" />
+                    <div class="flex flex-col">
+                        <div class="font-medium">
+                            ATN News
+                        </div>
+                        <div class="font-sm text-xs">
+                            6.21M subscribers
+                        </div>
                     </div>
                 </div>
+
                 <button class="bg-black text-white px-2 py-1 rounded-xl">
                     Follow
                 </button>
@@ -405,7 +408,7 @@
             </div>
         </div>
     </div>
-    <div class="w-2/5">
+    <div class="lg:w-2/5">
         <!-- side content container -->
         <div class="flex h-36 justify-between space-x-2 mb-3 cursor-pointer">
             <!-- image container -->
@@ -844,8 +847,8 @@
     let halfMenu = false
     const sideBar = document.getElementById('sidebar')
     const cardGrid = document.getElementById('content')
-    sideBar.classList.add('left-[-100%]')
-    cardGrid.classList.toggle('ml-64')
+    sideBar.classList.toggle('md:translate-x-0')
+    cardGrid.classList.remove('md:ml-64')
 </script>
 <script src="{% static 'js/book_view.js' %}">
 </script>

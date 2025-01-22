@@ -8,7 +8,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
         <!-- Book Card -->
         <div class="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer"
-            onclick="location.href='book_view.html'">
+            onclick="location.href=`{% url 'main:book_view' %}`">
             <div class="relative bg-slate-300" style="padding-bottom: 150%;">
                 <!-- 16:9 Aspect Ratio -->
                 <img alt="Book Thumbnail" class="absolute object-cover h-full w-full"
@@ -269,12 +269,12 @@
         </div>
         <!-- Repeat for more Books -->
     </div>
-   
-{% endblock %}
-
-{% block scripts %}
-    <script>
+   <script>
         let halfMenu = true;
         let fullMenuHide = false;
     </script>
+{% endblock %}
+
+{% block scripts %}
+    
 {% endblock %}

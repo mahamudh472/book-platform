@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const menuItems = document.querySelectorAll(".menu-item");
 
     // Get the current page from the URL
-    const currentPage = window.location.pathname.split("/").pop().replace(".html", "");
+    const currentPage = window.location.pathname.split("/").pop();
 
     menuItems.forEach(item => {
         const page = item.getAttribute("data-page");
