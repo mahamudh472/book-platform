@@ -7,44 +7,55 @@ document.getElementById("menuToggle").addEventListener('click', () => {
     const mainContainer = document.querySelector('main')
     const sidebarItems = document.querySelector('#sidebarItems')
     const backText = document.getElementById('back_text')
-
-    // sidebar and content box sizing
-    sidebar.classList.toggle('w-64')
-    sidebar.classList.toggle('w-12')
-    sidebar.classList.toggle('p-4')
-    sidebar.classList.toggle('p-0')
-
-
-    mainContainer.classList.toggle('ml-64')
-    mainContainer.classList.toggle('ml-16')
-
-    // sidebar profile image sizing
-    sidebarImg.classList.toggle('h-24')
-    sidebarImg.classList.toggle('w-24')
-    sidebarImg.classList.toggle('h-10')
-    sidebarImg.classList.toggle('w-10')
-    sidebarImg.classList.toggle('m-auto')
-
-    if (backText) {
-        backText.classList.toggle('hidden')
+    document.getElementById("menuToggle").querySelector('i').classList.toggle('fa-bars')
+    document.getElementById("menuToggle").querySelector('i').classList.toggle('fa-xmark')
+    if (screen.width<768){
+        fullMenuHide=true
+    }else{
+        fullMenuHide=false
     }
+    if (fullMenuHide == true) {
+        sidebar.classList.toggle('-translate-x-full')
+    } else {
 
-    // sidebar image bottom text toggle 
-    sidebarImg.parentElement.querySelectorAll('div').forEach(element => {
-        element.classList.toggle('hidden')
-    })
-    // sidebar menu text toggle 
-    sidebarItems.querySelectorAll('li > span').forEach(element => {
-        element.classList.toggle('hidden')
-    })
-    // sidebar menu icons resize 
-    sidebarItems.querySelectorAll('li > i').forEach(element => {
-        element.classList.toggle('w-6')
-    })
-    sidebarItems.querySelectorAll('li').forEach(element => {
-        element.classList.toggle('justify-center')
-    })
 
+        // sidebar and content box sizing
+        sidebar.classList.toggle('w-64')
+        sidebar.classList.toggle('w-12')
+        sidebar.classList.toggle('p-4')
+        sidebar.classList.toggle('p-0')
+
+
+        mainContainer.classList.toggle('md:ml-64')
+        mainContainer.classList.toggle('ml-16')
+
+        // sidebar profile image sizing
+        sidebarImg.classList.toggle('h-24')
+        sidebarImg.classList.toggle('w-24')
+        sidebarImg.classList.toggle('h-10')
+        sidebarImg.classList.toggle('w-10')
+        sidebarImg.classList.toggle('m-auto')
+
+        if (backText) {
+            backText.classList.toggle('hidden')
+        }
+
+        // sidebar image bottom text toggle 
+        sidebarImg.parentElement.querySelectorAll('div').forEach(element => {
+            element.classList.toggle('hidden')
+        })
+        // sidebar menu text toggle 
+        sidebarItems.querySelectorAll('li > span').forEach(element => {
+            element.classList.toggle('hidden')
+        })
+        // sidebar menu icons resize 
+        sidebarItems.querySelectorAll('li > i').forEach(element => {
+            element.classList.toggle('w-6')
+        })
+        sidebarItems.querySelectorAll('li').forEach(element => {
+            element.classList.toggle('justify-center')
+        })
+    }
 
 })
 

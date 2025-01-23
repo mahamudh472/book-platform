@@ -7,7 +7,7 @@
         <h2 class="text-3xl font-semibold">Channel Content</h2>
     </div>
 </header>
-<ul class="flex gap-4 font-medium text-gray-600 border-b-2">
+<ul class="flex gap-4 font-medium text-gray-600 border-b-2 overflow-x-scroll">
     <li class="p-2 cursor-pointer text-black border-b-2 font-bold border-gray-500">
         Books
     </li>
@@ -24,11 +24,11 @@
         Playlist
     </li>
 </ul>
-<div class="relative overflow-x-auto">
-    <table class="w-full text-sm text-left rtl:text-right dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+<div class="w-full overflow-x-scroll">
+    <table class="text-sm text-left rtl:text-right overflow-x-scroll">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
             <tr>
-                <th class="px-6 py-5 flex gap-3 items-center border-r h-full" scope="col">
+                <th class="px-6 py-5 flex gap-3 items-center border-r h-full min-w-96" scope="col">
                     <input id="" name="" type="checkbox" /> Books
                 </th>
                 <th class="px-2 py-3" scope="col">Visibility</th>
@@ -43,7 +43,7 @@
             <!-- ------------------------ -->
             <!-- Content item row -->
             <!-- ------------------------ -->
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 align-top text-xs">
+            <tr class="bg-white border-b align-top text-xs">
                 <th class="px-6 py-4 font-medium text-gray-900 dark:text-white flex gap-3 border-r" scope="col">
                     <input id="" name="" type="checkbox" />
                     <img alt="" class="h-20 w-12 object-cover" src="{% static 'book images/img1.jpg' %}" />
@@ -78,7 +78,7 @@
             <!-- ------------------------ -->
             <!-- Content item row -->
             <!-- ------------------------ -->
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 align-top text-xs">
+            <tr class="bg-white border-b align-top text-xs">
                 <th class="px-6 py-4 font-medium text-gray-900 dark:text-white flex gap-3 border-r" scope="col">
                     <input id="" name="" type="checkbox" />
                     <img alt="" class="h-20 w-12 object-cover" src="{% static 'book images/img2.jpg' %}" />
@@ -113,7 +113,7 @@
             <!-- ------------------------ -->
             <!-- Content item row -->
             <!-- ------------------------ -->
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 align-top text-xs">
+            <tr class="bg-white border-b align-top text-xs">
                 <th class="px-6 py-4 font-medium text-gray-900 dark:text-white flex gap-3 border-r" scope="col">
                     <input id="" name="" type="checkbox" />
                     <img alt="" class="h-20 w-12 object-cover" src="{% static 'book images/img3.jpg' %}" />
@@ -148,7 +148,7 @@
             <!-- ------------------------ -->
             <!-- Content item row -->
             <!-- ------------------------ -->
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 align-top text-xs">
+            <tr class="bg-white border-b align-top text-xs">
                 <th class="px-6 py-4 font-medium text-gray-900 dark:text-white flex gap-3 border-r" scope="col">
                     <input id="" name="" type="checkbox" />
                     <img alt="" class="h-20 w-12 object-cover" src="{% static 'book images/img4.jpeg' %}" />
@@ -183,7 +183,7 @@
             <!-- ------------------------ -->
             <!-- Content item row -->
             <!-- ------------------------ -->
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 align-top text-xs">
+            <tr class="bg-white border-b align-top text-xs">
                 <th class="px-6 py-4 font-medium text-gray-900 dark:text-white flex gap-3 border-r" scope="col">
                     <input id="" name="" type="checkbox" />
                     <img alt="" class="h-20 w-12 object-cover" src="{% static 'book images/img5.jpg' %}" />
@@ -218,7 +218,7 @@
         </tbody>
     </table>
 </div>
-<div class="flex text-sm justify-end gap-6 p-4 bg-white border-b items-center text-gray-600">
+<div class="flex flex-col sm:flex-row text-sm sm:justify-end gap-6 p-4 bg-white border-b items-center text-gray-600">
     <div class="flex items-center gap-2">
         <div>Rows per page</div>
         <select
@@ -229,10 +229,13 @@
             <option value="">50</option>
         </select>
     </div>
-    <div>1-9 of 9</div>
-    <i class="fa fa-angles-left block cursor-pointer" title="First page"></i>
-    <i class="fa fa-angle-left block cursor-pointer" title="Previous page"></i>
-    <i class="fa fa-angle-right block cursor-pointer" title="Next page"></i>
-    <i class="fa fa-angles-right block cursor-pointer" title="Last page"></i>
+    <div class="*:p-2">
+        <div class="inline-block">1-9 of 9</div>
+        <i class="fa fa-angles-left block cursor-pointer" title="First page"></i>
+        <i class="fa fa-angle-left block cursor-pointer" title="Previous page"></i>
+        <i class="fa fa-angle-right block cursor-pointer" title="Next page"></i>
+        <i class="fa fa-angles-right block cursor-pointer" title="Last page"></i>
+    </div>
+
 </div>
 {% endblock %}

@@ -24,11 +24,11 @@
                 </button>
                 <!-- <img src="https://via.placeholder.com/100x40?text=YouTube" alt="YouTube Logo" class="h-8"> -->
                 <a href="{% url 'author:author_dashboard' %}">
-                    <img src="logo.png" class="h-12" alt=""></a>
+                    <img src="{% static 'logo.png' %}" class="h-12 hidden sm:block" alt=""></a>
             </div>
 
             <!-- Search Bar -->
-            <div class="md:flex items-center justify-center mx-4 flex-grow">
+            <div class="hidden md:flex items-center justify-center mx-4 flex-grow">
                 <input type="text" placeholder="Search"
                     class="w-2/4 border border-gray-300 rounded-l-full py-2 px-4 focus:outline-none">
                 <button
@@ -235,7 +235,7 @@
     <div class="flex min-h-screen">
         <!-- Sidebar -->
         <aside
-            class="hidden md:block pt-20 fixed left-0 top-0 h-full w-64 bg-white shadow-lg p-4 overflow-y-auto transform -translate-x-full transition-all duration-300 ease-in-out md:translate-x-0"
+            class="z-40 pt-20 fixed left-0 top-0 h-full w-64 bg-white shadow-lg p-4 overflow-y-auto transform -translate-x-full transition-all duration-300 ease-in-out md:translate-x-0"
             id="sidebar">
             <nav>
                 <ul class="space-y-1 text-sm" id="sidebarItems">
@@ -284,7 +284,7 @@
 
 
         <!-- Main Content -->
-        <main class="flex-1 p-4 ml-64 transition-all delay-100 ease-in-out" id="content">
+        <main class="flex-1 w-full p-4 md:ml-64 transition-all delay-100 ease-in-out" id="content">
 
             {% block content %}
 

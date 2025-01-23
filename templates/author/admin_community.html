@@ -20,111 +20,116 @@
     <div class="!bg-black text-white">Published</div>
     <div>Held</div>
 </div>
-<!-- comments items  -->
-<div class="flex justify-between p-4 border-b">
-    <div class="flex gap-4">
-        <input class="block h-5 w-5" type="checkbox" />
-        <img alt="" class="h-14 w-14"
-            src="https://cdn.vectorstock.com/i/500p/53/42/user-member-avatar-face-profile-icon-vector-22965342.jpg" />
-        <div class="text-sm space-y-1">
-            <div>@username123 - 4 hours ago</div>
-            <div>This is comment text</div>
-            <div class="flex items-center gap-1">
-                <button class="py-2 px-4 bg-gray-100 font-bold hover:bg-gray-200 rounded-full">Reply</button>
-                <button class="py-2 px-4 bg-gray-100 hover:bg-gray-200 rounded-full">0 replies <i
-                        class="fa fa-chevron-down h-5 w-5"></i></button>
-                <button class="p-2 hover:bg-gray-200 rounded-full"><i
-                        class="fa-regular fa-thumbs-up h-5 w-5"></i></button>
-                <button class="p-2 hover:bg-gray-200 rounded-full"><i
-                        class="fa-regular fa-thumbs-down h-5 w-5"></i></button>
-                <button class="p-2 hover:bg-gray-200 rounded-full"><i class="fa-regular fa-heart h-5 w-5"></i></button>
-                <button class="p-2 hover:bg-gray-200 rounded-full"><i
-                        class="fa fa-ellipsis-vertical h-5 w-5"></i></button>
+<div class=" w-full overflow-x-scroll">
+    <!-- comments items  -->
+    <div class="flex lg:justify-between gap-16 p-4 border-b w-full">
+        <div class="flex gap-4">
+            <input class="block h-5 w-5" type="checkbox" />
+            <img alt="" class="h-14 w-14"
+                src="https://cdn.vectorstock.com/i/500p/53/42/user-member-avatar-face-profile-icon-vector-22965342.jpg" />
+            <div class="text-sm space-y-1">
+                <div>@username123 - 4 hours ago</div>
+                <div>This is comment text</div>
+                <div class="flex items-center gap-1">
+                    <button class="py-2 px-4 bg-gray-100 font-bold hover:bg-gray-200 rounded-full">Reply</button>
+                    <button class="py-2 px-4 bg-gray-100 hover:bg-gray-200 rounded-full whitespace-nowrap">0 replies <i
+                            class="fa fa-chevron-down h-5 w-5"></i></button>
+                    <button class="p-2 hover:bg-gray-200 rounded-full"><i
+                            class="fa-regular fa-thumbs-up h-5 w-5"></i></button>
+                    <button class="p-2 hover:bg-gray-200 rounded-full"><i
+                            class="fa-regular fa-thumbs-down h-5 w-5"></i></button>
+                    <button class="p-2 hover:bg-gray-200 rounded-full"><i
+                            class="fa-regular fa-heart h-5 w-5"></i></button>
+                    <button class="p-2 hover:bg-gray-200 rounded-full"><i
+                            class="fa fa-ellipsis-vertical h-5 w-5"></i></button>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="flex gap-4 items-center">
+                <img alt="" class="h-20 w-12 object-cover" src="{% static 'book images/img3.jpg' %}" />
+                <div class="text-sm whitespace-nowrap">
+                    <div>Book demo title</div>
+                    <div>16 aug 2024</div>
+                </div>
+                <button class="p-2 hover:bg-gray-200 rounded-full">
+                    <i class="fa fa-up-right-from-square h-5 w-5"></i>
+                </button>
             </div>
         </div>
     </div>
-    <div>
-        <div class="flex gap-4 items-center">
-            <img alt="" class="h-20 w-12 object-cover" src="{% static 'book images/img3.jpg' %}" />
-            <div class="text-sm">
-                <div>Book demo title</div>
-                <div>16 aug 2024</div>
-            </div>
-            <button class="p-2 hover:bg-gray-200 rounded-full">
-                <i class="fa fa-up-right-from-square h-5 w-5"></i>
-            </button>
-        </div>
-    </div>
-</div>
-<!-- comments items  -->
-<div class="flex justify-between p-4 border-b">
-    <div class="flex gap-4">
-        <input class="block h-5 w-5" type="checkbox" />
-        <img alt="" class="h-14 w-14"
-            src="https://cdn.vectorstock.com/i/500p/53/42/user-member-avatar-face-profile-icon-vector-22965342.jpg" />
-        <div class="text-sm space-y-1">
-            <div>@username123 - 4 hours ago</div>
-            <div>This is comment text</div>
-            <div class="flex items-center gap-1">
-                <button class="py-2 px-4 bg-gray-100 font-bold hover:bg-gray-200 rounded-full">Reply</button>
-                <button class="py-2 px-4 bg-gray-100 hover:bg-gray-200 rounded-full">0 replies <i
-                        class="fa fa-chevron-down h-5 w-5"></i></button>
-                <button class="p-2 hover:bg-gray-200 rounded-full"><i
-                        class="fa-regular fa-thumbs-up h-5 w-5"></i></button>
-                <button class="p-2 hover:bg-gray-200 rounded-full"><i
-                        class="fa-regular fa-thumbs-down h-5 w-5"></i></button>
-                <button class="p-2 hover:bg-gray-200 rounded-full"><i class="fa-regular fa-heart h-5 w-5"></i></button>
-                <button class="p-2 hover:bg-gray-200 rounded-full"><i
-                        class="fa fa-ellipsis-vertical h-5 w-5"></i></button>
+    <!-- comments items  -->
+    <div class="flex lg:justify-between p-4 gap-16 border-b">
+        <div class="flex gap-4">
+            <input class="block h-5 w-5" type="checkbox" />
+            <img alt="" class="h-14 w-14"
+                src="https://cdn.vectorstock.com/i/500p/53/42/user-member-avatar-face-profile-icon-vector-22965342.jpg" />
+            <div class="text-sm space-y-1">
+                <div>@username123 - 4 hours ago</div>
+                <div>This is comment text</div>
+                <div class="flex items-center gap-1">
+                    <button class="py-2 px-4 bg-gray-100 font-bold hover:bg-gray-200 rounded-full">Reply</button>
+                    <button class="py-2 px-4 bg-gray-100 hover:bg-gray-200 rounded-full whitespace-nowrap">0 replies <i
+                            class="fa fa-chevron-down h-5 w-5"></i></button>
+                    <button class="p-2 hover:bg-gray-200 rounded-full"><i
+                            class="fa-regular fa-thumbs-up h-5 w-5"></i></button>
+                    <button class="p-2 hover:bg-gray-200 rounded-full"><i
+                            class="fa-regular fa-thumbs-down h-5 w-5"></i></button>
+                    <button class="p-2 hover:bg-gray-200 rounded-full"><i
+                            class="fa-regular fa-heart h-5 w-5"></i></button>
+                    <button class="p-2 hover:bg-gray-200 rounded-full"><i
+                            class="fa fa-ellipsis-vertical h-5 w-5"></i></button>
+                </div>
             </div>
         </div>
-    </div>
-    <div>
-        <div class="flex gap-4 items-center">
-            <img alt="" class="h-20 w-12 object-cover" src="{% static 'book images/img3.jpg' %}" />
-            <div class="text-sm">
-                <div>Book demo title</div>
-                <div>16 aug 2024</div>
-            </div>
-            <button class="p-2 hover:bg-gray-200 rounded-full">
-                <i class="fa fa-up-right-from-square h-5 w-5"></i>
-            </button>
-        </div>
-    </div>
-</div>
-<!-- comments items  -->
-<div class="flex justify-between p-4 border-b">
-    <div class="flex gap-4">
-        <input class="block h-5 w-5" type="checkbox" />
-        <img alt="" class="h-14 w-14"
-            src="https://cdn.vectorstock.com/i/500p/53/42/user-member-avatar-face-profile-icon-vector-22965342.jpg" />
-        <div class="text-sm space-y-1">
-            <div>@username123 - 4 hours ago</div>
-            <div>This is comment text</div>
-            <div class="flex items-center gap-1">
-                <button class="py-2 px-4 bg-gray-100 font-bold hover:bg-gray-200 rounded-full">Reply</button>
-                <button class="py-2 px-4 bg-gray-100 hover:bg-gray-200 rounded-full">0 replies <i
-                        class="fa fa-chevron-down h-5 w-5"></i></button>
-                <button class="p-2 hover:bg-gray-200 rounded-full"><i
-                        class="fa-regular fa-thumbs-up h-5 w-5"></i></button>
-                <button class="p-2 hover:bg-gray-200 rounded-full"><i
-                        class="fa-regular fa-thumbs-down h-5 w-5"></i></button>
-                <button class="p-2 hover:bg-gray-200 rounded-full"><i class="fa-regular fa-heart h-5 w-5"></i></button>
-                <button class="p-2 hover:bg-gray-200 rounded-full"><i
-                        class="fa fa-ellipsis-vertical h-5 w-5"></i></button>
+        <div>
+            <div class="flex gap-4 items-center">
+                <img alt="" class="h-20 w-12 object-cover" src="{% static 'book images/img3.jpg' %}" />
+                <div class="text-sm whitespace-nowrap">
+                    <div>Book demo title</div>
+                    <div>16 aug 2024</div>
+                </div>
+                <button class="p-2 hover:bg-gray-200 rounded-full">
+                    <i class="fa fa-up-right-from-square h-5 w-5"></i>
+                </button>
             </div>
         </div>
     </div>
-    <div>
-        <div class="flex gap-4 items-center">
-            <img alt="" class="h-20 w-12 object-cover" src="{% static 'book images/img3.jpg' %}" />
-            <div class="text-sm">
-                <div>Book demo title</div>
-                <div>16 aug 2024</div>
+    <!-- comments items  -->
+    <div class="flex lg:justify-between p-4 gap-16 border-b">
+        <div class="flex gap-4">
+            <input class="block h-5 w-5" type="checkbox" />
+            <img alt="" class="h-14 w-14"
+                src="https://cdn.vectorstock.com/i/500p/53/42/user-member-avatar-face-profile-icon-vector-22965342.jpg" />
+            <div class="text-sm space-y-1">
+                <div>@username123 - 4 hours ago</div>
+                <div>This is comment text</div>
+                <div class="flex items-center gap-1">
+                    <button class="py-2 px-4 bg-gray-100 font-bold hover:bg-gray-200 rounded-full">Reply</button>
+                    <button class="py-2 px-4 bg-gray-100 hover:bg-gray-200 rounded-full whitespace-nowrap">0 replies <i
+                            class="fa fa-chevron-down h-5 w-5"></i></button>
+                    <button class="p-2 hover:bg-gray-200 rounded-full"><i
+                            class="fa-regular fa-thumbs-up h-5 w-5"></i></button>
+                    <button class="p-2 hover:bg-gray-200 rounded-full"><i
+                            class="fa-regular fa-thumbs-down h-5 w-5"></i></button>
+                    <button class="p-2 hover:bg-gray-200 rounded-full"><i
+                            class="fa-regular fa-heart h-5 w-5"></i></button>
+                    <button class="p-2 hover:bg-gray-200 rounded-full"><i
+                            class="fa fa-ellipsis-vertical h-5 w-5"></i></button>
+                </div>
             </div>
-            <button class="p-2 hover:bg-gray-200 rounded-full">
-                <i class="fa fa-up-right-from-square h-5 w-5"></i>
-            </button>
+        </div>
+        <div>
+            <div class="flex gap-4 items-center">
+                <img alt="" class="h-20 w-12 object-cover" src="{% static 'book images/img3.jpg' %}" />
+                <div class="text-sm whitespace-nowrap">
+                    <div>Book demo title</div>
+                    <div>16 aug 2024</div>
+                </div>
+                <button class="p-2 hover:bg-gray-200 rounded-full">
+                    <i class="fa fa-up-right-from-square h-5 w-5"></i>
+                </button>
+            </div>
         </div>
     </div>
 </div>

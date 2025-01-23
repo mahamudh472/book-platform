@@ -16,8 +16,8 @@
 
 </header>
 
-<div class="flex gap-4">
-    <div class="w-9/12">
+<div class="flex gap-4 flex-col sm:flex-row">
+    <div class="sm:w-9/12">
         <div class="space-y-6 w-full mx-auto">
             <!-- Title Field -->
             <div class="relative border rounded-md">
@@ -78,11 +78,11 @@
 
 
     </div>
-    <div class="w-3/12">
+    <div class="w-sm:3/12">
 
         <div class="my-4 p-2 px-4">
             <div class="space-y-4">
-                <img alt="Latest Video" class="w-48 h-64 rounded-md" src="book images/img1.jpg" />
+                <img alt="Latest Video" class="w-48 h-64 rounded-md" src="{% static 'book images/img1.jpg' %}" />
                 <div class="flex justify-between gap-4 items-center">
                     <div class="relative overflow-hidden">
                         <div class="text-xs font-medium text-neutral-500">Book link</div>
