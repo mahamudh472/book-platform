@@ -40,7 +40,9 @@ INSTALLED_APPS = [
 
     'main',
     'accounts',
-    'author'
+    'author',
+    'django_ckeditor_5',
+    'django_cleanup'
 ]
 
 MIDDLEWARE = [
@@ -127,7 +129,24 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CKEDITOR_5_UPLOADS = 'uploads/'  # Path for storing images
+CKEDITOR_5_CONFIGS = {
+    'extends': {
+        'language': 'en',
+        'toolbar': ['heading', '|', 'bold', 'italic', 'link', '|', 'bulletedList', 'numberedList', '|', 'blockQuote'],
+        'image': {
+            'toolbar': ['imageTextAlternative', 'imageStyle:full', 'imageStyle:side'],
+        },
+    }
+}
