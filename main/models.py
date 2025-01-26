@@ -3,17 +3,28 @@ from django.contrib.auth.models import User
 from django_ckeditor_5.fields import CKEditor5Field
 from autoslug import AutoSlugField
 
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+    slug = AutoSlugField(populate_from='name')
+    
+    def __str__(self):
+        return self.name
+
+
+
 class Book(models.Model):
     title = models.CharField(max_length=255)
     slug = AutoSlugField(populate_from='title')
     description = models.TextField()
     content = CKEditor5Field(config_name="extends") 
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='books')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='books', blank=True, null=True)
     published_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
     likes = models.ManyToManyField(User, related_name='liked_books', blank=True)
     dislikes = models.ManyToManyField(User, related_name='disliked_books', blank=True)
     views = models.PositiveIntegerField(default=0)
+    thumbnail = models.ImageField(upload_to='thumbnails/', blank=True, null=True)
 
     def __str__(self):
         return self.title
@@ -25,13 +36,6 @@ class Book(models.Model):
         return self.dislikes.count()
 
 
-class Category(models.Model):
-    name = models.CharField(max_length=100)
-    slug = AutoSlugField(populate_from='name')
-    books = models.ManyToManyField(Book, related_name='categories', blank=True)
-    
-    def __str__(self):
-        return self.name
 
 
 class Comment(models.Model):

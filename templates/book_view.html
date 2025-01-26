@@ -6,28 +6,38 @@
     <div class="lg:w-3/5 space-y-2">
         <div class="container mx-auto">
             <!-- Book Container -->
-            <div class="border rounded-xl shadow-md max-w-lg mx-auto bg-white overflow-hidden" id="book-container">
-                <div class="relative" id="cover-container">
-                    <img alt="Book Cover" class="mx-auto"
-                        src="https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/Rich_Dad_Poor_Dad-Robert_T_Kiyosaki-a28a3-150615.jpg" />
+            <div class="border rounded-xl shadow-md mx-auto bg-white overflow-hidden" id="book-container">
+                <!-- Cover and Read Now Button -->
+                <div class="relative max-h-96" id="cover-container">
+                    <img alt="Book Cover" class="mx-auto h-96 w-auto" src="{{ book.thumbnail.url }}" />
                     <button
-                        class=" hidden absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700"
+                        class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700"
                         id="read-now-btn">
                         Read Now
                     </button>
                 </div>
+
+                <!-- Temporary Container for Off-DOM Content -->
+                <div id="temp-container" style="visibility: hidden; position: absolute; z-index: -1;"></div>
+
                 <!-- Reader Container -->
                 <div class="hidden p-6 relative" id="reader-container">
-                    <div class="transition-transform duration-500 ease-in-out bg-gray-100 p-4 rounded-lg"
-                        id="page-content">
-                        <p class="text-justify text-gray-800" id="page-text">
-                            <!-- Page content will load here -->
-                        </p>
+                    <!-- Page Content -->
+                    <div class="transition-transform duration-500 ease-in-out bg-gray-100 p-4 rounded-lg text-base"
+                        id="page-container">
+                        {{book.content|safe}}
+                       
                     </div>
+                    
+
+                    <!-- Pagination and Controls -->
                     <div class="flex justify-between items-center mt-4">
+                        <!-- Previous Button -->
                         <button class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700" id="prev-btn">
                             Previous
                         </button>
+
+                        <!-- Page Number Input -->
                         <div>
                             <label class="mr-2" for="page-number">
                                 Page:
@@ -35,83 +45,38 @@
                             <input class="border rounded w-12 text-center" id="page-number" min="1" type="number"
                                 value="1" />
                             <span class="ml-1" id="total-pages">
-                                / 10
+                                / 1
                             </span>
                         </div>
+
+                        <!-- Next Button -->
                         <button class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700" id="next-btn">
                             Next
                         </button>
+
+                        <!-- Font Size Selector -->
                         <div class="flex justify-center items-center">
                             <label class="mr-2" for="ratio">
-                                Ratio:
+                                Font Size:
                             </label>
                             <select class="border rounded px-2 py-1" id="ratio">
-                                <option value="text-sm">
-                                    Small
-                                </option>
-                                <option selected="" value="text-base">
-                                    Normal
-                                </option>
-                                <option value="text-lg">
-                                    Large
-                                </option>
+                                <option value="text-sm">Small</option>
+                                <option value="text-base" selected>Normal</option>
+                                <option value="text-lg">Large</option>
                             </select>
                         </div>
                     </div>
-                    <div class="hidden" id="book_content">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. At sit hic praesentium
-                        optio ab atque quis distinctio omnis numquam possimus sequi explicabo magnam, est
-                        voluptate perspiciatis ad! Iure, beatae veniam praesentium voluptas ad quidem
-                        veritatis asperiores! Perferendis debitis dolores amet laborum temporibus asperiores
-                        nulla nisi aliquam molestiae dolore corporis repellendus ipsa a quibusdam eligendi,
-                        doloremque facere ut ad deleniti delectus officiis praesentium quam. Eveniet
-                        dignissimos, quam est blanditiis, iusto consectetur inventore repudiandae dolorem,
-                        exercitationem dicta libero deleniti minima! Blanditiis consequatur, culpa debitis
-                        alias deserunt maiores? Blanditiis reprehenderit eveniet hic a ipsam ratione,
-                        perspiciatis, distinctio sint numquam, ad ea optio ex ipsa. Exercitationem
-                        consequuntur quasi cupiditate doloremque non distinctio! Itaque autem sint deserunt,
-                        quia doloremque velit voluptas porro architecto alias repellat adipisci delectus
-                        rerum maxime voluptatem ex aliquam nesciunt ducimus optio. Nostrum quibusdam
-                        necessitatibus odit, debitis a fugit tempora expedita blanditiis eum nesciunt
-                        mollitia sapiente placeat autem, explicabo accusamus, hic saepe. Molestias, odio.
-                        Asperiores repudiandae dignissimos ab sit suscipit libero ipsa beatae maxime est
-                        velit accusamus fuga unde, eos adipisci. Quae officia provident id, eaque pariatur
-                        magnam reiciendis est iste quibusdam, aut consequatur in. Ex accusamus facere in?
-                        Cum dolores, doloribus natus saepe, illum nam eius provident aliquid in consequuntur
-                        rem nemo fuga possimus ducimus. Laboriosam vel accusamus iure et laborum eius odit
-                        eveniet est ullam sit ea cumque mollitia dicta nam eaque, ratione corrupti
-                        blanditiis nobis at officiis nisi iste. Iste vero minus, veniam eos placeat
-                        aspernatur, corporis neque voluptatum laborum fugiat ex corrupti vel odio expedita
-                        non ipsum cupiditate, fuga veritatis delectus odit pariatur quibusdam? Quae,
-                        perferendis natus ducimus modi ipsa harum sit tempora error minus dignissimos
-                        doloribus quasi quam! Eius fugit repellat ullam, blanditiis tempora nobis. Ducimus
-                        ex vero sequi facilis totam unde? Repudiandae iste sed, fugit similique dignissimos
-                        excepturi, accusantium repellat nulla cum hic rerum. Aliquid culpa neque in, quis
-                        ipsa, voluptas illo maiores veritatis harum magnam nemo et adipisci esse, sit
-                        laudantium quo provident libero officia! Animi eligendi reiciendis dolore facere
-                        dolores voluptatum quidem soluta repellendus sed cumque minus numquam molestias
-                        vitae ducimus placeat perspiciatis ab ipsum quasi ipsa, culpa tenetur rem. Ex
-                        reprehenderit est provident ipsum modi voluptas error ratione asperiores itaque!
-                        Iusto quos quam, eaque deserunt eos facere porro, dolores, consectetur sequi quia
-                        quisquam? Quasi placeat, ut id natus sunt possimus adipisci at a deserunt asperiores
-                        corporis voluptatem sapiente aut, repellendus fuga magni officia quo veritatis
-                        praesentium consectetur. Optio aut eaque quas numquam, in consequatur dicta qui cum
-                        nobis rem, nemo harum! Impedit soluta sunt praesentium nisi, repudiandae libero
-                        aliquid beatae quis deleniti magni nam, esse atque porro quasi doloremque corrupti
-                        consequuntur nulla, eum rerum repellendus! Quod est libero corrupti, nesciunt non,
-                        laborum pariatur, mollitia fugiat illum laboriosam nemo magni quia quidem dicta
-                        optio a laudantium. Tenetur consequatur eos, at rem, quisquam a autem nam harum
-                        veritatis ad id maiores dolore quo reiciendis. Ad magni quos possimus esse,
-                        adipisci, porro est labore corporis blanditiis neque distinctio animi hic eveniet.
-                        Voluptatem perspiciatis autem qui alias quod id expedita ab sit eos, quisquam
-                        facilis praesentium non.
-                    </div>
+                </div>
+
+                <!-- Hidden Full Content for Fallback -->
+                <div class="hidden" id="book_content">
+                    {{book.content}}
                 </div>
             </div>
+
         </div>
         <div class="text-xl font-medium my-2">
-            This is Book Title Lorem ipsum consectetur adipisicing elit.
-            Tenetur culpa iure recusandae error illum nam similique, nihil aliquid quia doloremque!
+            {{book.title}}
         </div>
         <div class="flex flex-col space-y-2 md:flex-row justify-between">
             <div class="flex space-x-3  items-center justify-between">
@@ -135,23 +100,23 @@
             <div class="flex items-center">
                 <div class="flex">
                     <div
-                    class="bg-neutral-200 border-gray-300 flex p-2 px-3 space-x-1 items-center text-sm rounded-l-full border-r-2 cursor-pointer hover:bg-neutral-300">
-                    <i class="fa-regular fa-thumbs-up">
-                    </i>
-                    <div class="text-normal">
-                        52k
+                        class="bg-neutral-200 border-gray-300 flex p-2 px-3 space-x-1 items-center text-sm rounded-l-full border-r-2 cursor-pointer hover:bg-neutral-300">
+                        <i class="fa-regular fa-thumbs-up">
+                        </i>
+                        <div class="text-normal">
+                            {{book.likes_count}}
+                        </div>
+                    </div>
+                    <div
+                        class="bg-neutral-200 flex p-2 mr-3 space-x-1 px-3 items-center text-sm rounded-r-full cursor-pointer hover:bg-neutral-300">
+                        <i class="fa-regular fa-thumbs-down">
+                        </i>
+                        <div class="text-normal">
+                            {{book.dislikes_count}}
+                        </div>
                     </div>
                 </div>
-                <div 
-                    class="bg-neutral-200 flex p-2 mr-3 space-x-1 px-3 items-center text-sm rounded-r-full cursor-pointer hover:bg-neutral-300">
-                    <i class="fa-regular fa-thumbs-down">
-                    </i>
-                    <div class="text-normal">
-                        52k
-                    </div>
-                </div>
-                </div>
-                
+
                 <button class="bg-neutral-200 hover:bg-neutral-300 p-2 mr-3 rounded-full text-sm">
                     <i class="fa fa-share">
                     </i>
@@ -166,7 +131,7 @@
         <!-- Description container -->
         <div class="w-full bg-gray-200 p-4 rounded-lg">
             <div class="font-bold text-sm">
-                1,191,551 views Dec 28, 2024
+                {{book.views}} views {% now "N j, Y" %}
             </div>
             #Englishmovies #HollywoodMovieHindiDubbed #hollywoodactionmovieshindi
             #Englishmovies
@@ -412,25 +377,28 @@
         </div>
     </div>
     <div class="lg:w-2/5">
+        {% for item in suggestions %}
         <!-- side content container -->
         <div class="flex h-36 justify-between space-x-2 mb-3 cursor-pointer">
-            <!-- image container -->
-            <div class="overflow-hidden bg-red-600 rounded-lg max-w-28">
-                <img alt="" class="h-full w-full object-cover"
-                    src="https://media.licdn.com/dms/image/D4E12AQG0hyhZmq0AyQ/article-cover_image-shrink_600_2000/0/1700488940348?e=2147483647&v=beta&t=eZtDe_xSbm65L-mR1tnM8vnfMpM3aWcSe8rw8o7sjSs" />
+            <div class="flex gap-3">
+                <!-- image container -->
+                <div class="overflow-hidden bg-red-600 rounded-lg max-w-28">
+                    <img alt="" class="h-full w-full object-cover" src="{{item.thumbnail.url}}" />
+                </div>
+                <!-- text container  -->
+                <div class="py-2">
+                    <div class="font-medium">
+                        {{item.title}}
+                    </div>
+                    <div class="text-sm font-extralight mt-2">
+                        ATN News
+                    </div>
+                    <div class="text-xs font-thin">
+                        {{item.views}} views • 2 days ago
+                    </div>
+                </div>
             </div>
-            <!-- text container  -->
-            <div class="py-2">
-                <div class="font-medium">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Modi blanditiis dolore.
-                </div>
-                <div class="text-sm font-extralight mt-2">
-                    ATN News
-                </div>
-                <div class="text-xs font-thin">
-                    10K views • 2 days ago
-                </div>
-            </div>
+
             <div>
                 <button class="p-2 bg-neutral-200 rounded-full hover:bg-neutral-300">
                     <i class="fa fa-ellipsis-vertical">
@@ -438,406 +406,7 @@
                 </button>
             </div>
         </div>
-        <div class="flex h-36 justify-between space-x-2 mb-3 cursor-pointer">
-            <!-- image container -->
-            <div class="overflow-hidden bg-red-600 rounded-lg max-w-28">
-                <img alt="" class="h-full w-full object-cover"
-                    src="https://media.licdn.com/dms/image/D4E12AQG0hyhZmq0AyQ/article-cover_image-shrink_600_2000/0/1700488940348?e=2147483647&v=beta&t=eZtDe_xSbm65L-mR1tnM8vnfMpM3aWcSe8rw8o7sjSs" />
-            </div>
-            <!-- text container  -->
-            <div class="py-2">
-                <div class="font-medium">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Modi blanditiis dolore.
-                </div>
-                <div class="text-sm font-extralight mt-2">
-                    ATN News
-                </div>
-                <div class="text-xs font-thin">
-                    10K views • 2 days ago
-                </div>
-            </div>
-            <div>
-                <button class="p-2 bg-neutral-200 rounded-full hover:bg-neutral-300">
-                    <i class="fa fa-ellipsis-vertical">
-                    </i>
-                </button>
-            </div>
-        </div>
-        <div class="flex h-36 justify-between space-x-2 mb-3 cursor-pointer">
-            <!-- image container -->
-            <div class="overflow-hidden bg-red-600 rounded-lg max-w-28">
-                <img alt="" class="h-full w-full object-cover"
-                    src="https://media.licdn.com/dms/image/D4E12AQG0hyhZmq0AyQ/article-cover_image-shrink_600_2000/0/1700488940348?e=2147483647&v=beta&t=eZtDe_xSbm65L-mR1tnM8vnfMpM3aWcSe8rw8o7sjSs" />
-            </div>
-            <!-- text container  -->
-            <div class="py-2">
-                <div class="font-medium">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Modi blanditiis dolore.
-                </div>
-                <div class="text-sm font-extralight mt-2">
-                    ATN News
-                </div>
-                <div class="text-xs font-thin">
-                    10K views • 2 days ago
-                </div>
-            </div>
-            <div>
-                <button class="p-2 bg-neutral-200 rounded-full hover:bg-neutral-300">
-                    <i class="fa fa-ellipsis-vertical">
-                    </i>
-                </button>
-            </div>
-        </div>
-        <div class="flex h-36 justify-between space-x-2 mb-3 cursor-pointer">
-            <!-- image container -->
-            <div class="overflow-hidden bg-red-600 rounded-lg max-w-28">
-                <img alt="" class="h-full w-full object-cover"
-                    src="https://media.licdn.com/dms/image/D4E12AQG0hyhZmq0AyQ/article-cover_image-shrink_600_2000/0/1700488940348?e=2147483647&v=beta&t=eZtDe_xSbm65L-mR1tnM8vnfMpM3aWcSe8rw8o7sjSs" />
-            </div>
-            <!-- text container  -->
-            <div class="py-2">
-                <div class="font-medium">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Modi blanditiis dolore.
-                </div>
-                <div class="text-sm font-extralight mt-2">
-                    ATN News
-                </div>
-                <div class="text-xs font-thin">
-                    10K views • 2 days ago
-                </div>
-            </div>
-            <div>
-                <button class="p-2 bg-neutral-200 rounded-full hover:bg-neutral-300">
-                    <i class="fa fa-ellipsis-vertical">
-                    </i>
-                </button>
-            </div>
-        </div>
-        <div class="flex h-36 justify-between space-x-2 mb-3 cursor-pointer">
-            <!-- image container -->
-            <div class="overflow-hidden bg-red-600 rounded-lg max-w-28">
-                <img alt="" class="h-full w-full object-cover"
-                    src="https://media.licdn.com/dms/image/D4E12AQG0hyhZmq0AyQ/article-cover_image-shrink_600_2000/0/1700488940348?e=2147483647&v=beta&t=eZtDe_xSbm65L-mR1tnM8vnfMpM3aWcSe8rw8o7sjSs" />
-            </div>
-            <!-- text container  -->
-            <div class="py-2">
-                <div class="font-medium">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Modi blanditiis dolore.
-                </div>
-                <div class="text-sm font-extralight mt-2">
-                    ATN News
-                </div>
-                <div class="text-xs font-thin">
-                    10K views • 2 days ago
-                </div>
-            </div>
-            <div>
-                <button class="p-2 bg-neutral-200 rounded-full hover:bg-neutral-300">
-                    <i class="fa fa-ellipsis-vertical">
-                    </i>
-                </button>
-            </div>
-        </div>
-        <div class="flex h-36 justify-between space-x-2 mb-3 cursor-pointer">
-            <!-- image container -->
-            <div class="overflow-hidden bg-red-600 rounded-lg max-w-28">
-                <img alt="" class="h-full w-full object-cover"
-                    src="https://media.licdn.com/dms/image/D4E12AQG0hyhZmq0AyQ/article-cover_image-shrink_600_2000/0/1700488940348?e=2147483647&v=beta&t=eZtDe_xSbm65L-mR1tnM8vnfMpM3aWcSe8rw8o7sjSs" />
-            </div>
-            <!-- text container  -->
-            <div class="py-2">
-                <div class="font-medium">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Modi blanditiis dolore.
-                </div>
-                <div class="text-sm font-extralight mt-2">
-                    ATN News
-                </div>
-                <div class="text-xs font-thin">
-                    10K views • 2 days ago
-                </div>
-            </div>
-            <div>
-                <button class="p-2 bg-neutral-200 rounded-full hover:bg-neutral-300">
-                    <i class="fa fa-ellipsis-vertical">
-                    </i>
-                </button>
-            </div>
-        </div>
-        <div class="flex h-36 justify-between space-x-2 mb-3 cursor-pointer">
-            <!-- image container -->
-            <div class="overflow-hidden bg-red-600 rounded-lg max-w-28">
-                <img alt="" class="h-full w-full object-cover"
-                    src="https://media.licdn.com/dms/image/D4E12AQG0hyhZmq0AyQ/article-cover_image-shrink_600_2000/0/1700488940348?e=2147483647&v=beta&t=eZtDe_xSbm65L-mR1tnM8vnfMpM3aWcSe8rw8o7sjSs" />
-            </div>
-            <!-- text container  -->
-            <div class="py-2">
-                <div class="font-medium">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Modi blanditiis dolore.
-                </div>
-                <div class="text-sm font-extralight mt-2">
-                    ATN News
-                </div>
-                <div class="text-xs font-thin">
-                    10K views • 2 days ago
-                </div>
-            </div>
-            <div>
-                <button class="p-2 bg-neutral-200 rounded-full hover:bg-neutral-300">
-                    <i class="fa fa-ellipsis-vertical">
-                    </i>
-                </button>
-            </div>
-        </div>
-        <div class="flex h-36 justify-between space-x-2 mb-3 cursor-pointer">
-            <!-- image container -->
-            <div class="overflow-hidden bg-red-600 rounded-lg max-w-28">
-                <img alt="" class="h-full w-full object-cover"
-                    src="https://media.licdn.com/dms/image/D4E12AQG0hyhZmq0AyQ/article-cover_image-shrink_600_2000/0/1700488940348?e=2147483647&v=beta&t=eZtDe_xSbm65L-mR1tnM8vnfMpM3aWcSe8rw8o7sjSs" />
-            </div>
-            <!-- text container  -->
-            <div class="py-2">
-                <div class="font-medium">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Modi blanditiis dolore.
-                </div>
-                <div class="text-sm font-extralight mt-2">
-                    ATN News
-                </div>
-                <div class="text-xs font-thin">
-                    10K views • 2 days ago
-                </div>
-            </div>
-            <div>
-                <button class="p-2 bg-neutral-200 rounded-full hover:bg-neutral-300">
-                    <i class="fa fa-ellipsis-vertical">
-                    </i>
-                </button>
-            </div>
-        </div>
-        <div class="flex h-36 justify-between space-x-2 mb-3 cursor-pointer">
-            <!-- image container -->
-            <div class="overflow-hidden bg-red-600 rounded-lg max-w-28">
-                <img alt="" class="h-full w-full object-cover"
-                    src="https://media.licdn.com/dms/image/D4E12AQG0hyhZmq0AyQ/article-cover_image-shrink_600_2000/0/1700488940348?e=2147483647&v=beta&t=eZtDe_xSbm65L-mR1tnM8vnfMpM3aWcSe8rw8o7sjSs" />
-            </div>
-            <!-- text container  -->
-            <div class="py-2">
-                <div class="font-medium">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Modi blanditiis dolore.
-                </div>
-                <div class="text-sm font-extralight mt-2">
-                    ATN News
-                </div>
-                <div class="text-xs font-thin">
-                    10K views • 2 days ago
-                </div>
-            </div>
-            <div>
-                <button class="p-2 bg-neutral-200 rounded-full hover:bg-neutral-300">
-                    <i class="fa fa-ellipsis-vertical">
-                    </i>
-                </button>
-            </div>
-        </div>
-        <div class="flex h-36 justify-between space-x-2 mb-3 cursor-pointer">
-            <!-- image container -->
-            <div class="overflow-hidden bg-red-600 rounded-lg max-w-28">
-                <img alt="" class="h-full w-full object-cover"
-                    src="https://media.licdn.com/dms/image/D4E12AQG0hyhZmq0AyQ/article-cover_image-shrink_600_2000/0/1700488940348?e=2147483647&v=beta&t=eZtDe_xSbm65L-mR1tnM8vnfMpM3aWcSe8rw8o7sjSs" />
-            </div>
-            <!-- text container  -->
-            <div class="py-2">
-                <div class="font-medium">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Modi blanditiis dolore.
-                </div>
-                <div class="text-sm font-extralight mt-2">
-                    ATN News
-                </div>
-                <div class="text-xs font-thin">
-                    10K views • 2 days ago
-                </div>
-            </div>
-            <div>
-                <button class="p-2 bg-neutral-200 rounded-full hover:bg-neutral-300">
-                    <i class="fa fa-ellipsis-vertical">
-                    </i>
-                </button>
-            </div>
-        </div>
-        <div class="flex h-36 justify-between space-x-2 mb-3 cursor-pointer">
-            <!-- image container -->
-            <div class="overflow-hidden bg-red-600 rounded-lg max-w-28">
-                <img alt="" class="h-full w-full object-cover"
-                    src="https://media.licdn.com/dms/image/D4E12AQG0hyhZmq0AyQ/article-cover_image-shrink_600_2000/0/1700488940348?e=2147483647&v=beta&t=eZtDe_xSbm65L-mR1tnM8vnfMpM3aWcSe8rw8o7sjSs" />
-            </div>
-            <!-- text container  -->
-            <div class="py-2">
-                <div class="font-medium">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Modi blanditiis dolore.
-                </div>
-                <div class="text-sm font-extralight mt-2">
-                    ATN News
-                </div>
-                <div class="text-xs font-thin">
-                    10K views • 2 days ago
-                </div>
-            </div>
-            <div>
-                <button class="p-2 bg-neutral-200 rounded-full hover:bg-neutral-300">
-                    <i class="fa fa-ellipsis-vertical">
-                    </i>
-                </button>
-            </div>
-        </div>
-        <div class="flex h-36 justify-between space-x-2 mb-3 cursor-pointer">
-            <!-- image container -->
-            <div class="overflow-hidden bg-red-600 rounded-lg max-w-28">
-                <img alt="" class="h-full w-full object-cover"
-                    src="https://media.licdn.com/dms/image/D4E12AQG0hyhZmq0AyQ/article-cover_image-shrink_600_2000/0/1700488940348?e=2147483647&v=beta&t=eZtDe_xSbm65L-mR1tnM8vnfMpM3aWcSe8rw8o7sjSs" />
-            </div>
-            <!-- text container  -->
-            <div class="py-2">
-                <div class="font-medium">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Modi blanditiis dolore.
-                </div>
-                <div class="text-sm font-extralight mt-2">
-                    ATN News
-                </div>
-                <div class="text-xs font-thin">
-                    10K views • 2 days ago
-                </div>
-            </div>
-            <div>
-                <button class="p-2 bg-neutral-200 rounded-full hover:bg-neutral-300">
-                    <i class="fa fa-ellipsis-vertical">
-                    </i>
-                </button>
-            </div>
-        </div>
-        <div class="flex h-36 justify-between space-x-2 mb-3 cursor-pointer">
-            <!-- image container -->
-            <div class="overflow-hidden bg-red-600 rounded-lg max-w-28">
-                <img alt="" class="h-full w-full object-cover"
-                    src="https://media.licdn.com/dms/image/D4E12AQG0hyhZmq0AyQ/article-cover_image-shrink_600_2000/0/1700488940348?e=2147483647&v=beta&t=eZtDe_xSbm65L-mR1tnM8vnfMpM3aWcSe8rw8o7sjSs" />
-            </div>
-            <!-- text container  -->
-            <div class="py-2">
-                <div class="font-medium">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Modi blanditiis dolore.
-                </div>
-                <div class="text-sm font-extralight mt-2">
-                    ATN News
-                </div>
-                <div class="text-xs font-thin">
-                    10K views • 2 days ago
-                </div>
-            </div>
-            <div>
-                <button class="p-2 bg-neutral-200 rounded-full hover:bg-neutral-300">
-                    <i class="fa fa-ellipsis-vertical">
-                    </i>
-                </button>
-            </div>
-        </div>
-        <div class="flex h-36 justify-between space-x-2 mb-3 cursor-pointer">
-            <!-- image container -->
-            <div class="overflow-hidden bg-red-600 rounded-lg max-w-28">
-                <img alt="" class="h-full w-full object-cover"
-                    src="https://media.licdn.com/dms/image/D4E12AQG0hyhZmq0AyQ/article-cover_image-shrink_600_2000/0/1700488940348?e=2147483647&v=beta&t=eZtDe_xSbm65L-mR1tnM8vnfMpM3aWcSe8rw8o7sjSs" />
-            </div>
-            <!-- text container  -->
-            <div class="py-2">
-                <div class="font-medium">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Modi blanditiis dolore.
-                </div>
-                <div class="text-sm font-extralight mt-2">
-                    ATN News
-                </div>
-                <div class="text-xs font-thin">
-                    10K views • 2 days ago
-                </div>
-            </div>
-            <div>
-                <button class="p-2 bg-neutral-200 rounded-full hover:bg-neutral-300">
-                    <i class="fa fa-ellipsis-vertical">
-                    </i>
-                </button>
-            </div>
-        </div>
-        <div class="flex h-36 justify-between space-x-2 mb-3 cursor-pointer">
-            <!-- image container -->
-            <div class="overflow-hidden bg-red-600 rounded-lg max-w-28">
-                <img alt="" class="h-full w-full object-cover"
-                    src="https://media.licdn.com/dms/image/D4E12AQG0hyhZmq0AyQ/article-cover_image-shrink_600_2000/0/1700488940348?e=2147483647&v=beta&t=eZtDe_xSbm65L-mR1tnM8vnfMpM3aWcSe8rw8o7sjSs" />
-            </div>
-            <!-- text container  -->
-            <div class="py-2">
-                <div class="font-medium">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Modi blanditiis dolore.
-                </div>
-                <div class="text-sm font-extralight mt-2">
-                    ATN News
-                </div>
-                <div class="text-xs font-thin">
-                    10K views • 2 days ago
-                </div>
-            </div>
-            <div>
-                <button class="p-2 bg-neutral-200 rounded-full hover:bg-neutral-300">
-                    <i class="fa fa-ellipsis-vertical">
-                    </i>
-                </button>
-            </div>
-        </div>
-        <div class="flex h-36 justify-between space-x-2 mb-3 cursor-pointer">
-            <!-- image container -->
-            <div class="overflow-hidden bg-red-600 rounded-lg max-w-28">
-                <img alt="" class="h-full w-full object-cover"
-                    src="https://media.licdn.com/dms/image/D4E12AQG0hyhZmq0AyQ/article-cover_image-shrink_600_2000/0/1700488940348?e=2147483647&v=beta&t=eZtDe_xSbm65L-mR1tnM8vnfMpM3aWcSe8rw8o7sjSs" />
-            </div>
-            <!-- text container  -->
-            <div class="py-2">
-                <div class="font-medium">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Modi blanditiis dolore.
-                </div>
-                <div class="text-sm font-extralight mt-2">
-                    ATN News
-                </div>
-                <div class="text-xs font-thin">
-                    10K views • 2 days ago
-                </div>
-            </div>
-            <div>
-                <button class="p-2 bg-neutral-200 rounded-full hover:bg-neutral-300">
-                    <i class="fa fa-ellipsis-vertical">
-                    </i>
-                </button>
-            </div>
-        </div>
-        <div class="flex h-36 justify-between space-x-2 mb-3 cursor-pointer">
-            <!-- image container -->
-            <div class="overflow-hidden bg-red-600 rounded-lg max-w-28">
-                <img alt="" class="h-full w-full object-cover"
-                    src="https://media.licdn.com/dms/image/D4E12AQG0hyhZmq0AyQ/article-cover_image-shrink_600_2000/0/1700488940348?e=2147483647&v=beta&t=eZtDe_xSbm65L-mR1tnM8vnfMpM3aWcSe8rw8o7sjSs" />
-            </div>
-            <!-- text container  -->
-            <div class="py-2">
-                <div class="font-medium">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Modi blanditiis dolore.
-                </div>
-                <div class="text-sm font-extralight mt-2">
-                    ATN News
-                </div>
-                <div class="text-xs font-thin">
-                    10K views • 2 days ago
-                </div>
-            </div>
-            <div>
-                <button class="p-2 bg-neutral-200 rounded-full hover:bg-neutral-300">
-                    <i class="fa fa-ellipsis-vertical">
-                    </i>
-                </button>
-            </div>
-        </div>
+        {% endfor %}
     </div>
 </div>
 
