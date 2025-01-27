@@ -1,41 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-{% load static %}
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>YouTube Homepage</title>
-	<link rel="stylesheet" href="{% static 'css/output.css' %}">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-		integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-		crossorigin="anonymous" referrerpolicy="no-referrer" />
-    {% block header %}{% endblock %}
-</head>
+  {% load static %}
 
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YouTube Homepage</title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {% block header %}
 
-	{% include 'components/user_nav.html' %}
-	<!-- Main Content -->
-	<div class="flex min-h-screen">
-		
-        {% include 'components/user_side_menu.html' %}
+    {% endblock %}
+  </head>
+
+  <body>
+    <div id="notifications-container" class="fixed top-7 right-16 space-y-4 z-[1000]">
+      <!-- Notifications will be added here dynamically -->
+    </div>
 
 
-
-		<!-- Video Grid -->
-		<main class="flex-1 p-4  md:ml-64" id="content">
-
-			{% block content %}
-
-            {% endblock %}
-
-		</main>
-
-	</div>
-
-	<script src="{% static 'js/main.js' %}"></script>
     
-    {% block scripts %}{% endblock %}
-</body>
 
+    {% include 'components/user_nav.html' %}
+    <!-- Main Content -->
+    <div class="flex min-h-screen">
+      {% include 'components/user_side_menu.html' %}
+
+      <!-- Video Grid -->
+      <main class="flex-1 p-4 md:ml-64" id="content">
+    
+        {% block content %}
+
+        {% endblock %}
+      </main>
+    </div>
+
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/utils.js' %}"></script>
+
+
+	{% for message in messages %}
+	<script>
+		console.log('{{message.tags}}')
+	</script>
+      {% if message.tags == 'success' %}
+        {% with color='green' %}
+		
+          <script>
+			console.log('{{color}}')
+            // Example usage
+            addNotification('{{message}}', '{{color}}')
+          </script>
+        {% endwith %}
+      	{% else %}
+		  {% with color='red' %}
+		
+          <script>
+			console.log('{{color}}')
+            // Example usage
+            addNotification('{{message}}', '{{color}}')
+          </script>
+        {% endwith %}
+		{% endif %}
+	
+    {% endfor %}
+
+    {% if not user.is_authenticated %}
+      <script src="{% static 'js/auth_modal.js' %}"></script>
+    {% endif %}
+    {% block scripts %}
+
+    {% endblock %}
+  </body>
 </html>

@@ -3,7 +3,7 @@
 <header class="bg-white shadow-md sticky top-0 z-50 px-4">
     <div class="flex items-center justify-between py-3">
         <!-- Logo and Hamburger -->
-        <div class="flex items-center space-x-4" >
+        <div class="flex items-center space-x-4">
             <button class="px-2 rounded hover:bg-gray-200" id="menuToggle">
                 <i class="fa fa-bars text-2xl"></i>
             </button>
@@ -24,6 +24,7 @@
 
         <!-- Profile and Icons -->
         <div class="flex items-center space-x-4">
+            {% if user.is_authenticated %}
             <!-- logged in view  -->
             <div class="relative">
                 <button class="dropdownButton p-2 border border-gray-300 rounded-full text-sm">
@@ -116,18 +117,76 @@
                 </div>
             </div>
 
-            <button class="p-2 rounded-full hover:bg-gray-200" onclick="location.href=`{% url 'author:author_dashboard' %}`">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" viewBox="0 0 24 24"
-                    fill="currentColor">
-                    <path
-                        d="M12 2a10 10 0 110 20 10 10 0 010-20zm1 10.586l4.243 4.242-1.414 1.415L12 13.415l-3.829 3.828-1.415-1.415L11 10.586V6h2v4.586z">
-                    </path>
-                </svg>
-            </button>
+            <div class="relative">
+                <button class="dropdownButton p-2 rounded-full hover:bg-gray-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" viewBox="0 0 24 24"
+                        fill="currentColor">
+                        <path
+                            d="M12 2a10 10 0 110 20 10 10 0 010-20zm1 10.586l4.243 4.242-1.414 1.415L12 13.415l-3.829 3.828-1.415-1.415L11 10.586V6h2v4.586z">
+                        </path>
+                    </svg>
+                </button>
+
+                <!-- !-- Dropdown Menu -->
+                <div id="dropdownMenu"
+                    class="dropdownMenu absolute right-0 mt-2 w-60 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
+                    <ul class="py-1">
+                        <li class="border-b">
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 ">
+                                <div class="flex space-x-2">
+                                    <img class="h-10 w-10 rounded-full"
+                                        src="https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg"
+                                        alt="">
+                                    <div>
+                                        <div class="text-sm">Channel Name</div>
+                                        <div class="text-xs">@username123</div>
+                                    </div>
+
+                                </div>
+
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'author:author_dashboard' %}"
+                                class="block px-6 py-2 text-gray-700 hover:bg-gray-100">
+                                <i class="fa fa-home mr-2"></i> Your channel
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'main:index' %}" class="block px-6 py-2 text-gray-700 hover:bg-gray-100">
+                                <i class="fa fa-book mr-2"></i> Bookish
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="block px-6 py-2 text-gray-700 hover:bg-gray-100">
+                                <i class="fa fa-repeat mr-2"></i> Switch Account
+                            </a>
+                        </li>
+                        <li class="border-b">
+                            <a href="{% url 'accounts:logout' %}"
+                                class="block px-6 py-2 text-gray-700 hover:bg-gray-100">
+                                <i class="fa fa-door-open mr-2"></i> Sign out
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="block px-6 py-2 text-gray-700 hover:bg-gray-100">
+                                <i class="fa fa-moon mr-2"></i> Appearence
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="block px-6 py-2 text-gray-700 hover:bg-gray-100">
+                                <i class="fa fa-message mr-2"></i> Feedback
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
 
+
+            {% else %}
             <!-- Guest view  -->
-            <div class="relative hidden">
+            <div class="relative">
                 <button class="dropdownButton p-2 rounded-full hover:bg-gray-200">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" viewBox="0 0 24 24"
                         fill="currentColor">
@@ -152,12 +211,13 @@
                     </ul>
                 </div>
             </div>
-            <a href="" class="hidden">
-                <button class="border border-blue-700 p-2 text-blue-700 rounded-full text-sm">
+            <a>
+                <button class="border border-blue-700 p-2 text-blue-700 rounded-full text-sm" id="openModalBtn">
                     <i class="fa fa-user pr-1"></i>
                     Sign in
                 </button>
             </a>
+            {% endif %}
         </div>
     </div>
     <!-- Modal Structure -->
@@ -175,24 +235,23 @@
 
             <!-- Login Form -->
             <div id="loginForm" class="mt-4">
-                <form>
+                <form action="{% url 'accounts:login' %}" method="post">
+                    {% csrf_token %}
                     <div class="mb-4">
-                        <label for="email" class="block text-gray-600">Email Address</label>
-                        <input type="email" id="email" name="email"
-                            class="w-full p-2 mt-1 border border-gray-300 rounded-md"
-                            placeholder="Enter your email">
+                        <label for="email" class="block text-gray-600">Email Address or username</label>
+                        <input type="text" id="email" name="email"
+                            class="w-full p-2 mt-1 border border-gray-300 rounded-md" placeholder="Enter your email">
                     </div>
                     <div class="mb-4">
                         <label for="password" class="block text-gray-600">Password</label>
                         <input type="password" id="password" name="password"
-                            class="w-full p-2 mt-1 border border-gray-300 rounded-md"
-                            placeholder="Enter your password">
+                            class="w-full p-2 mt-1 border border-gray-300 rounded-md" placeholder="Enter your password">
                     </div>
                     <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-md">Login</button>
-                <div class="text-center my-3">
-                    Or, Continue with
-                </div>
-                <button type="button" class="w-full bg-red-500 text-white py-2 rounded-md">Google</button>
+                    <div class="text-center my-3">
+                        Or, Continue with
+                    </div>
+                    <button type="submit" class="w-full bg-red-500 text-white py-2 rounded-md">Google</button>
                 </form>
             </div>
 
@@ -202,20 +261,17 @@
                     <div class="mb-4">
                         <label for="reg-email" class="block text-gray-600">Email Address</label>
                         <input type="email" id="reg-email" name="email"
-                            class="w-full p-2 mt-1 border border-gray-300 rounded-md"
-                            placeholder="Enter your email">
+                            class="w-full p-2 mt-1 border border-gray-300 rounded-md" placeholder="Enter your email">
                     </div>
                     <div class="mb-4">
                         <label for="username" class="block text-gray-600">Username</label>
                         <input type="text" id="username" name="username"
-                            class="w-full p-2 mt-1 border border-gray-300 rounded-md"
-                            placeholder="Choose a username">
+                            class="w-full p-2 mt-1 border border-gray-300 rounded-md" placeholder="Choose a username">
                     </div>
                     <div class="mb-4">
                         <label for="reg-password" class="block text-gray-600">Password</label>
                         <input type="password" id="reg-password" name="password"
-                            class="w-full p-2 mt-1 border border-gray-300 rounded-md"
-                            placeholder="Enter your password">
+                            class="w-full p-2 mt-1 border border-gray-300 rounded-md" placeholder="Enter your password">
                     </div>
                     <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-md">Register</button>
                     <div class="text-center my-3">

@@ -22,7 +22,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
-    path('accounts', include('accounts.urls')),
+    path('accounts/', include('accounts.urls')),
     path('author/', include('author.urls') ),
     path('ckeditor5/', include('django_ckeditor_5.urls')),
 ]
