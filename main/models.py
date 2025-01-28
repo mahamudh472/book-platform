@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django_ckeditor_5.fields import CKEditor5Field
 from autoslug import AutoSlugField
+from  django.utils import timezone
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -35,6 +36,13 @@ class Book(models.Model):
     def dislikes_count(self):
         return self.dislikes.count()
 
+    def time_difference(self):
+        differece = timezone.now()-self.published_date
+        days = differece.days
+        hours = differece.seconds // 3600
+        if days<1:
+            return f"{hours} hours"
+        return f"{days} days"
 
 
 

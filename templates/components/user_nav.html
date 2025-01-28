@@ -127,7 +127,7 @@
                     </svg>
                 </button>
 
-                <!-- !-- Dropdown Menu -->
+                <!-- Dropdown Menu -->
                 <div id="dropdownMenu"
                     class="dropdownMenu absolute right-0 mt-2 w-60 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
                     <ul class="py-1">
@@ -135,11 +135,11 @@
                             <a href="#" class="block px-4 py-2 hover:bg-gray-100 ">
                                 <div class="flex space-x-2">
                                     <img class="h-10 w-10 rounded-full"
-                                        src="https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg"
+                                        src="{{user.userprofile.profile_picture.url}}"
                                         alt="">
                                     <div>
-                                        <div class="text-sm">Channel Name</div>
-                                        <div class="text-xs">@username123</div>
+                                        <div class="text-sm">{{user.first_name}}</div>
+                                        <div class="text-xs">{{user.username}}</div>
                                     </div>
 
                                 </div>
@@ -257,20 +257,27 @@
 
             <!-- Register Form -->
             <div id="registerForm" class="mt-4 hidden">
-                <form>
+                <form action="{% url 'accounts:register' %}" method="post">
+                    {% csrf_token %}
+                    <div class="mb-4">
+                        <label for="reg-email" class="block text-gray-600">Full name</label>
+                        <input type="text" id="reg-email" name="full-name"
+                            class="w-full p-2 mt-1 border border-gray-300 rounded-md" placeholder="Enter your full name">
+                    </div>
                     <div class="mb-4">
                         <label for="reg-email" class="block text-gray-600">Email Address</label>
                         <input type="email" id="reg-email" name="email"
                             class="w-full p-2 mt-1 border border-gray-300 rounded-md" placeholder="Enter your email">
                     </div>
-                    <div class="mb-4">
-                        <label for="username" class="block text-gray-600">Username</label>
-                        <input type="text" id="username" name="username"
-                            class="w-full p-2 mt-1 border border-gray-300 rounded-md" placeholder="Choose a username">
-                    </div>
+                    
                     <div class="mb-4">
                         <label for="reg-password" class="block text-gray-600">Password</label>
                         <input type="password" id="reg-password" name="password"
+                            class="w-full p-2 mt-1 border border-gray-300 rounded-md" placeholder="Enter your password">
+                    </div>
+                    <div class="mb-4">
+                        <label for="reg-password" class="block text-gray-600">Re-enter password</label>
+                        <input type="password" id="reg-password" name="password2"
                             class="w-full p-2 mt-1 border border-gray-300 rounded-md" placeholder="Enter your password">
                     </div>
                     <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-md">Register</button>

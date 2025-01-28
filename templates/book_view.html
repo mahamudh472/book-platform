@@ -80,15 +80,15 @@
         </div>
         <div class="flex flex-col space-y-2 md:flex-row justify-between">
             <div class="flex space-x-3  items-center justify-between">
-                <div class="flex">
+                <div class="flex gap-2">
                     <img alt="" class="h-10 w-10"
-                        src="https://cdn.vectorstock.com/i/500p/53/42/user-member-avatar-face-profile-icon-vector-22965342.jpg" />
+                        src="{{book.author.userprofile.profile_picture.url}}" />
                     <div class="flex flex-col">
                         <div class="font-medium">
-                            ATN News
+                            {{book.author.userprofile.full_name}}
                         </div>
                         <div class="font-sm text-xs">
-                            6.21M subscribers
+                            {{book.author.userprofile.followers_count}} subscribers
                         </div>
                     </div>
                 </div>
@@ -133,17 +133,7 @@
             <div class="font-bold text-sm">
                 {{book.views}} views {% now "N j, Y" %}
             </div>
-            #Englishmovies #HollywoodMovieHindiDubbed #hollywoodactionmovieshindi
-            #Englishmovies
-            #HollywoodMovieHindiDubbed
-            #hollywoodactionmovieshindi
-            #bloodshot #Englishmovies #hollywoodactionmoviehindi
-
-            #bloodshot #HindiDubbed #actionmovies
-
-            New Hollywood Movie In Hindi | New Movie 2023
-            hollywood movies in hindi dubbed full action hd 2023
-            hollywood movies in hindi dubbed full action hd live
+            {{book.description}}
         </div>
         <div class="font-bold text-lg py-3">
             1750 Comments
@@ -379,7 +369,7 @@
     <div class="lg:w-2/5">
         {% for item in suggestions %}
         <!-- side content container -->
-        <div class="flex h-36 justify-between space-x-2 mb-3 cursor-pointer">
+        <div class="flex h-36 justify-between space-x-2 mb-3 cursor-pointer" onclick="location.href=`{% url 'main:book_view' item.slug %}`">
             <div class="flex gap-3">
                 <!-- image container -->
                 <div class="overflow-hidden bg-red-600 rounded-lg max-w-28">
@@ -391,10 +381,10 @@
                         {{item.title}}
                     </div>
                     <div class="text-sm font-extralight mt-2">
-                        ATN News
+                        {{item.author.userprofile.full_name}}
                     </div>
                     <div class="text-xs font-thin">
-                        {{item.views}} views • 2 days ago
+                        {{item.views}} views • {{item.time_difference}} ago
                     </div>
                 </div>
             </div>
