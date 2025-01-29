@@ -1,0 +1,59 @@
+<div class="relative">
+    <button class="dropdownButton p-2 rounded-full hover:bg-gray-200">
+        <img src="{{user.userprofile.profile_picture.url}}" class="h-10 w-10 rounded-full" alt="">
+    </button>
+
+    <!-- Dropdown Menu -->
+    <div id="dropdownMenu"
+        class="dropdownMenu absolute right-0 mt-2 w-60 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
+        <ul class="py-1">
+            <li class="border-b">
+                <a href="{% url "main:profile" user.username %}" class="block px-4 py-2 hover:bg-gray-100 ">
+                    <div class="flex space-x-2">
+                        <img class="h-10 w-10 rounded-full"
+                            src="{{user.userprofile.profile_picture.url}}"
+                            alt="">
+                        <div>
+                            <div class="text-sm">{{user.first_name}}</div>
+                            <div class="text-xs">{{user.username}}</div>
+                        </div>
+
+                    </div>
+
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'author:author_dashboard' %}"
+                    class="block px-6 py-2 text-gray-700 hover:bg-gray-100">
+                    <i class="fa fa-home mr-2"></i> Your channel
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'main:index' %}" class="block px-6 py-2 text-gray-700 hover:bg-gray-100">
+                    <i class="fa fa-book mr-2"></i> Bookish
+                </a>
+            </li>
+            <li>
+                <a href="#" class="block px-6 py-2 text-gray-700 hover:bg-gray-100">
+                    <i class="fa fa-repeat mr-2"></i> Switch Account
+                </a>
+            </li>
+            <li class="border-b">
+                <a href="{% url 'accounts:logout' %}"
+                    class="block px-6 py-2 text-gray-700 hover:bg-gray-100">
+                    <i class="fa fa-door-open mr-2"></i> Sign out
+                </a>
+            </li>
+            <li>
+                <a href="#" class="block px-6 py-2 text-gray-700 hover:bg-gray-100">
+                    <i class="fa fa-moon mr-2"></i> Appearence
+                </a>
+            </li>
+            <li>
+                <a href="#" class="block px-6 py-2 text-gray-700 hover:bg-gray-100">
+                    <i class="fa fa-message mr-2"></i> Feedback
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

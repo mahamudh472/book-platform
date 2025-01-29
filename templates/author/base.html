@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bookish - Homepage</title>
+    <title>{% block title %}{% endblock %} - Bookish</title>
     <link rel="stylesheet" href="{% static 'css/output.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
@@ -130,68 +130,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="relative">
-                    <button class="p-2 rounded-full hover:bg-gray-200 dropdownButton">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" viewBox="0 0 24 24"
-                            fill="currentColor">
-                            <path
-                                d="M12 2a10 10 0 110 20 10 10 0 010-20zm1 10.586l4.243 4.242-1.414 1.415L12 13.415l-3.829 3.828-1.415-1.415L11 10.586V6h2v4.586z">
-                            </path>
-                        </svg>
-                    </button>
-
-                    <!-- !-- Dropdown Menu -->
-                    <div id="dropdownMenu"
-                        class="dropdownMenu absolute right-0 mt-2 w-60 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
-                        <ul class="py-1">
-                            <li class="border-b">
-                                <a href="#" class="block px-4 py-2 hover:bg-gray-100 ">
-                                    <div class="flex space-x-2">
-                                        <img class="h-10 w-10 rounded-full"
-                                            src="https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg"
-                                            alt="">
-                                        <div>
-                                            <div class="text-sm">Channel Name</div>
-                                            <div class="text-xs">@username123</div>
-                                        </div>
-
-                                    </div>
-                                    
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="block px-6 py-2 text-gray-700 hover:bg-gray-100">
-                                    <i class="fa fa-home mr-2"></i> Your channel
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{% url 'main:index' %}" class="block px-6 py-2 text-gray-700 hover:bg-gray-100">
-                                    <i class="fa fa-book mr-2"></i> Bookish
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="block px-6 py-2 text-gray-700 hover:bg-gray-100">
-                                    <i class="fa fa-repeat mr-2"></i> Switch Account
-                                </a>
-                            </li>
-                            <li class="border-b">
-                                <a href="#" class="block px-6 py-2 text-gray-700 hover:bg-gray-100">
-                                    <i class="fa fa-door-open mr-2"></i> Sign out
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="block px-6 py-2 text-gray-700 hover:bg-gray-100">
-                                    <i class="fa fa-moon mr-2"></i> Appearence
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="block px-6 py-2 text-gray-700 hover:bg-gray-100">
-                                    <i class="fa fa-message mr-2"></i> Feedback
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                {% include 'components/profile_menu.html' %}
 
 
 
