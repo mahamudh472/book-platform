@@ -13,14 +13,14 @@
         </div>
 
         <!-- Search Bar -->
-        <div class="hidden sm:flex md:flex items-center justify-center mx-4 flex-grow">
-            <input type="text" placeholder="Search"
+        <form action="{% url 'main:search' %}" method="get" class="hidden sm:flex md:flex items-center justify-center mx-4 flex-grow">
+            <input type="text" placeholder="Search" name="q" value="{{q}}"
                 class="w-2/4 border border-gray-300 rounded-l-full py-2 px-4 focus:outline-none">
-            <button
+            <button type="submit"
                 class="px-5 py-2 bg-gray-100 border-t border-b border-r border-gray-300 rounded-r-full hover:bg-gray-200">
                 <i class="fa fa-search"></i>
             </button>
-        </div>
+        </form>
 
         <!-- Profile and Icons -->
         <div class="flex items-center space-x-4">

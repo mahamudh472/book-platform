@@ -4,7 +4,7 @@
 {{book.title}}
 {% endblock %}
 {% block content %}
-
+<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 <div class="flex lg:flex-row flex-col gap-4 md:mx-6">
     <div class="lg:w-3/5 space-y-2">
         <div class="container mx-auto">
@@ -91,14 +91,20 @@
                             {{book.author.userprofile.full_name}}
                         </div>
                         <div class="font-sm text-xs">
-                            {{book.author.userprofile.followers_count}} subscribers
+                            <span id="followers_count">{{book.author.userprofile.followers_count}}</span> subscribers
                         </div>
                     </div>
                 </div>
-
-                <button class="bg-black text-white px-2 py-1 rounded-xl">
+                {% if user != book.author %}
+                <button id="follow-btn" data-user-id="{{ book.author.id }}" data-url="{% url 'main:toggle_follow' %}"  class="bg-black text-white px-2 py-1 rounded-xl">
+                    {% if follower %}
+                    Unfollow
+                    {% else %}
                     Follow
+                    {% endif %}
+                    
                 </button>
+                {% endif %}
             </div>
             <div class="flex items-center">
                 <div class="flex">

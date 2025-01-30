@@ -7,5 +7,7 @@ urlpatterns = [
     path('', views.index, name="index"),
     path('profile/<str:username>', views.profile, name="profile"),
     path('book_view/<str:slug>', views.book_view, name="book_view"),
+    path('search', views.search_results, name='search'),
+    path('toggle_follow', views.toggle_follow, name="toggle_follow")
 
 ]

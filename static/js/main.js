@@ -76,3 +76,35 @@ document.addEventListener('click', (event) => {
         }
     });
 });
+
+
+const followBtn = document.getElementById('follow-btn');
+
+if (followBtn) {
+    followBtn.addEventListener('click', function() {
+        let userId = followBtn.getAttribute("data-user-id");  // Store user ID in `data-user-id`
+        let csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        let followUrl = followBtn.getAttribute("data-url");
+
+        fetch(followUrl, {  // Ensure correct URL
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "X-CSRFToken": csrftoken
+            },
+            body: `user_id=${userId}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "followed") {
+                followBtn.textContent = "Unfollow";
+                addNotification(`Following ${data.target_user}`, 'green')
+            } else if (data.status === "unfollowed") {
+                followBtn.textContent = "Follow";
+                addNotification(`Unfollowed ${data.target_user}`, 'red')
+            }
+            document.getElementById('followers_count').textContent = `${data.followers_count}`;
+        })
+        .catch(error => console.log("Error:", error));
+    });
+}
