@@ -37,15 +37,15 @@ document.getElementById('menuToggle').addEventListener('click', function (event)
 
 })
 
-document.addEventListener('click', (event) => {
-    const sideBar = document.getElementById('sidebar')
-    if (fullMenuHide == true) {
-        if (!sideBar.classList.contains('left-[-100%]')) {
-            sideBar.classList.add('left-[-100%]');
-        }
-    }
+// document.addEventListener('click', (event) => {
+//     const sideBar = document.getElementById('sidebar')
+//     if (fullMenuHide == true) {
+//         if (!sideBar.classList.contains('left-[-100%]')) {
+//             sideBar.classList.add('left-[-100%]');
+//         }
+//     }
 
-});
+// });
 
 
 

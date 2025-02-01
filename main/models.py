@@ -50,6 +50,8 @@ class Comment(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
+    likes = models.ManyToManyField(User, related_name="liked_comment", blank=True)
+    dislikes = models.ManyToManyField(User, related_name="disliked_comment", blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
