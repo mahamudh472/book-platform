@@ -56,3 +56,28 @@ def toggle_follow(request):
         return JsonResponse({'status': status, 'followers_count': target_profile.followers.count(),'target_user': target_profile.full_name})
 
     return JsonResponse({'error': 'Invalid request'}, status=400)
+
+@login_required
+def toggle_like(request):
+    book_id = request.POST.get('book_id')
+    op = request.POST.get("op")
+    target_book = get_object_or_404(Book, id=book_id)
+    user = request.user
+    if op == "like":
+        if user in target_book.dislikes.all():
+            target_book.dislikes.remove(user)
+        if user in target_book.likes.all():
+            target_book.likes.remove(user)
+        else:
+            target_book.likes.add(user)
+        return JsonResponse({'status': 'success', 'likes': target_book.likes.count(), 'dislikes': target_book.dislikes.count()})
+    elif op == "dislike":
+        if user in target_book.likes.all():
+            target_book.likes.remove(user)
+        if user in target_book.dislikes.all():
+            target_book.dislikes.remove(user)
+        else:
+            target_book.dislikes.add(user)
+        return JsonResponse({'status': 'success', 'likes': target_book.likes.count(), 'dislikes': target_book.dislikes.count()})
+    else:
+        return JsonResponse({'error': 'Invalid request'})

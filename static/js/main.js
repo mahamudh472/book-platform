@@ -7,10 +7,10 @@ document.getElementById('menuToggle').addEventListener('click', function (event)
     const menuItems = document.getElementsByClassName('menu-item')
     const cardGrid = document.getElementById('content')
 
-    if (screen.width<768){
+    if (screen.width < 768) {
         fullMenuHide = true
         halfMenu = false
-        if (screen.width<640){
+        if (screen.width < 640) {
             sideBar.classList.toggle('w-full')
         }
     }
@@ -81,7 +81,7 @@ document.addEventListener('click', (event) => {
 const followBtn = document.getElementById('follow-btn');
 
 if (followBtn) {
-    followBtn.addEventListener('click', function() {
+    followBtn.addEventListener('click', function () {
         let userId = followBtn.getAttribute("data-user-id");  // Store user ID in `data-user-id`
         let csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
         let followUrl = followBtn.getAttribute("data-url");
@@ -94,17 +94,71 @@ if (followBtn) {
             },
             body: `user_id=${userId}`
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === "followed") {
-                followBtn.textContent = "Unfollow";
-                addNotification(`Following ${data.target_user}`, 'green')
-            } else if (data.status === "unfollowed") {
-                followBtn.textContent = "Follow";
-                addNotification(`Unfollowed ${data.target_user}`, 'red')
-            }
-            document.getElementById('followers_count').textContent = `${data.followers_count}`;
-        })
-        .catch(error => console.log("Error:", error));
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "followed") {
+                    followBtn.textContent = "Unfollow";
+                    addNotification(`Following ${data.target_user}`, 'green')
+                } else if (data.status === "unfollowed") {
+                    followBtn.textContent = "Follow";
+                    addNotification(`Unfollowed ${data.target_user}`, 'red')
+                }
+                document.getElementById('followers_count').textContent = `${data.followers_count}`;
+            })
+            .catch(error => console.log("Error:", error));
     });
+}
+
+
+const likeDislikeBtns = document.querySelectorAll('#like-dislike-btn');
+
+if (likeDislikeBtns.length > 0) {  // Ensure at least one button exists
+    likeDislikeBtns.forEach((element) => {
+        element.addEventListener('click', function () {
+            let bookId = element.getAttribute("data-book-id");  // Store book ID in `data-user-id`
+            let csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            let likeUrl = element.getAttribute("data-url");
+            let op = element.getAttribute("data-op");
+            let likeBtn = document.querySelector("[data-op=like]")
+            let dislikeBtn = document.querySelector("[data-op=dislike]")
+
+            fetch(likeUrl, {  // Ensure correct URL
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "X-CSRFToken": csrftoken
+                },
+                body: `book_id=${bookId}&op=${op}`
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    if (data.status === "success") {
+                        if (op==="like"){
+                            likeBtn.querySelector('i').classList.toggle('fa-regular')
+                            likeBtn.querySelector('i').classList.toggle('fa')
+                            likeBtn.querySelector('div').textContent = data.likes
+                            dislikeBtn.querySelector('div').textContent = data.dislikes
+                            if (dislikeBtn.querySelector('i').classList.contains('fa')){
+                                dislikeBtn.querySelector('i').classList.remove('fa')
+                                dislikeBtn.querySelector('i').classList.add('fa-regular')
+                            }
+                        }else if(op==="dislike"){
+                            dislikeBtn.querySelector('i').classList.toggle('fa-regular')
+                            dislikeBtn.querySelector('i').classList.toggle('fa')
+                            likeBtn.querySelector('div').textContent = data.likes
+                            dislikeBtn.querySelector('div').textContent = data.dislikes
+                            if (likeBtn.querySelector('i').classList.contains('fa')){
+                                likeBtn.querySelector('i').classList.remove('fa')
+                                likeBtn.querySelector('i').classList.add('fa-regular')
+                            }
+                        }
+                        
+                    }
+                    // document.getElementById('likes_count').textContent = `${data.likes_count}`;
+                })
+                .catch(error => console.log("Error:", error));
+        });
+    })
+
 }

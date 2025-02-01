@@ -108,17 +108,17 @@
             </div>
             <div class="flex items-center">
                 <div class="flex">
-                    <div
+                    <div id="like-dislike-btn" data-book-id="{{book.id}}" data-url="{% url 'main:toggle_like' %}" data-op="like"
                         class="bg-neutral-200 border-gray-300 flex p-2 px-3 space-x-1 items-center text-sm rounded-l-full border-r-2 cursor-pointer hover:bg-neutral-300">
-                        <i class="fa-regular fa-thumbs-up">
+                        <i class="{% if book in user.liked_books.all %}fa{% else %} fa-regular{% endif %} fa-thumbs-up">
                         </i>
                         <div class="text-normal">
                             {{book.likes_count}}
                         </div>
                     </div>
-                    <div
+                    <div id="like-dislike-btn" data-book-id="{{book.id}}" data-url="{% url 'main:toggle_like' %}" data-op="dislike"
                         class="bg-neutral-200 flex p-2 mr-3 space-x-1 px-3 items-center text-sm rounded-r-full cursor-pointer hover:bg-neutral-300">
-                        <i class="fa-regular fa-thumbs-down">
+                        <i class="{% if book in user.disliked_books.all %}fa{% else %} fa-regular{% endif %} fa-thumbs-down">
                         </i>
                         <div class="text-normal">
                             {{book.dislikes_count}}
