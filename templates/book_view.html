@@ -145,240 +145,25 @@
             {{book.description}}
         </div>
         <div class="font-bold text-lg py-3">
-            {{book.comments.count}} Comments
+            <span id="comment-count">{{book.comments.count}}</span> Comments
         </div>
+
+        {% if user.is_authenticated %}
         <form id="comment-form" class="py-4 flex gap-2" data-url="{% url 'main:submit_comment' %}" data-book-id="{{book.id}}">
             <img src="{% static 'profile_img/profile_img3.png' %}" class="h-10 w-10" alt="">
             <input type="text" id="comment-input" name="comment" class="w-full px-2 border-b focus:ring-0 focus:outline-none" placeholder="Add a comment">
             <button type="submit" class="hidden"></button> <!-- Hidden submit button -->
         </form>
-        <div class="space-y-4">
-            {% for comment in book.comments.all %}
-            <div class="flex space-x-2">
-                <img alt="" class="h-10 w-10 rounded-full"
-                    src="{{comment.user.userprofile.profile_picture.url}}" />
-                <div>
-                    <div class="text-sm font-medium">
-                        @{{comment.user.username}}
-                        <span class="text-sm font-thin">
-                            2 Hours
-                            ago
-                        </span>
-                    </div>
-                    <div class="text-base">
-                        {{comment.content}}
-                    </div>
-                    <div class="flex space-x-3 text-sm items-center">
-                        <div class="font-extralight">
-                            <button>
-                                <i class="fa-regular fa-thumbs-up">
-                                </i>
-                                10
-                            </button>
-                        </div>
-                        <div class="font-medium">
-                            <button>
-                                <i class="fa-regular fa-thumbs-down">
-                                </i>
-                            </button>
-                        </div>
-                        <button class="p-2 font-bold rounded-full hover:bg-gray-200">
-                            Reply
-                        </button>
-                    </div>
-                </div>
-            </div>
+        {% else %}
+        <div class="p-2 border text-red-500 bg-red-100 border-red-500 rounded-md">You have to 
+            <a href="{% url 'accounts:login' %}" class="text-blue-500 hover:border-b border-blue-500" >login</a> for comments</div>
+        {% endif %}
+
+        <div class="space-y-4" id="comments-container">
+            {% for comment in comments %}
+            {% include "components/comment.html" %}
             {% endfor %}
-            <div class="flex space-x-2">
-                <img alt="" class="h-10 w-10 rounded-full"
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKw_zlWKnWn_5ZzhNvkHTcruXbNu7F5DAy4PbiWUpG6JaZg3JrB4DvbqZ16Icbb7Ujkqs&usqp=CAU" />
-                <div>
-                    <div class="text-sm font-medium">
-                        @username241456
-                        <span class="text-sm font-thin">
-                            2 Hours
-                            ago
-                        </span>
-                    </div>
-                    <div class="text-base">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum,
-                        hic?
-                    </div>
-                    <div class="flex space-x-3 text-sm items-center">
-                        <div class="font-extralight">
-                            <button>
-                                <i class="fa-regular fa-thumbs-up">
-                                </i>
-                                10
-                            </button>
-                        </div>
-                        <div class="font-medium">
-                            <button>
-                                <i class="fa-regular fa-thumbs-down">
-                                </i>
-                            </button>
-                        </div>
-                        <button class="p-2 font-bold rounded-full hover:bg-gray-200">
-                            Reply
-                        </button>
-                    </div>
-                    <button class="p-2 text-sm hover:bg-blue-100 rounded-full text-blue-700 font-bold">
-                        <i class="fa fa-chevron-down pr-2">
-                        </i>
-                        3 Replies
-                    </button>
-                </div>
-            </div>
-            <div class="flex space-x-2">
-                <img alt="" class="h-10 w-10 rounded-full"
-                    src="https://cdn-icons-png.flaticon.com/512/10337/10337609.png" />
-                <div>
-                    <div class="text-sm font-medium">
-                        @username241456
-                        <span class="text-sm font-thin">
-                            2 Hours
-                            ago
-                        </span>
-                    </div>
-                    <div class="text-base">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum,
-                        hic?
-                    </div>
-                    <div class="flex space-x-3 text-sm items-center">
-                        <div class="font-extralight">
-                            <button>
-                                <i class="fa-regular fa-thumbs-up">
-                                </i>
-                                10
-                            </button>
-                        </div>
-                        <div class="font-medium">
-                            <button>
-                                <i class="fa-regular fa-thumbs-down">
-                                </i>
-                            </button>
-                        </div>
-                        <button class="p-2 font-bold rounded-full hover:bg-gray-200">
-                            Reply
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="flex space-x-2">
-                <img alt="" class="h-10 w-10 rounded-full"
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKw_zlWKnWn_5ZzhNvkHTcruXbNu7F5DAy4PbiWUpG6JaZg3JrB4DvbqZ16Icbb7Ujkqs&usqp=CAU" />
-                <div>
-                    <div class="text-sm font-medium">
-                        @username241456
-                        <span class="text-sm font-thin">
-                            2 Hours
-                            ago
-                        </span>
-                    </div>
-                    <div class="text-base">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum,
-                        hic?
-                    </div>
-                    <div class="flex space-x-3 text-sm items-center">
-                        <div class="font-extralight">
-                            <button>
-                                <i class="fa-regular fa-thumbs-up">
-                                </i>
-                                10
-                            </button>
-                        </div>
-                        <div class="font-medium">
-                            <button>
-                                <i class="fa-regular fa-thumbs-down">
-                                </i>
-                            </button>
-                        </div>
-                        <button class="p-2 font-bold rounded-full hover:bg-gray-200">
-                            Reply
-                        </button>
-                    </div>
-                    <button class="p-2 text-sm hover:bg-blue-100 rounded-full text-blue-700 font-bold">
-                        <i class="fa fa-chevron-down pr-2">
-                        </i>
-                        3 Replies
-                    </button>
-                </div>
-            </div>
-            <div class="flex space-x-2">
-                <img alt="" class="h-10 w-10 rounded-full"
-                    src="https://cdn-icons-png.flaticon.com/512/10337/10337609.png" />
-                <div>
-                    <div class="text-sm font-medium">
-                        @username241456
-                        <span class="text-sm font-thin">
-                            2 Hours
-                            ago
-                        </span>
-                    </div>
-                    <div class="text-base">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum,
-                        hic?
-                    </div>
-                    <div class="flex space-x-3 text-sm items-center">
-                        <div class="font-extralight">
-                            <button>
-                                <i class="fa-regular fa-thumbs-up">
-                                </i>
-                                10
-                            </button>
-                        </div>
-                        <div class="font-medium">
-                            <button>
-                                <i class="fa-regular fa-thumbs-down">
-                                </i>
-                            </button>
-                        </div>
-                        <button class="p-2 font-bold rounded-full hover:bg-gray-200">
-                            Reply
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="flex space-x-2">
-                <img alt="" class="h-10 w-10 rounded-full"
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKw_zlWKnWn_5ZzhNvkHTcruXbNu7F5DAy4PbiWUpG6JaZg3JrB4DvbqZ16Icbb7Ujkqs&usqp=CAU" />
-                <div>
-                    <div class="text-sm font-medium">
-                        @username241456
-                        <span class="text-sm font-thin">
-                            2 Hours
-                            ago
-                        </span>
-                    </div>
-                    <div class="text-base">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum,
-                        hic?
-                    </div>
-                    <div class="flex space-x-3 text-sm items-center">
-                        <div class="font-extralight">
-                            <button>
-                                <i class="fa-regular fa-thumbs-up">
-                                </i>
-                                10
-                            </button>
-                        </div>
-                        <div class="font-medium">
-                            <button>
-                                <i class="fa-regular fa-thumbs-down">
-                                </i>
-                            </button>
-                        </div>
-                        <button class="p-2 font-bold rounded-full hover:bg-gray-200">
-                            Reply
-                        </button>
-                    </div>
-                    <button class="p-2 text-sm hover:bg-blue-100 rounded-full text-blue-700 font-bold">
-                        <i class="fa fa-chevron-down pr-2">
-                        </i>
-                        3 Replies
-                    </button>
-                </div>
-            </div>
+            
         </div>
     </div>
     <div class="lg:w-2/5">
@@ -399,7 +184,7 @@
                         {{book.author.userprofile.full_name}}
                     </a>
                     <div class="text-xs font-thin">
-                        {{item.views}} views • {{item.time_difference}} ago
+                        {{item.views}} views • {{item.published_date|timesince}} ago 
                     </div>
                 </div>
             </div>

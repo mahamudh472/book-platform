@@ -1,0 +1,37 @@
+<div class="flex space-x-2" data-id="{{comment.id}}">
+    <img alt="" class="h-10 w-10 rounded-full"
+        src="{{comment.user.userprofile.profile_picture.url}}" />
+    <div>
+        <div class="text-sm font-medium">
+            @{{comment.user.username}}
+            <span class="text-sm font-thin">
+                {{comment.created_at|timesince}} ago
+            </span>
+        </div>
+        <div class="text-base">
+            {{comment.content}}
+        </div>
+        <div class="flex space-x-3 text-sm items-center">
+            <div class="font-extralight">
+                <button>
+                    <i class="{% if user in comment.likes.all %}fa {% else %}fa-regular{% endif %} fa-thumbs-up">
+                    </i>
+                    {% if comment.likes.count %}{{comment.likes.count}}{% endif %}
+                </button>
+            </div>
+            <div class="font-medium">
+                <button>
+                    <i class="{% if user in comment.dislikes.all %}fa {% else %}fa-regular{% endif %} fa-thumbs-down">
+                    </i>
+                    {% if comment.dislikes.count %}{{comment.dislikes.count}}{% endif %}
+                </button>
+            </div>
+            <button class="p-2 font-bold rounded-full hover:bg-gray-200">
+                Reply
+            </button>
+            {% if user == comment.user %}
+            <a onclick="delete_comment(this)" class="text-red-500">Delete</a>
+            {% endif %}
+        </div>
+    </div>
+</div>

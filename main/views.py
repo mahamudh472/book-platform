@@ -4,6 +4,7 @@ from .models import Book, Comment
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from accounts.models import UserProfile
+from django.views import View
 # Create your views here.
 
 def index(request):
@@ -21,12 +22,18 @@ def book_view(request, slug):
     book = Book.objects.get(slug=slug)
     book.views += 1
     book.save()
+    comments = Comment.objects.filter(book=book).order_by('-created_at')
     follower = False
-    if request.user.userprofile in book.author.userprofile.followers.all():
+    if request.user.is_authenticated and request.user.userprofile in book.author.userprofile.followers.all():
         follower = True
     
     suggestions = Book.objects.all().exclude(id__in=[book.id])
-    return render(request, 'book_view.html', {'book': book, 'suggestions': suggestions, 'follower': follower})
+    return render(request, 'book_view.html', {
+        'book': book, 
+        'suggestions': suggestions, 
+        'follower': follower,
+        'comments': comments
+        })
 
 def search_results(request):
     if request.method == "GET":
@@ -82,17 +89,36 @@ def toggle_like(request):
     else:
         return JsonResponse({'error': 'Invalid request'})
     
-from django.views import View
+
 
 class CommentView(View):
     def post(self, request, *args, **kwargs):
         comment = request.POST.get("comment", "").strip()
         book_id = request.POST.get("book_id")
+        user=request.user
         if not comment:
             return JsonResponse({"error": "Comment cannot be empty"}, status=400)
         target_book = Book.objects.get(id=book_id)
-        Comment.objects.create(user=request.user, content=comment, book=target_book)
-        print(comment)
+        new_comment = Comment.objects.create(user=user, content=comment, book=target_book)
+        new_comment.save()
+        response = {
+            "message": "Comment submitted successfully", 
+            "comment": comment,
+            "comment_count": Comment.objects.filter(book=target_book).count(),
+            "username": user.username,
+            "profile_img": user.userprofile.profile_picture.url,
+            "time": "Just now",
+            "comment_id": new_comment.id
+            }
+        return JsonResponse(response)
 
-        return JsonResponse({"message": "Comment submitted successfully", "comment": comment})
-
+def delete_comment(request, comment_id):
+    if request.method == "GET":
+        target_comment = Comment.objects.get(id=comment_id)
+        if target_comment.user != request.user:
+            return JsonResponse({'error': "You can't delete others comment."}, status=404)
+        target_comment.delete()
+        return JsonResponse({
+            "success": "Comment deleted.",
+            "comment_id": comment_id
+        })

@@ -134,26 +134,26 @@ if (likeDislikeBtns.length > 0) {  // Ensure at least one button exists
                 .then(data => {
                     console.log(data)
                     if (data.status === "success") {
-                        if (op==="like"){
+                        if (op === "like") {
                             likeBtn.querySelector('i').classList.toggle('fa-regular')
                             likeBtn.querySelector('i').classList.toggle('fa')
                             likeBtn.querySelector('div').textContent = data.likes
                             dislikeBtn.querySelector('div').textContent = data.dislikes
-                            if (dislikeBtn.querySelector('i').classList.contains('fa')){
+                            if (dislikeBtn.querySelector('i').classList.contains('fa')) {
                                 dislikeBtn.querySelector('i').classList.remove('fa')
                                 dislikeBtn.querySelector('i').classList.add('fa-regular')
                             }
-                        }else if(op==="dislike"){
+                        } else if (op === "dislike") {
                             dislikeBtn.querySelector('i').classList.toggle('fa-regular')
                             dislikeBtn.querySelector('i').classList.toggle('fa')
                             likeBtn.querySelector('div').textContent = data.likes
                             dislikeBtn.querySelector('div').textContent = data.dislikes
-                            if (likeBtn.querySelector('i').classList.contains('fa')){
+                            if (likeBtn.querySelector('i').classList.contains('fa')) {
                                 likeBtn.querySelector('i').classList.remove('fa')
                                 likeBtn.querySelector('i').classList.add('fa-regular')
                             }
                         }
-                        
+
                     }
                     // document.getElementById('likes_count').textContent = `${data.likes_count}`;
                 })
@@ -163,41 +163,105 @@ if (likeDislikeBtns.length > 0) {  // Ensure at least one button exists
 
 }
 
+const form = document.getElementById("comment-form");
+if (form) {
+    document.addEventListener("DOMContentLoaded", function () {
 
-document.addEventListener("DOMContentLoaded", function () {
-    const form = document.getElementById("comment-form");
-    const input = document.getElementById("comment-input");
-    let csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-    let url = form.getAttribute('data-url')
-    let bookId = form.getAttribute("data-book-id")
+        const input = document.getElementById("comment-input");
+        let csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        let url = form.getAttribute('data-url')
+        let bookId = form.getAttribute("data-book-id")
 
-    form.addEventListener("submit", async function (event) {
-        event.preventDefault(); // Prevent default form submission
+        form.addEventListener("submit", async function (event) {
+            event.preventDefault(); // Prevent default form submission
 
-        let comment = input.value.trim();
-        if (comment === "") return; // Prevent empty submissions
+            let comment = input.value.trim();
+            if (comment === "") return; // Prevent empty submissions
 
-        let formData = new FormData();
-        formData.append("comment", comment);
-        formData.append("csrfmiddlewaretoken", `${csrftoken}`); // Django CSRF token
-        formData.append("book_id", bookId)
+            let formData = new FormData();
+            formData.append("comment", comment);
+            formData.append("csrfmiddlewaretoken", `${csrftoken}`); // Django CSRF token
+            formData.append("book_id", bookId)
 
-        try {
-            let response = await fetch(url, {
-                method: "POST",
-                body: formData,
-            });
+            try {
+                let response = await fetch(url, {
+                    method: "POST",
+                    body: formData,
+                });
 
-            if (response.ok) {
-                let result = await response.json();
-                console.log("Comment submitted:", result);
-                input.value = ""; // Clear input on success
-            } else {
-                console.error("Error submitting comment:", response.statusText);
+                if (response.ok) {
+                    let result = await response.json();
+                    document.getElementById('comment-count').textContent = result.comment_count
+                    let div = document.createElement('div')
+                    div.classList.add('flex')
+                    div.classList.add('space-x-2')
+                    div.setAttribute('data-id', result.comment_id)
+                    div.innerHTML = `
+                    <img alt="" class="h-10 w-10 rounded-full"
+                        src="${result.profile_img}" />
+                    <div>
+                        <div class="text-sm font-medium">
+                            @${result.username}
+                            <span class="text-sm font-thin">
+                                Just Now
+                            </span>
+                        </div>
+                        <div class="text-base">
+                            ${comment}
+                        </div>
+                        <div class="flex space-x-3 text-sm items-center">
+                            <div class="font-extralight">
+                                <button>
+                                    <i class="fa-regular fa-thumbs-up">
+                                    </i>
+                
+                                </button>
+                            </div>
+                            <div class="font-medium">
+                                <button>
+                                    <i class="fa-regular fa-thumbs-down">
+                                    </i>
+                                    
+                                </button>
+                            </div>
+                            <button class="p-2 font-bold rounded-full hover:bg-gray-200">
+                                Reply
+                            </button>
+                            <a onclick="delete_comment(this)" class="text-red-500">Delete</a>
+                        </div>
+                    </div>
+                    `
+                    let comments = document.getElementById('comments-container')
+                    comments.insertBefore(div, comments.children[0])
+                    addNotification("Comment added", 'green')
+                    console.log("Comment submitted:", result);
+                    input.value = ""; // Clear input on success
+                } else {
+                    console.error("Error submitting comment:", response.statusText);
+                }
+            } catch (error) {
+                console.error("Request failed:", error);
             }
-        } catch (error) {
-            console.error("Request failed:", error);
-        }
+        });
     });
-});
+}
 
+
+function delete_comment(element){
+    let comment = element.parentElement.parentElement.parentElement
+    let comment_id = comment.getAttribute('data-id')
+    let baseUrl = window.location.origin
+    let url = `${baseUrl}/delete-comment/${comment_id}`
+
+    fetch(url)
+    .then(response => response.json())
+    .then(data => {
+       document.getElementById('comments-container').removeChild(comment)
+       addNotification(data.success, 'green')
+       let comment_count = document.getElementById('comment-count')
+       comment_count.textContent =(Number(comment_count.textContent)-1)
+    })
+    .catch(error => {
+        addNotification("Comment deletion failed, try again.", 'red')
+    })
+}
