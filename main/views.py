@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Book
+from .models import Book, Comment
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from accounts.models import UserProfile
@@ -81,3 +81,18 @@ def toggle_like(request):
         return JsonResponse({'status': 'success', 'likes': target_book.likes.count(), 'dislikes': target_book.dislikes.count()})
     else:
         return JsonResponse({'error': 'Invalid request'})
+    
+from django.views import View
+
+class CommentView(View):
+    def post(self, request, *args, **kwargs):
+        comment = request.POST.get("comment", "").strip()
+        book_id = request.POST.get("book_id")
+        if not comment:
+            return JsonResponse({"error": "Comment cannot be empty"}, status=400)
+        target_book = Book.objects.get(id=book_id)
+        Comment.objects.create(user=request.user, content=comment, book=target_book)
+        print(comment)
+
+        return JsonResponse({"message": "Comment submitted successfully", "comment": comment})
+

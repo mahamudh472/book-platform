@@ -162,3 +162,42 @@ if (likeDislikeBtns.length > 0) {  // Ensure at least one button exists
     })
 
 }
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("comment-form");
+    const input = document.getElementById("comment-input");
+    let csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    let url = form.getAttribute('data-url')
+    let bookId = form.getAttribute("data-book-id")
+
+    form.addEventListener("submit", async function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        let comment = input.value.trim();
+        if (comment === "") return; // Prevent empty submissions
+
+        let formData = new FormData();
+        formData.append("comment", comment);
+        formData.append("csrfmiddlewaretoken", `${csrftoken}`); // Django CSRF token
+        formData.append("book_id", bookId)
+
+        try {
+            let response = await fetch(url, {
+                method: "POST",
+                body: formData,
+            });
+
+            if (response.ok) {
+                let result = await response.json();
+                console.log("Comment submitted:", result);
+                input.value = ""; // Clear input on success
+            } else {
+                console.error("Error submitting comment:", response.statusText);
+            }
+        } catch (error) {
+            console.error("Request failed:", error);
+        }
+    });
+});
+

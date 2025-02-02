@@ -145,27 +145,28 @@
             {{book.description}}
         </div>
         <div class="font-bold text-lg py-3">
-            1750 Comments
+            {{book.comments.count}} Comments
         </div>
-        <form class="py-4 flex gap-2">
-            <img src="{% static "profile_img/profile_img3.png" %}" class="h-10 w-10" alt="">
-            <input type="t" class="w-full px-2 border-b focus:ring-0 focus:outline-none" placeholder="Add a comment">
+        <form id="comment-form" class="py-4 flex gap-2" data-url="{% url 'main:submit_comment' %}" data-book-id="{{book.id}}">
+            <img src="{% static 'profile_img/profile_img3.png' %}" class="h-10 w-10" alt="">
+            <input type="text" id="comment-input" name="comment" class="w-full px-2 border-b focus:ring-0 focus:outline-none" placeholder="Add a comment">
+            <button type="submit" class="hidden"></button> <!-- Hidden submit button -->
         </form>
         <div class="space-y-4">
+            {% for comment in book.comments.all %}
             <div class="flex space-x-2">
                 <img alt="" class="h-10 w-10 rounded-full"
-                    src="https://cdn-icons-png.flaticon.com/512/10337/10337609.png" />
+                    src="{{comment.user.userprofile.profile_picture.url}}" />
                 <div>
                     <div class="text-sm font-medium">
-                        @username241456
+                        @{{comment.user.username}}
                         <span class="text-sm font-thin">
                             2 Hours
                             ago
                         </span>
                     </div>
                     <div class="text-base">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum,
-                        hic?
+                        {{comment.content}}
                     </div>
                     <div class="flex space-x-3 text-sm items-center">
                         <div class="font-extralight">
@@ -187,6 +188,7 @@
                     </div>
                 </div>
             </div>
+            {% endfor %}
             <div class="flex space-x-2">
                 <img alt="" class="h-10 w-10 rounded-full"
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKw_zlWKnWn_5ZzhNvkHTcruXbNu7F5DAy4PbiWUpG6JaZg3JrB4DvbqZ16Icbb7Ujkqs&usqp=CAU" />
