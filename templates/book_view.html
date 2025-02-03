@@ -149,14 +149,14 @@
         </div>
 
         {% if user.is_authenticated %}
-        <form id="comment-form" class="py-4 flex gap-2" data-url="{% url 'main:submit_comment' %}" data-book-id="{{book.id}}">
-            <img src="{% static 'profile_img/profile_img3.png' %}" class="h-10 w-10" alt="">
+        <form id="comment-form" class="py-4 flex gap-2" data-url="{% url 'main:submit_comment' %}" data-parent-id="" data-book-id="{{book.id}}" onsubmit="submitComment(this, event)">
+            <img src="{% if user.userprofile.profile_picture %}{{user.userprofile.profile_picture.url}}{% else %}{% static 'profile_img/profile_img3.png' %}{% endif %}" class="h-10 w-10" alt="">
             <input type="text" id="comment-input" name="comment" class="w-full px-2 border-b focus:ring-0 focus:outline-none" placeholder="Add a comment">
             <button type="submit" class="hidden"></button> <!-- Hidden submit button -->
         </form>
         {% else %}
         <div class="p-2 border text-red-500 bg-red-100 border-red-500 rounded-md">You have to 
-            <a href="{% url 'accounts:login' %}" class="text-blue-500 hover:border-b border-blue-500" >login</a> for comments</div>
+            <a onclick="const modal = document.getElementById('modal');modal.classList.remove(`hidden`); modal.classList.add(`flex`)" class="text-blue-500 hover:border-b border-blue-500 cursor-pointer" >login</a> for comments</div>
         {% endif %}
 
         <div class="space-y-4" id="comments-container">

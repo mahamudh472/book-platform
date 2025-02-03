@@ -1,7 +1,8 @@
-<div class="flex space-x-2" data-id="{{comment.id}}">
+
+<div class="flex space-x-2 flex-wrap comment" data-book-id="{{book.id}}" data-id="{{comment.id}}" data-parent-id="{{comment.parent.id}}">
     <img alt="" class="h-10 w-10 rounded-full"
         src="{{comment.user.userprofile.profile_picture.url}}" />
-    <div>
+    <div class="w-[80%]">
         <div class="text-sm font-medium">
             @{{comment.user.username}}
             <span class="text-sm font-thin">
@@ -26,12 +27,26 @@
                     {% if comment.dislikes.count %}{{comment.dislikes.count}}{% endif %}
                 </button>
             </div>
-            <button class="p-2 font-bold rounded-full hover:bg-gray-200">
+            <button class="p-2 font-bold rounded-full hover:bg-gray-200" 
+            {% if user.is_authenticated %}
+            onclick="replyForm(this)"
+            {% else %}
+            onclick="const modal = document.getElementById('modal');modal.classList.remove(`hidden`); modal.classList.add(`flex`);addNotification(`You have to login first`, `red`)"
+            {% endif %}
+            >
                 Reply
             </button>
             {% if user == comment.user %}
-            <a onclick="delete_comment(this)" class="text-red-500">Delete</a>
+            <a onclick="delete_comment(this)" class="text-red-500 cursor-pointer">Delete</a>
             {% endif %}
         </div>
     </div>
+    
 </div>
+{% if comment.replies.all %}
+<div class="ml-10">
+    {% for reply in comment.replies.all %}
+        {% include "components/comment.html" with comment=reply %}
+    {% endfor %}
+</div>
+{% endif %}

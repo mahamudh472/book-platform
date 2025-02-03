@@ -22,7 +22,7 @@ def book_view(request, slug):
     book = Book.objects.get(slug=slug)
     book.views += 1
     book.save()
-    comments = Comment.objects.filter(book=book).order_by('-created_at')
+    comments = Comment.objects.filter(book=book, parent=None).order_by('-created_at')
     follower = False
     if request.user.is_authenticated and request.user.userprofile in book.author.userprofile.followers.all():
         follower = True
@@ -94,13 +94,25 @@ def toggle_like(request):
 class CommentView(View):
     def post(self, request, *args, **kwargs):
         comment = request.POST.get("comment", "").strip()
-        book_id = request.POST.get("book_id")
+        book_id = int(request.POST.get("book_id"))
+        parent_id = request.POST.get('parent_id')
+        if parent_id:
+            parent = Comment.objects.filter(id=parent_id)
+        else:
+            parent = Comment.objects.none()
+
         user=request.user
         if not comment:
             return JsonResponse({"error": "Comment cannot be empty"}, status=400)
         target_book = Book.objects.get(id=book_id)
         new_comment = Comment.objects.create(user=user, content=comment, book=target_book)
+        if parent.exists():
+            new_comment.parent = parent.first()
+            print("parent added.")
         new_comment.save()
+        reply = False
+        if new_comment.parent:
+            reply = True
         response = {
             "message": "Comment submitted successfully", 
             "comment": comment,
@@ -108,7 +120,10 @@ class CommentView(View):
             "username": user.username,
             "profile_img": user.userprofile.profile_picture.url,
             "time": "Just now",
-            "comment_id": new_comment.id
+            "comment_id": new_comment.id,
+            "reply":reply,
+            "parent_id": parent_id,
+            "book_id": book_id
             }
         return JsonResponse(response)
 
