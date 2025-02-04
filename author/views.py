@@ -1,5 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from main.models import Book, User
+from django.contrib import messages
 
 # Create your views here.
 @login_required(login_url='accounts:login')
@@ -46,3 +48,42 @@ def content_copyright(request):
 def content_translate(request):
     return render(request, 'author/content_translate.html')
 
+
+@login_required(login_url='accounts:login')
+def write_book(request):
+    if request.method == "POST":
+        title = request.POST.get('title')
+        description = request.POST.get('description')
+        content = request.POST.get('book_content')
+        thumbnail = request.FILES.get('thumbnail')
+        category = request.POST.get('category')
+        tags = request.POST.get('tags')
+        print(request.POST)
+        print(request.FILES)
+        if not title:
+            pass
+        if not description:
+            pass
+        if not content:
+            pass
+        if not thumbnail:
+            pass
+        if not category:
+            pass
+        if not tags:
+            pass
+        book = Book.objects.create(
+            title=title,
+            description=description,
+            content=content,
+            author=request.user,
+        )
+        if thumbnail:
+            book.thumbnail = thumbnail
+        book.save()
+        messages.success(request, "Book published successfully.")
+
+        return redirect('author:write_book')
+
+
+    return render(request, 'author/write_book.html')

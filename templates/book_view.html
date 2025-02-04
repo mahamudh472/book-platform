@@ -3,6 +3,17 @@
 {% block title %}
 {{book.title}}
 {% endblock %}
+{% block header %}
+<style>
+    .prose p:empty {
+  display: none;  /* Hides empty <p> */
+}
+.prose p:has(> br) {
+  margin-bottom: 0 !important; /* Removes extra margin from <p> with only <br> */
+}
+
+</style>
+{% endblock %}
 {% block content %}
 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 <div class="flex lg:flex-row flex-col gap-4 md:mx-6">
@@ -26,7 +37,7 @@
                 <!-- Reader Container -->
                 <div class="hidden p-6 relative" id="reader-container">
                     <!-- Page Content -->
-                    <div class="transition-transform duration-500 ease-in-out bg-gray-100 p-4 rounded-lg text-base"
+                    <div class="transition-transform prose duration-500 ease-in-out bg-gray-100 p-4 rounded-lg text-base"
                         id="page-container">
                         {{book.content|safe}}
                        

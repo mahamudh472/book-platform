@@ -14,5 +14,7 @@ urlpatterns = [
     path('content_analytics', views.content_analytics, name="content_analytics"),
     path('content_comments', views.content_comments, name="content_comments"),
     path('content_translate', views.content_translate, name="content_translate"),
-    path('content_copyright', views.content_copyright, name="content_copyright")
+    path('content_copyright', views.content_copyright, name="content_copyright"),
+    path('write-book', views.write_book, name="write_book")
+
 ]

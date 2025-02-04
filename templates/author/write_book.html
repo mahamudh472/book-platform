@@ -1,0 +1,131 @@
+{% extends 'author/base.html' %}
+{% load static %}
+{% block title %}
+Publish Book
+{% endblock %}
+{% block header %}
+<script src="https://cdn.ckeditor.com/ckeditor5/38.1.1/classic/ckeditor.js"></script>   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+<style>
+    .ck-editor__editable {
+    min-height: 400px; /* Adjust the height */
+}
+</style>
+{% endblock %}
+{% block content %}
+<!-- <header class="flex items-center justify-between mb-6">
+    <div>
+        <h2 class="text-3xl font-semibold">Earn on Bookish</h2>
+    </div>
+</header> -->
+<div class="w-full sm:max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
+    <h2 class="text-2xl font-bold mb-4">Publish a New Book</h2>
+    <form action="{% url 'author:write_book' %}" method="POST" enctype="multipart/form-data" class="space-y-4">
+        {% csrf_token %}
+        <div>
+            <label class="block text-gray-700">Thumbnail Image</label>
+            <input type="file" name="thumbnail" id="imageInput" accept="image/*" class="mt-1 w-full border p-2 rounded">
+        </div>
+    
+        <!-- Image Cropper Modal -->
+        <div id="cropModal" class="hidden fixed inset-0 flex z-50 items-center justify-center bg-black bg-opacity-50">
+            <div class="bg-white p-4 rounded-lg">
+                <div class="w-96 h-96">
+                    <img id="cropperImage" src="" class="w-full">
+                </div>
+                <div class="flex justify-between mt-4">
+                    <button id="cancelCrop" class="bg-gray-500 text-white px-4 py-2 rounded">Cancel</button>
+                    <button id="cropImage" class="bg-blue-500 text-white px-4 py-2 rounded">Crop</button>
+                </div>
+            </div>
+        </div>
+    
+        <div class="mt-4">
+            <label class="block text-gray-700">Preview</label>
+            <img id="thumbnailPreview" src="" class="w-40 h-auto border rounded">
+        </div>
+        
+        <div>
+            <label class="block text-gray-700">Title</label>
+            <input type="text" name="title" class="mt-1 w-full border p-2 rounded" required>
+        </div>
+        
+        <div>
+            <label class="block text-gray-700">Description</label>
+            <input type="text" name="description" class="mt-1 w-full border p-2 rounded" required>
+        </div>
+        <div>
+            <label class="block text-gray-700">Category</label>
+            <select name="Category" id="" class="mt-1 w-full border p-2 rounded">
+                <option value="">Select a Category</option>
+            </select>
+        </div>
+
+        <div>
+            <label class="block text-gray-700">Content</label>
+            <textarea id="editor" name="book_content"></textarea>
+        </div>
+        
+        <div>
+            <label class="block text-gray-700">Tags (comma-separated)</label>
+            <input type="text" name="tags" class="mt-1 w-full border p-2 rounded" placeholder="e.g. Fiction, Adventure">
+        </div>
+        
+        <div class="flex justify-end">
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Publish</button>
+        </div>
+    </form>
+</div>
+
+
+{% endblock %}
+{% block scripts %}
+
+<script>
+    ClassicEditor.create(document.querySelector('#editor'), {
+            toolbar: ['bold', 'italic', 'underline', 'bulletedList', 'numberedList', 'blockQuote']
+        })
+        .catch(error => { console.error(error); });
+        
+</script>
+
+
+<script>
+    const imageInput = document.getElementById('imageInput');
+    const cropperImage = document.getElementById('cropperImage');
+    const cropModal = document.getElementById('cropModal');
+    const cancelCrop = document.getElementById('cancelCrop');
+    const cropImage = document.getElementById('cropImage');
+    const thumbnailPreview = document.getElementById('thumbnailPreview');
+    let cropper;
+
+    imageInput.addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                cropperImage.src = e.target.result;
+                cropModal.classList.remove('hidden');
+                cropper = new Cropper(cropperImage, {
+                    aspectRatio: 2 / 3,  // Book cover ratio
+                    viewMode: 1
+                });
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    cancelCrop.addEventListener('click', function () {
+        cropper.destroy();
+        cropModal.classList.add('hidden');
+    });
+
+    cropImage.addEventListener('click', function () {
+        const canvas = cropper.getCroppedCanvas();
+        thumbnailPreview.src = canvas.toDataURL();  // Show cropped preview
+        cropper.destroy();
+        cropModal.classList.add('hidden');
+    });
+</script>
+{% endblock %}

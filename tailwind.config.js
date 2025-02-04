@@ -10,7 +10,9 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'),
+  ],
   safelist: [
     {
       pattern: /(bg|text|border)-(red|green|blue|yellow|purple|gray)-(100|200|400|900)/,
