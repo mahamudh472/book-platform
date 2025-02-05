@@ -5,7 +5,7 @@ Publish Book
 {% endblock %}
 {% block header %}
 <script src="https://cdn.ckeditor.com/ckeditor5/38.1.1/classic/ckeditor.js"></script>   
-<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+{% comment %} <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script> {% endcomment %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
 <style>
     .ck-editor__editable {
@@ -14,11 +14,6 @@ Publish Book
 </style>
 {% endblock %}
 {% block content %}
-<!-- <header class="flex items-center justify-between mb-6">
-    <div>
-        <h2 class="text-3xl font-semibold">Earn on Bookish</h2>
-    </div>
-</header> -->
 <div class="w-full sm:max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
     <h2 class="text-2xl font-bold mb-4">Publish a New Book</h2>
     <form action="{% url 'author:write_book' %}" method="POST" enctype="multipart/form-data" class="space-y-4">
@@ -76,6 +71,9 @@ Publish Book
             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Publish</button>
         </div>
     </form>
+
+    {{form.as_p}}
+
 </div>
 
 

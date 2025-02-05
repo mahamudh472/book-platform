@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from main.models import Book, User
 from django.contrib import messages
+from .forms import BookUploadForm
 
 # Create your views here.
 @login_required(login_url='accounts:login')
@@ -85,5 +86,5 @@ def write_book(request):
 
         return redirect('author:write_book')
 
-
-    return render(request, 'author/write_book.html')
+    form = BookUploadForm(request.POST or None, request.FILES or None)
+    return render(request, 'author/write_book.html', {"form": form})

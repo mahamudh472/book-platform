@@ -148,5 +148,12 @@ CKEDITOR_5_CONFIGS = {
         'image': {
             'toolbar': ['imageTextAlternative', 'imageStyle:full', 'imageStyle:side'],
         },
+    },
+    'default': {
+        'language': 'en',
+        'toolbar': ['heading', '|', 'bold', 'italic', 'link', '|', 'bulletedList', 'numberedList', '|', 'blockQuote'],
+        'image': {
+            'toolbar': ['imageTextAlternative', 'imageStyle:full', 'imageStyle:side'],
+        },
     }
 }
