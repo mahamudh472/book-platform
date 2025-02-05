@@ -4,100 +4,139 @@
 Publish Book
 {% endblock %}
 {% block header %}
-<script src="https://cdn.ckeditor.com/ckeditor5/38.1.1/classic/ckeditor.js"></script>   
-{% comment %} <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script> {% endcomment %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
 <style>
     .ck-editor__editable {
-    min-height: 400px; /* Adjust the height */
-}
+        min-height: 400px; /* Adjust the height */
+    }
 </style>
 {% endblock %}
 {% block content %}
 <div class="w-full sm:max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
     <h2 class="text-2xl font-bold mb-4">Publish a New Book</h2>
-    <form action="{% url 'author:write_book' %}" method="POST" enctype="multipart/form-data" class="space-y-4">
+    
+
+    <form id="bookForm" action="{% url 'author:write_book' %}" method="POST" enctype="multipart/form-data" class="space-y-4">
         {% csrf_token %}
+        {{ form.media }}
+    
+        <!-- Thumbnail Image Input -->
         <div>
             <label class="block text-gray-700">Thumbnail Image</label>
             <input type="file" name="thumbnail" id="imageInput" accept="image/*" class="mt-1 w-full border p-2 rounded">
         </div>
     
-        <!-- Image Cropper Modal -->
+        <!-- Hidden input to store cropped image -->
+        <input type="hidden" name="cropped_thumbnail" id="croppedThumbnail">
+    
+        <!-- Cropper Modal -->
         <div id="cropModal" class="hidden fixed inset-0 flex z-50 items-center justify-center bg-black bg-opacity-50">
             <div class="bg-white p-4 rounded-lg">
                 <div class="w-96 h-96">
                     <img id="cropperImage" src="" class="w-full">
                 </div>
                 <div class="flex justify-between mt-4">
-                    <button id="cancelCrop" class="bg-gray-500 text-white px-4 py-2 rounded">Cancel</button>
-                    <button id="cropImage" class="bg-blue-500 text-white px-4 py-2 rounded">Crop</button>
+                    <button type="button" id="cancelCrop" class="bg-gray-500 text-white px-4 py-2 rounded">Cancel</button>
+                    <button type="button" id="cropImage" class="bg-blue-500 text-white px-4 py-2 rounded">Crop</button>
                 </div>
             </div>
         </div>
     
+        <!-- Preview -->
         <div class="mt-4">
             <label class="block text-gray-700">Preview</label>
             <img id="thumbnailPreview" src="" class="w-40 h-auto border rounded">
         </div>
-        
-        <div>
-            <label class="block text-gray-700">Title</label>
-            <input type="text" name="title" class="mt-1 w-full border p-2 rounded" required>
-        </div>
-        
-        <div>
-            <label class="block text-gray-700">Description</label>
-            <input type="text" name="description" class="mt-1 w-full border p-2 rounded" required>
-        </div>
-        <div>
-            <label class="block text-gray-700">Category</label>
-            <select name="Category" id="" class="mt-1 w-full border p-2 rounded">
-                <option value="">Select a Category</option>
-            </select>
-        </div>
-
-        <div>
-            <label class="block text-gray-700">Content</label>
-            <textarea id="editor" name="book_content"></textarea>
-        </div>
-        
-        <div>
-            <label class="block text-gray-700">Tags (comma-separated)</label>
-            <input type="text" name="tags" class="mt-1 w-full border p-2 rounded" placeholder="e.g. Fiction, Adventure">
-        </div>
-        
+    
+        {{ form.title.label_tag }} {{ form.title }}
+        {{ form.description.label_tag }} {{ form.description }}
+        {{ form.content.label_tag }} {{ form.content }}
+        {{ form.category.label_tag }} {{ form.category }}
+    
         <div class="flex justify-end">
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Publish</button>
+            <button type="submit" id="submitBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Publish</button>
         </div>
     </form>
-
-    {{form.as_p}}
-
+    
+    <script>
+        const imageInput = document.getElementById('imageInput');
+        const cropperImage = document.getElementById('cropperImage');
+        const cropModal = document.getElementById('cropModal');
+        const cancelCrop = document.getElementById('cancelCrop');
+        const cropImage = document.getElementById('cropImage');
+        const thumbnailPreview = document.getElementById('thumbnailPreview');
+        const croppedThumbnailInput = document.getElementById('croppedThumbnail');
+        const bookForm = document.getElementById('bookForm');
+        let cropper;
+    
+        // Show cropper modal when file is selected
+        imageInput.addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    cropperImage.src = e.target.result;
+                    cropModal.classList.remove('hidden');
+    
+                    // Initialize Cropper.js
+                    if (cropper) {
+                        cropper.destroy(); // Remove previous instance
+                    }
+                    cropper = new Cropper(cropperImage, {
+                        aspectRatio: 2 / 3,  // Book cover ratio
+                        viewMode: 1
+                    });
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    
+        // Cancel cropping
+        cancelCrop.addEventListener('click', function () {
+            cropper.destroy();
+            cropModal.classList.add('hidden');
+        });
+    
+        // Crop and preview image
+        cropImage.addEventListener('click', function () {
+            const canvas = cropper.getCroppedCanvas();
+            thumbnailPreview.src = canvas.toDataURL();  // Show cropped preview
+    
+            // Convert to Blob and store as Base64 in a hidden input
+            croppedThumbnailInput.value = canvas.toDataURL('image/jpeg');  
+    
+            cropper.destroy();
+            cropModal.classList.add('hidden');
+        });
+    
+        // Handle form submission with the cropped image
+        bookForm.addEventListener('submit', function (event) {
+            if (!croppedThumbnailInput.value) {
+                event.preventDefault();
+                alert("Please select and crop an image before submitting.");
+            }
+        });
+    </script>
+    
 </div>
 
-
 {% endblock %}
+
 {% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
 
-<script>
-    ClassicEditor.create(document.querySelector('#editor'), {
-            toolbar: ['bold', 'italic', 'underline', 'bulletedList', 'numberedList', 'blockQuote']
-        })
-        .catch(error => { console.error(error); });
-        
-</script>
-
-
-<script>
+<!-- <script>
     const imageInput = document.getElementById('imageInput');
     const cropperImage = document.getElementById('cropperImage');
     const cropModal = document.getElementById('cropModal');
     const cancelCrop = document.getElementById('cancelCrop');
     const cropImage = document.getElementById('cropImage');
     const thumbnailPreview = document.getElementById('thumbnailPreview');
+    const bookForm = document.getElementById('bookForm');
+
     let cropper;
 
+    // Show cropper modal when file is selected
     imageInput.addEventListener('change', function (event) {
         const file = event.target.files[0];
         if (file) {
@@ -105,6 +144,11 @@ Publish Book
             reader.onload = function (e) {
                 cropperImage.src = e.target.result;
                 cropModal.classList.remove('hidden');
+
+                // Initialize Cropper.js
+                if (cropper) {
+                    cropper.destroy(); // Remove previous instance
+                }
                 cropper = new Cropper(cropperImage, {
                     aspectRatio: 2 / 3,  // Book cover ratio
                     viewMode: 1
@@ -114,16 +158,27 @@ Publish Book
         }
     });
 
+    // Cancel cropping
     cancelCrop.addEventListener('click', function () {
         cropper.destroy();
         cropModal.classList.add('hidden');
     });
 
+    // Crop and preview image
     cropImage.addEventListener('click', function () {
         const canvas = cropper.getCroppedCanvas();
         thumbnailPreview.src = canvas.toDataURL();  // Show cropped preview
+
+        // Convert to Blob and append to form
+        canvas.toBlob(blob => {
+            const file = new File([blob], "cropped_thumbnail.jpg", { type: "image/jpeg" });
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            imageInput.files = dataTransfer.files;
+        });
+
         cropper.destroy();
         cropModal.classList.add('hidden');
     });
-</script>
+</script> -->
 {% endblock %}

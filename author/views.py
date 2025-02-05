@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from main.models import Book, User
 from django.contrib import messages
 from .forms import BookUploadForm
+import base64
+from django.core.files.base import ContentFile
 
 # Create your views here.
 @login_required(login_url='accounts:login')
@@ -53,38 +55,22 @@ def content_translate(request):
 @login_required(login_url='accounts:login')
 def write_book(request):
     if request.method == "POST":
-        title = request.POST.get('title')
-        description = request.POST.get('description')
-        content = request.POST.get('book_content')
-        thumbnail = request.FILES.get('thumbnail')
-        category = request.POST.get('category')
-        tags = request.POST.get('tags')
-        print(request.POST)
-        print(request.FILES)
-        if not title:
-            pass
-        if not description:
-            pass
-        if not content:
-            pass
-        if not thumbnail:
-            pass
-        if not category:
-            pass
-        if not tags:
-            pass
-        book = Book.objects.create(
-            title=title,
-            description=description,
-            content=content,
-            author=request.user,
-        )
-        if thumbnail:
-            book.thumbnail = thumbnail
-        book.save()
-        messages.success(request, "Book published successfully.")
+        form = BookUploadForm(request.POST, request.FILES)
 
-        return redirect('author:write_book')
+        # Handle cropped image
+        cropped_image_data = request.POST.get("cropped_thumbnail")
+        if cropped_image_data:
+            format, imgstr = cropped_image_data.split(';base64,')  
+            ext = format.split('/')[-1]  
 
+            # Convert Base64 to an image file
+            image_data = ContentFile(base64.b64decode(imgstr), name=f"cropped_thumbnail.{ext}")
+            form.instance.thumbnail = image_data  # Set it to the form
+
+        if form.is_valid():
+            form.instance.author = request.user
+            form.save()
+            messages.success(request, "Book published")
+            return redirect("main:index")
     form = BookUploadForm(request.POST or None, request.FILES or None)
-    return render(request, 'author/write_book.html', {"form": form})
+    return render(request, "author/write_book.html", {"form": form})
