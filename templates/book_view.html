@@ -1,16 +1,19 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load custom_filters %}
 {% block title %}
 {{book.title}}
 {% endblock %}
 {% block header %}
 <style>
-    .prose p:empty {
-  display: none;  /* Hides empty <p> */
-}
-.prose p:has(> br) {
-  margin-bottom: 0 !important; /* Removes extra margin from <p> with only <br> */
-}
+    .ckeditor-content p {
+        margin: 0;
+        padding: 0;
+    }
+    
+    .ckeditor-content p:empty {
+        display: none;
+    }
 
 </style>
 {% endblock %}
@@ -39,7 +42,7 @@
                     <!-- Page Content -->
                     <div class="transition-transform prose duration-500 ease-in-out bg-gray-100 p-4 rounded-lg text-base"
                         id="page-container">
-                        {{book.content|safe}}
+                        {{book.content|remove_empty_paragraphs|safe}}
                        
                     </div>
                     

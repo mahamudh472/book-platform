@@ -23,15 +23,17 @@ Community
     <div>Held</div>
 </div>
 <div class=" w-full overflow-x-scroll">
+    {% if comments %}
+    {% for comment in comments %}
     <!-- comments items  -->
     <div class="flex lg:justify-between gap-16 p-4 border-b w-full">
         <div class="flex gap-4">
             <input class="block h-5 w-5" type="checkbox" />
             <img alt="" class="h-14 w-14"
-                src="https://cdn.vectorstock.com/i/500p/53/42/user-member-avatar-face-profile-icon-vector-22965342.jpg" />
+                src="{{comment.user.userprofile.profile_picture.url}}" />
             <div class="text-sm space-y-1">
-                <div>@username123 - 4 hours ago</div>
-                <div>This is comment text</div>
+                <div>@<a href="{% url 'main:profile' comment.user.username %}">{{comment.user.username}}</a> - {{comment.created_at|timesince}} ago</div>
+                <div>{{comment.content}}</div>
                 <div class="flex items-center gap-1">
                     <button class="py-2 px-4 bg-gray-100 font-bold hover:bg-gray-200 rounded-full">Reply</button>
                     <button class="py-2 px-4 bg-gray-100 hover:bg-gray-200 rounded-full whitespace-nowrap">0 replies <i
@@ -49,90 +51,22 @@ Community
         </div>
         <div>
             <div class="flex gap-4 items-center">
-                <img alt="" class="h-20 w-12 object-cover" src="{% static 'book images/img3.jpg' %}" />
+                <img alt="" class="h-20 w-12 object-cover" src="{{comment.book.thumbnail.url}}" />
                 <div class="text-sm whitespace-nowrap">
-                    <div>Book demo title</div>
-                    <div>16 aug 2024</div>
+                    <div>{{comment.book.title}}</div>
+                    <div>{{comment.book.published_date|date:'M d, Y'}}</div>
                 </div>
-                <button class="p-2 hover:bg-gray-200 rounded-full">
+                <button class="p-2 hover:bg-gray-200 rounded-full" onclick="location.href=`{% url 'main:book_view' comment.book.slug %}`">
                     <i class="fa fa-up-right-from-square h-5 w-5"></i>
                 </button>
             </div>
         </div>
     </div>
-    <!-- comments items  -->
-    <div class="flex lg:justify-between p-4 gap-16 border-b">
-        <div class="flex gap-4">
-            <input class="block h-5 w-5" type="checkbox" />
-            <img alt="" class="h-14 w-14"
-                src="https://cdn.vectorstock.com/i/500p/53/42/user-member-avatar-face-profile-icon-vector-22965342.jpg" />
-            <div class="text-sm space-y-1">
-                <div>@username123 - 4 hours ago</div>
-                <div>This is comment text</div>
-                <div class="flex items-center gap-1">
-                    <button class="py-2 px-4 bg-gray-100 font-bold hover:bg-gray-200 rounded-full">Reply</button>
-                    <button class="py-2 px-4 bg-gray-100 hover:bg-gray-200 rounded-full whitespace-nowrap">0 replies <i
-                            class="fa fa-chevron-down h-5 w-5"></i></button>
-                    <button class="p-2 hover:bg-gray-200 rounded-full"><i
-                            class="fa-regular fa-thumbs-up h-5 w-5"></i></button>
-                    <button class="p-2 hover:bg-gray-200 rounded-full"><i
-                            class="fa-regular fa-thumbs-down h-5 w-5"></i></button>
-                    <button class="p-2 hover:bg-gray-200 rounded-full"><i
-                            class="fa-regular fa-heart h-5 w-5"></i></button>
-                    <button class="p-2 hover:bg-gray-200 rounded-full"><i
-                            class="fa fa-ellipsis-vertical h-5 w-5"></i></button>
-                </div>
-            </div>
-        </div>
-        <div>
-            <div class="flex gap-4 items-center">
-                <img alt="" class="h-20 w-12 object-cover" src="{% static 'book images/img3.jpg' %}" />
-                <div class="text-sm whitespace-nowrap">
-                    <div>Book demo title</div>
-                    <div>16 aug 2024</div>
-                </div>
-                <button class="p-2 hover:bg-gray-200 rounded-full">
-                    <i class="fa fa-up-right-from-square h-5 w-5"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-    <!-- comments items  -->
-    <div class="flex lg:justify-between p-4 gap-16 border-b">
-        <div class="flex gap-4">
-            <input class="block h-5 w-5" type="checkbox" />
-            <img alt="" class="h-14 w-14"
-                src="https://cdn.vectorstock.com/i/500p/53/42/user-member-avatar-face-profile-icon-vector-22965342.jpg" />
-            <div class="text-sm space-y-1">
-                <div>@username123 - 4 hours ago</div>
-                <div>This is comment text</div>
-                <div class="flex items-center gap-1">
-                    <button class="py-2 px-4 bg-gray-100 font-bold hover:bg-gray-200 rounded-full">Reply</button>
-                    <button class="py-2 px-4 bg-gray-100 hover:bg-gray-200 rounded-full whitespace-nowrap">0 replies <i
-                            class="fa fa-chevron-down h-5 w-5"></i></button>
-                    <button class="p-2 hover:bg-gray-200 rounded-full"><i
-                            class="fa-regular fa-thumbs-up h-5 w-5"></i></button>
-                    <button class="p-2 hover:bg-gray-200 rounded-full"><i
-                            class="fa-regular fa-thumbs-down h-5 w-5"></i></button>
-                    <button class="p-2 hover:bg-gray-200 rounded-full"><i
-                            class="fa-regular fa-heart h-5 w-5"></i></button>
-                    <button class="p-2 hover:bg-gray-200 rounded-full"><i
-                            class="fa fa-ellipsis-vertical h-5 w-5"></i></button>
-                </div>
-            </div>
-        </div>
-        <div>
-            <div class="flex gap-4 items-center">
-                <img alt="" class="h-20 w-12 object-cover" src="{% static 'book images/img3.jpg' %}" />
-                <div class="text-sm whitespace-nowrap">
-                    <div>Book demo title</div>
-                    <div>16 aug 2024</div>
-                </div>
-                <button class="p-2 hover:bg-gray-200 rounded-full">
-                    <i class="fa fa-up-right-from-square h-5 w-5"></i>
-                </button>
-            </div>
-        </div>
-    </div>
+    {% endfor %}
+    {% else %}
+    No comments yet.
+    {% endif %}
+
+    
 </div>
 {% endblock %}

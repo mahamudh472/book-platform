@@ -8,6 +8,6 @@
     "build:css": "npx tailwindcss -i ./static/css/style.css -o ./static/css/output.css --watch"
   },
   "dependencies": {
-    "@tailwindcss/typography": "^0.5.16"
+    "@tailwindcss/typography": "github:tailwindcss/typography"
   }
 }

@@ -15,7 +15,7 @@ class Category(models.Model):
 
 class Book(models.Model):
     title = models.CharField(max_length=255)
-    slug = AutoSlugField(populate_from='title')
+    slug = AutoSlugField(populate_from='title', unique=True)
     description = models.TextField()
     content = CKEditor5Field(config_name="extends") 
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='books')

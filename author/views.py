@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from main.models import Book, User
+from main.models import Book, User, Comment
 from django.contrib import messages
 from .forms import BookUploadForm
 import base64
@@ -21,7 +21,11 @@ def author_analytics(request):
 
 @login_required(login_url='accounts:login')
 def author_community(request):
-    return render(request, 'author/admin_community.html')
+    comments = Comment.objects.filter(book__author=request.user)
+    context = {
+        'comments': comments
+    }
+    return render(request, 'author/admin_community.html', context)
 
 @login_required(login_url='accounts:login')
 def author_earn(request):

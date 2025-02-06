@@ -1,6 +1,6 @@
 function addNotification(message, color) {
 	const container = document.getElementById('notifications-container')
-
+    container.classList.add('p-4')
 	// Create notification element
 	const notification = document.createElement('div')
 	notification.className = `min-w-32 bg-${color}-200 rounded-sm shadow-lg`
@@ -29,6 +29,7 @@ function addNotification(message, color) {
 
 	setTimeout(function () {
 		notification.remove()
+        container.classList.remove('p-4')
 	}, 3000)
 }
 
