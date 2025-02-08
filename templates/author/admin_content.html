@@ -60,7 +60,7 @@ Content
                 <th class="px-6 py-4 font-medium text-gray-900 dark:text-white flex gap-3 border-r" scope="col">
                     <input id="" name="" type="checkbox" />
                     <img alt="" class="h-20 w-12 object-cover" src="{{book.thumbnail.url}}" />
-                    <div class="text-sm cursor-pointer" onclick="location.href=`{% url 'author:content_details' %}`">
+                    <div class="text-sm cursor-pointer" onclick="location.href=`{% url 'author:content_details' book.slug %}`">
                         <div class="font-bold">{{book.title}}</div>
                         <div class="text-gray-600 description">
                             {{book.description}}

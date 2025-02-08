@@ -183,33 +183,33 @@
                         <div class="font-bold" id="back_text">Channel content</div>
                     </li>
                     <li class="flex flex-col">
-                        <img src="{% static 'book images/img1.jpg' %}" id="sidebar_profile_img"
+                        <img src="{{book.thumbnail.url}}" id="sidebar_profile_img"
                             class="h-24 w-24 mb-2 transition-all duration-300" alt="">
-                        <div class="text-sm font-bold">Your book</div>
-                        <div class="text-sm font-thin">This is a book title</div>
+                        <div class="text-sm font-bold">{{book.title}}</div>
+                        <div class="text-sm font-thin max-w-40 whitespace-nowrap overflow-hidden overflow-ellipsis ">{{book.description}}</div>
                     </li>
-                    <li onclick="location.href=`{% url 'author:content_details' %}`" data-page="content_details"
+                    <li onclick="location.href=`{% url 'author:content_details' book.slug %}`" data-page="content_details"
                         class="flex items-center space-x-3 p-2 rounded-lg transition-all hover:bg-gray-200 cursor-pointer menu-item">
                         <i class="fa fa-pen text-lg w-6"></i>
                         <span class="text-gray-700">Details</span>
                     </li>
-                    <li onclick="location.href=`{% url 'author:content_analytics' %}`" data-page="content_analytics"
+                    <li onclick="location.href=`{% url 'author:content_analytics' book.slug %}`" data-page="content_analytics"
                     class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-200 cursor-pointer menu-item">
                         <i class="fa fa-chart-line w-6"></i>
                         <span class="text-gray-700">Analytics</span>
                     </li>
                     
-                    <li onclick="location.href=`{% url 'author:content_comments' %}`" data-page="content_comments"
+                    <li onclick="location.href=`{% url 'author:content_comments' book.slug %}`" data-page="content_comments"
                     class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-200 cursor-pointer menu-item">
                         <i class="fa fa-message w-6"></i>
                         <span class="text-gray-700">Comments</span>
                     </li>
-                    <li onclick="location.href=`{% url 'author:content_translate' %}`" data-page="content_translate"
+                    <li onclick="location.href=`{% url 'author:content_translate' book.slug %}`" data-page="content_translate"
                     class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-200 cursor-pointer menu-item">
                         <i class="fa fa-language w-6"></i>
                         <span class="text-gray-700">Translate</span>
                     </li>
-                    <li onclick="location.href=`{% url 'author:content_copyright' %}`" data-page="content_copyright"
+                    <li onclick="location.href=`{% url 'author:content_copyright' book.slug %}`" data-page="content_copyright"
                     class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-200 cursor-pointer menu-item">
                         <i class="fa-regular fa-copyright w-6"></i>
                         <span class="text-gray-700">Copyright</span>

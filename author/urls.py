@@ -10,11 +10,11 @@ urlpatterns = [
     path('community', views.author_community, name="author_community"),
     path('copyright', views.author_copyright, name="author_copyright"),
     path('earn', views.author_earn, name="author_earn"),
-    path('content_details', views.content_details, name="content_details"),
-    path('content_analytics', views.content_analytics, name="content_analytics"),
-    path('content_comments', views.content_comments, name="content_comments"),
-    path('content_translate', views.content_translate, name="content_translate"),
-    path('content_copyright', views.content_copyright, name="content_copyright"),
+    path('book-details/<str:slug>', views.content_details, name="content_details"),
+    path('book-analytics/<str:slug>', views.content_analytics, name="content_analytics"),
+    path('book-comments/<str:slug>', views.content_comments, name="content_comments"),
+    path('book-translate/<str:slug>', views.content_translate, name="content_translate"),
+    path('book-copyright/<str:slug>', views.content_copyright, name="content_copyright"),
     path('write-book', views.write_book, name="write_book")
 
 ]

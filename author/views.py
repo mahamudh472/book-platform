@@ -15,7 +15,7 @@ def author_dashboard(request):
 def author_content(request):
     return render(request, 'author/admin_content.html')
 
-@login_required(login_url='accounts:login')
+@login_required(login_url='accounts:login',)
 def author_analytics(request):
     return render(request, 'author/admin_analytics.html')
 
@@ -36,24 +36,44 @@ def author_copyright(request):
     return render(request, 'author/admin_copyright.html')
 
 @login_required(login_url='accounts:login')
-def content_details(request):
-    return render(request, 'author/content_details.html')
+def content_details(request, slug):
+    book = Book.objects.get(slug=slug)
+    context = {
+        'book': book
+    }
+    return render(request, 'author/content_details.html', context)
 
 @login_required(login_url='accounts:login')
-def content_analytics(request):
-    return render(request, 'author/content_analytics.html')
+def content_analytics(request, slug):
+    book = Book.objects.get(slug=slug)
+    context = {
+        'book': book
+    }
+    return render(request, 'author/content_analytics.html', context)
 
 @login_required(login_url='accounts:login')
-def content_comments(request):
-    return render(request, 'author/content_comments.html')
+def content_comments(request, slug):
+    book = Book.objects.get(slug=slug)
+    context = {
+        'book': book
+    }
+    return render(request, 'author/content_comments.html', context)
 
 @login_required(login_url='accounts:login')
-def content_copyright(request):
-    return render(request, 'author/content_copyright.html')
+def content_copyright(request, slug):
+    book = Book.objects.get(slug=slug)
+    context = {
+        'book': book
+    }
+    return render(request, 'author/content_copyright.html', context)
 
 @login_required(login_url='accounts:login')
-def content_translate(request):
-    return render(request, 'author/content_translate.html')
+def content_translate(request, slug):
+    book = Book.objects.get(slug=slug)
+    context = {
+        'book': book
+    }
+    return render(request, 'author/content_translate.html', context)
 
 
 @login_required(login_url='accounts:login')
