@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 from accounts.models import UserProfile
 from django.views import View
+from .utils import log_book_view
 # Create your views here.
 
 def index(request):
@@ -20,8 +21,8 @@ def profile(request, username):
 
 def book_view(request, slug):
     book = Book.objects.get(slug=slug)
-    book.views += 1
-    book.save()
+    log_book_view(book=book, user=request.user)
+    
     comments = Comment.objects.filter(book=book, parent=None).order_by('-created_at')
     follower = False
     if request.user.is_authenticated and request.user.userprofile in book.author.userprofile.followers.all():

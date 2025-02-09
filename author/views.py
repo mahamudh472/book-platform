@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from main.models import Book, User, Comment
+from main.models import Book, User, Comment, BookView
 from django.contrib import messages
 from .forms import BookUploadForm
 import base64
 from django.core.files.base import ContentFile
+from main.utils import get_last_n_days_data, year_specific_data
 
 # Create your views here.
 @login_required(login_url='accounts:login')
@@ -17,7 +18,18 @@ def author_content(request):
 
 @login_required(login_url='accounts:login',)
 def author_analytics(request):
-    return render(request, 'author/admin_analytics.html')
+    views = get_last_n_days_data(BookView, 90, user=request.user)
+    # days = request.GET.get('days', None)
+    # year = request.GET.get('year', None)
+    # if days:
+    #     views = get_last_n_days_data(BookView, int(days), user=request.user)
+    # elif year:
+    #     views = year_specific_data(BookView, int(year))
+
+    context = {
+        'views': views
+    }
+    return render(request, 'author/admin_analytics.html', context)
 
 @login_required(login_url='accounts:login')
 def author_community(request):

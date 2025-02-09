@@ -36,16 +36,11 @@ class Book(models.Model):
     def dislikes_count(self):
         return self.dislikes.count()
 
-    def time_difference(self):
-        differece = timezone.now()-self.published_date
-        days = differece.days
-        hours = differece.seconds // 3600
-        if days<1:
-            return f"{hours} hours"
-        return f"{days} days"
-
-
-
+class BookView(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="book_views")
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
 class Comment(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
