@@ -138,3 +138,6 @@ def delete_comment(request, comment_id):
             "success": "Comment deleted.",
             "comment_id": comment_id
         })
+    
+def news_cast(request):
+    return render(request, 'newscast.html')

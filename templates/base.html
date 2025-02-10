@@ -1,75 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-  {% load static %}
+{% load static %}
 
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{%block title%}{% endblock %} - Bookish</title>
     <link rel="stylesheet" href="{% static 'css/output.css' %}" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="{% static 'js/utils.js' %}"></script>
     {% block header %}
 
     {% endblock %}
-  </head>
+</head>
 
-  <body>
+<body>
     <div id="notifications-container" class="fixed w-full sm:w-auto top-7 sm:right-16 space-y-4 z-[1000]">
-      <!-- Notifications will be added here dynamically -->
+        <!-- Notifications will be added here dynamically -->
     </div>
 
 
-    
+
 
     {% include 'components/user_nav.html' %}
     <!-- Main Content -->
-    <div class="flex min-h-screen">
-      {% include 'components/user_side_menu.html' %}
+    <div class="flex">
+        {% include 'components/user_side_menu.html' %}
 
-      <main class="flex-1 p-4 md:ml-64 max-w-7xl mx-auto" id="content">
-    
-        {% block content %}
+        <main class="flex-1 p-4 md:ml-64 max-w-7xl mx-auto" id="content">
 
-        {% endblock %}
-      </main>
+            {% block content %}
+
+            {% endblock %}
+        </main>
     </div>
 
     <script src="{% static 'js/main.js' %}"></script>
 
 
 
-	{% for message in messages %}
-	<script>
-		console.log('{{message.tags}}')
-	</script>
-      {% if message.tags == 'success' %}
-        {% with color='green' %}
-		
-          <script>
-			console.log('{{color}}')
-            // Example usage
-            addNotification('{{message}}', '{{color}}')
-          </script>
-        {% endwith %}
-      	{% else %}
-		  {% with color='red' %}
-		
-          <script>
-			console.log('{{color}}')
-            // Example usage
-            addNotification('{{message}}', '{{color}}')
-          </script>
-        {% endwith %}
-		{% endif %}
-	
+    {% for message in messages %}
+    {% if message.tags == 'success' %}
+    {% with color='green' %}
+
+    <script>
+        addNotification('{{message}}', '{{color}}')
+    </script>
+    {% endwith %}
+    {% else %}
+    {% with color='red' %}
+    <script>
+        addNotification('{{message}}', '{{color}}')
+    </script>
+    {% endwith %}
+    {% endif %}
     {% endfor %}
 
     {% if not user.is_authenticated %}
-      <script src="{% static 'js/auth_modal.js' %}"></script>
+    <script src="{% static 'js/auth_modal.js' %}"></script>
     {% endif %}
     {% block scripts %}
 
     {% endblock %}
-  </body>
+</body>
+
 </html>
