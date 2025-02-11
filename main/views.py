@@ -141,3 +141,6 @@ def delete_comment(request, comment_id):
     
 def news_cast(request):
     return render(request, 'newscast.html')
+
+def news(request):
+    return render(request, 'news.html')

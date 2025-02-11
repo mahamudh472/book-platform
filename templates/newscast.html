@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+  News
+{% endblock %}
+{% block header %}
+  <style>
+    .shorts-container {
+      scroll-snap-type: y mandatory;
+      overflow-y: auto;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE and Edge */
+    }
+    
+    .shorts-container::-webkit-scrollbar {
+      display: none; /* Chrome, Safari */
+    }
+    
+    .short {
+      scroll-snap-align: start;
+    }
+
+    #carousel {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+        width: 100%; /* Ensure the carousel takes full width */
+      }
+      
+      #carousel img {
+        flex: 0 0 100%; /* Ensure each image takes full width */
+        width: 100%; /* Ensure images take full width */
+        height: auto; /* Maintain aspect ratio */
+        display: block; /* Remove any inline spacing */
+      }
+  </style>
+{% endblock %}
+{% block content %}
+  <div class="flex items-center justify-center h-full relative">
+    <div class="relative w-full max-w-md h-full overflow-hidden">
+      <!-- Shorts Container -->
+      <div id="shortsContainer" class="shorts-container h-full border rounded-md">
+        <div class="short min-h-full p-4 flex flex-col align-middle justify-center">
+          <div class="font-medium text-xl mb-2">রোম শহরের বুকে আস্ত এক দেশ ভ্যাটিকান সিটি</div>
+          <div id="default-carousel" class="relative rounded-lg overflow-hidden shadow-lg" data-carousel="static">
+            <!-- Carousel wrapper -->
+            <div class="relative h-40" data-carousel-inner>
+                <!-- Item 1 -->
+                <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                    <img src="https://media.prothomalo.com/prothomalo-bangla%2F2025-02-11%2Fu87u9wsh%2FVatican-1.jpg?rect=0%2C2%2C844%2C563&w=622&auto=format%2Ccompress&fmt=avif"
+                        class="object-cover w-full h-full" alt="Slide 1">
+                    
+                </div>
+                <!-- Item 2 -->
+                <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                    <img src="https://media.prothomalo.com/prothomalo-bangla%2F2025-02-11%2F0jjh0a89%2FVatican-2.jpg?w=622&auto=format%2Ccompress&fmt=avif"
+                        class="object-cover w-full h-full" alt="Slide 2">
+                </div>
+                <!-- Item 3 -->
+                <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                    <img src="https://media.prothomalo.com/prothomalo-bangla%2F2025-02-11%2Flysub532%2FVatican-3.jpg?w=622&auto=format%2Ccompress&fmt=avif"
+                        class="object-cover w-full h-full" alt="Slide 3">
+                </div>
+            </div>
+            <!-- Slider indicators -->
+            <div class="flex absolute bottom-5 left-1/2 z-30 -translate-x-1/2 space-x-2" data-carousel-indicators>
+                <button type="button" class="w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400 focus:outline-none focus:bg-gray-400 transition"></button>
+                <button type="button" class="w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400 focus:outline-none focus:bg-gray-400 transition"></button>
+                <button type="button" class="w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400 focus:outline-none focus:bg-gray-400 transition"></button>
+            </div>
+            <!-- Slider controls -->
+            <button type="button"
+                class="flex absolute top-1/2 left-3 z-40 items-center justify-center w-10 h-10 bg-gray-200/50 rounded-full hover:bg-gray-300 focus:outline-none transition"
+                data-carousel-prev>
+                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+            </button>
+            <button type="button"
+                class="flex absolute top-1/2 right-3 z-40 items-center justify-center w-10 h-10 bg-gray-200/50 rounded-full hover:bg-gray-300 focus:outline-none transition"
+                data-carousel-next>
+                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </button>
+        </div>
+    
+          <div class="text-sm overflow-hidden text-ellipsis line-clamp-4 my-2">ইতালির রোম শহরের ভেতরে ছোট একটি দেশ ভ্যাটিকান সিটি। নামের সঙ্গে সিটি থাকলেও এটি বিশ্বের একটি স্বাধীন-সার্বভৌম দেশ এবং রোমান ক্যাথলিক গির্জার সদর দপ্তর। ক্ষুদ্র এ দেশটির প্রায় চারপাশটাই পাথরের দেয়ালে ঘেরা। দেয়ালগুলোর ভেতর আছে সেন্ট পিটার্স ব্যাসিলিকা নামের বিশাল এক গির্জা, ভ্যাটিকান প্যালেস এবং আরও কিছু ভবন। ভ্যাটিকান প্যালেসের ভেতরে পোপের ভবন, জাদুঘর, একটি গ্রন্থাগার এবং সিস্টিন চ্যাপেল ভবনের অবস্থান। ইতালির রোম শহরের ভেতরে ছোট একটি দেশ ভ্যাটিকান সিটি। নামের সঙ্গে সিটি থাকলেও এটি বিশ্বের একটি স্বাধীন-সার্বভৌম দেশ এবং রোমান ক্যাথলিক গির্জার সদর দপ্তর। ক্ষুদ্র এ দেশটির প্রায় চারপাশটাই পাথরের দেয়ালে ঘেরা। দেয়ালগুলোর ভেতর আছে সেন্ট পিটার্স ব্যাসিলিকা নামের বিশাল এক গির্জা, ভ্যাটিকান প্যালেস এবং আরও কিছু ভবন। ভ্যাটিকান প্যালেসের ভেতরে পোপের ভবন, জাদুঘর, একটি গ্রন্থাগার এবং সিস্টিন চ্যাপেল ভবনের অবস্থান।</div>
+          <div>
+            <a href="{% url "main:news" %}" class="text-blue-400 hover:border-b hover:border-blue-400 inline">Read more.</a>
+          </div>
+        </div>
+        <div class="short flex items-center justify-center bg-gray-700 min-h-full">Short 2</div>
+        <div class="short flex items-center justify-center bg-gray-600 min-h-full">Short 3</div>
+        <div class="short flex items-center justify-center bg-gray-800 min-h-full">Short 4</div>
+        <div class="short flex items-center justify-center bg-gray-700 min-h-full">Short 5</div>
+        <div class="short flex items-center justify-center bg-gray-600 min-h-full">Short 6</div>
+        <div class="short flex items-center justify-center bg-gray-800 min-h-full">Short 7</div>
+        <div class="short flex items-center justify-center bg-gray-700 min-h-full">Short 8</div>
+        <div class="short flex items-center justify-center bg-gray-600 min-h-full">Short 9</div>
+        <div class="short flex items-center justify-center bg-gray-800 min-h-full">Short 1</div>
+        <div class="short flex items-center justify-center bg-gray-700 min-h-full">Short 2</div>
+        <div class="short flex items-center justify-center bg-gray-600 min-h-full">Short 3</div>
+      </div>
+    </div>
+    <!-- Navigation Buttons for Desktop -->
+    <button id="prevBtn" class="hidden md:block absolute bottom-16 right-10 transform -translate-x-1/2 bg-white text-black p-2 rounded-full">▲</button>
+    <button id="nextBtn" class="hidden md:block absolute bottom-5 right-10 transform -translate-x-1/2 bg-white text-black p-2 rounded-full">▼</button>
+  </div>
+{% endblock %}
+{% block scripts %}
+<script src="https://unpkg.com/flowbite@1.4.0/dist/flowbite.js"></script>
+
+  <script>
+    // Script for shorts navigation
+    const shortsContainer = document.getElementById('shortsContainer');
+    const shorts = document.querySelectorAll('.short');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    let shortsCurrentIndex = 0; // Renamed to avoid conflict
+
+    function scrollToShort(index) {
+      if (index >= 0 && index < shorts.length) {
+        shorts[index].scrollIntoView({ behavior: 'smooth' });
+        shortsCurrentIndex = index;
+      }
+    }
+
+    nextBtn.addEventListener('click', () => scrollToShort(shortsCurrentIndex + 1));
+    prevBtn.addEventListener('click', () => scrollToShort(shortsCurrentIndex - 1));
+
+    
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        function adjustContentHeight() {
+          const navbar = document.querySelector('header');
+          const content = document.querySelector('main');
+      
+          if (!navbar || !content) {
+            console.error("Navbar or main element not found!");
+            return;
+          }
+      
+          const navHeight = navbar.offsetHeight;
+      
+          const computedHeight = `calc(100vh - ${navHeight}px)`;
+      
+          content.style.setProperty("height", computedHeight, "important");
+        }
+      
+        setTimeout(adjustContentHeight, 100);
+        window.addEventListener('resize', adjustContentHeight);
+      });
+      
+</script>
+<script>
+    let halfMenu = true;
+    let fullMenuHide = false;
+</script>
+{% endblock %}

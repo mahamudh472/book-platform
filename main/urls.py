@@ -8,6 +8,7 @@ urlpatterns = [
     path('profile/<str:username>', views.profile, name="profile"),
     path('book_view/<str:slug>', views.book_view, name="book_view"),
     path('newscast', views.news_cast, name="news_cast"),
+    path('news', views.news, name="news"),
     path('search', views.search_results, name='search'),
     path('toggle_follow', views.toggle_follow, name="toggle_follow"),
     path('toggle_like', views.toggle_like, name="toggle_like"),

@@ -7,9 +7,10 @@ id="sidebar">
             <i class="fa fa-house text-lg w-6"></i>
             <span class="text-gray-700">Home</span>
         </li>
-        <li class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer menu-item">
+        <li onclick="location.href=`{% url 'main:news_cast' %}`" 
+        class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer menu-item">
             <i class="fa fa-quote-left text-lg w-6"></i>
-            <span class="text-gray-700">Lines</span>
+            <span class="text-gray-700">News</span>
         </li>
         <li class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer menu-item">
             <i class="fa-regular fa-star w-6"></i>
