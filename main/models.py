@@ -40,7 +40,27 @@ class BookView(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="book_views")
     user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    
+
+class News(models.Model):
+    title = models.CharField(max_length=255)
+    slug = AutoSlugField(populate_from='title', unique=True)
+    description = models.TextField()
+    content = CKEditor5Field(config_name="extends") 
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='news')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='news', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+    likes = models.ManyToManyField(User, related_name='liked_news', blank=True)
+    dislikes = models.ManyToManyField(User, related_name='disliked_news', blank=True)
+    views = models.PositiveIntegerField(default=0)
+
+class NewsImage(models.Model):
+    news = models.ForeignKey(News, on_delete=models.CASCADE, related_name="images")
+    image = models.ImageField(upload_to='news_images/')
+
+    def __str__(self):
+        return f"Image for {self.news.title}"
+
 class Comment(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(User, on_delete=models.CASCADE)

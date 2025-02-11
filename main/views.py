@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Book, Comment
+from .models import Book, Comment, News
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from accounts.models import UserProfile
@@ -21,6 +21,7 @@ def profile(request, username):
 
 def book_view(request, slug):
     book = Book.objects.get(slug=slug)
+    user = request.user if request.user.is_authenticated else None
     log_book_view(book=book, user=request.user)
     
     comments = Comment.objects.filter(book=book, parent=None).order_by('-created_at')
@@ -140,7 +141,8 @@ def delete_comment(request, comment_id):
         })
     
 def news_cast(request):
-    return render(request, 'newscast.html')
+    news = News.objects.all()
+    return render(request, 'newscast.html', {'news': news})
 
 def news(request):
     return render(request, 'news.html')
