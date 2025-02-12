@@ -22,7 +22,7 @@ def profile(request, username):
 def book_view(request, slug):
     book = Book.objects.get(slug=slug)
     user = request.user if request.user.is_authenticated else None
-    log_book_view(book=book, user=request.user)
+    log_book_view(book=book, user=user)
     
     comments = Comment.objects.filter(book=book, parent=None).order_by('-created_at')
     follower = False

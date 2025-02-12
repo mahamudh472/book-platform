@@ -3,7 +3,8 @@
 id="sidebar">
 <nav>
     <ul class="space-y-1 text-sm">
-        <li class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer menu-item">
+        <li onclick="location.href=`{% url 'main:index' %}`"  
+        class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer menu-item">
             <i class="fa fa-house text-lg w-6"></i>
             <span class="text-gray-700">Home</span>
         </li>

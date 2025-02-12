@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from main.models import Book, User, Comment, BookView
 from django.contrib import messages
-from .forms import BookUploadForm
+from .forms import BookUploadForm, NewsForm, NewsImageFormSet
 import base64
 from django.core.files.base import ContentFile
 from main.utils import get_last_n_days_data, year_specific_data
@@ -110,3 +110,27 @@ def write_book(request):
             return redirect("main:index")
     form = BookUploadForm(request.POST or None, request.FILES or None)
     return render(request, "author/write_book.html", {"form": form})
+
+@login_required(login_url='accounts:login')
+def create_news(request):
+    if request.method == 'POST':
+        form = NewsForm(request.POST)
+        formset = NewsImageFormSet(request.POST, request.FILES)
+
+        if form.is_valid() and formset.is_valid():
+            news = form.save(commit=False)
+            news.author = request.user
+            news.save()
+            images = formset.save(commit=False)
+            for image in images:
+                image.news = news
+                image.save()
+            messages.success(request, "News added")
+            return redirect('main:index')
+        else:
+            messages.error(request, "News creation faild")
+            return redirect('main:index')
+    else:
+        form = NewsForm()
+        formset = NewsImageFormSet()
+        return render(request, 'author/create_news.html', {'form': form, 'formset': formset})

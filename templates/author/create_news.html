@@ -1,0 +1,41 @@
+{% extends 'author/base.html' %}
+{% load static %}
+{% block title %}
+Create News
+{% endblock %}
+{% block header %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+<style>
+    .ck-editor__editable {
+        min-height: 400px; /* Adjust the height */
+    }
+    .clearable-file-input input[type="checkbox"] {
+        display: none;
+    }
+</style>
+
+{% endblock %}
+{% block content %}
+<div class="w-full sm:max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
+    <h2 class="text-2xl font-bold mb-4">Create news</h2>
+    
+
+    <form id="bookForm" action="{% url 'author:create_news' %}" method="POST" enctype="multipart/form-data" class="space-y-4">
+        {% csrf_token %}
+        {{ form.media }}
+        {{form.as_p}}
+        {{ formset.management_form }}
+    {% for form in formset %}
+        {{ form.as_p }}
+    {% endfor %}
+    
+        <div class="flex justify-end">
+            <button type="submit" id="submitBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Publish</button>
+        </div>
+    </form>
+    
+
+    
+</div>
+
+{% endblock %}

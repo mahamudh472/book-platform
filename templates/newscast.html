@@ -61,12 +61,6 @@
                         class="object-cover w-full h-full" alt="Slide 3">
                 </div>
             </div>
-            <!-- Slider indicators -->
-            <div class="flex absolute bottom-5 left-1/2 z-30 -translate-x-1/2 space-x-2" data-carousel-indicators>
-                <button type="button" class="w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400 focus:outline-none focus:bg-gray-400 transition"></button>
-                <button type="button" class="w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400 focus:outline-none focus:bg-gray-400 transition"></button>
-                <button type="button" class="w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400 focus:outline-none focus:bg-gray-400 transition"></button>
-            </div>
             <!-- Slider controls -->
             <button type="button"
                 class="flex absolute top-1/2 left-3 z-40 items-center justify-center w-10 h-10 bg-gray-200/50 rounded-full hover:bg-gray-300 focus:outline-none transition"
@@ -101,28 +95,14 @@
               {% for image in item.images.all %}
               <div class="hidden duration-700 ease-in-out" data-carousel-item>
                     <img src="{{image.image.url}}"
-                        class="object-cover w-full h-full" alt="Slide 1">
+                        class="object-cover w-full h-full" alt="Slide {{forloop.counter}}">
                     
                 </div>
                 {% endfor %}
-                <!-- Item 2 -->
-                <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="https://media.prothomalo.com/prothomalo-bangla%2F2025-02-11%2F0jjh0a89%2FVatican-2.jpg?w=622&auto=format%2Ccompress&fmt=avif"
-                        class="object-cover w-full h-full" alt="Slide 2">
-                </div>
-                <!-- Item 3 -->
-                <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="https://media.prothomalo.com/prothomalo-bangla%2F2025-02-11%2Flysub532%2FVatican-3.jpg?w=622&auto=format%2Ccompress&fmt=avif"
-                        class="object-cover w-full h-full" alt="Slide 3">
-                </div>
-            </div>
-            <!-- Slider indicators -->
-            <div class="flex absolute bottom-5 left-1/2 z-30 -translate-x-1/2 space-x-2" data-carousel-indicators>
-                <button type="button" class="w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400 focus:outline-none focus:bg-gray-400 transition"></button>
-                <button type="button" class="w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400 focus:outline-none focus:bg-gray-400 transition"></button>
-                <button type="button" class="w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400 focus:outline-none focus:bg-gray-400 transition"></button>
+
             </div>
             <!-- Slider controls -->
+             {% if item.images.count > 1 %}
             <button type="button"
                 class="flex absolute top-1/2 left-3 z-40 items-center justify-center w-10 h-10 bg-gray-200/50 rounded-full hover:bg-gray-300 focus:outline-none transition"
                 data-carousel-prev>
@@ -139,6 +119,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                 </svg>
             </button>
+            {% endif %}
         </div>
     
           <div class="text-sm overflow-hidden text-ellipsis line-clamp-4 my-2">ইতালির রোম শহরের ভেতরে ছোট একটি দেশ ভ্যাটিকান সিটি। নামের সঙ্গে সিটি থাকলেও এটি বিশ্বের একটি স্বাধীন-সার্বভৌম দেশ এবং রোমান ক্যাথলিক গির্জার সদর দপ্তর। ক্ষুদ্র এ দেশটির প্রায় চারপাশটাই পাথরের দেয়ালে ঘেরা। দেয়ালগুলোর ভেতর আছে সেন্ট পিটার্স ব্যাসিলিকা নামের বিশাল এক গির্জা, ভ্যাটিকান প্যালেস এবং আরও কিছু ভবন। ভ্যাটিকান প্যালেসের ভেতরে পোপের ভবন, জাদুঘর, একটি গ্রন্থাগার এবং সিস্টিন চ্যাপেল ভবনের অবস্থান। ইতালির রোম শহরের ভেতরে ছোট একটি দেশ ভ্যাটিকান সিটি। নামের সঙ্গে সিটি থাকলেও এটি বিশ্বের একটি স্বাধীন-সার্বভৌম দেশ এবং রোমান ক্যাথলিক গির্জার সদর দপ্তর। ক্ষুদ্র এ দেশটির প্রায় চারপাশটাই পাথরের দেয়ালে ঘেরা। দেয়ালগুলোর ভেতর আছে সেন্ট পিটার্স ব্যাসিলিকা নামের বিশাল এক গির্জা, ভ্যাটিকান প্যালেস এবং আরও কিছু ভবন। ভ্যাটিকান প্যালেসের ভেতরে পোপের ভবন, জাদুঘর, একটি গ্রন্থাগার এবং সিস্টিন চ্যাপেল ভবনের অবস্থান।</div>
