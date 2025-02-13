@@ -116,3 +116,10 @@ class Tag(models.Model):
     def __str__(self):
         return self.name
 
+class History(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="book_history", blank=True, null=True)
+    news = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="news_history", blank=True, null=True)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField()

@@ -42,13 +42,13 @@
       {% if message.tags == 'success' %}
         {% with color='green' %}
           <script>
-            addNotification('{{message}}', '{{color}}')
+            addNotification("{{message}}", '{{color}}')
           </script>
         {% endwith %}
       {% else %}
         {% with color='red' %}
           <script>
-            addNotification('{{message}}', '{{color}}')
+            addNotification("{{message}}", '{{color}}')
           </script>
         {% endwith %}
       {% endif %}

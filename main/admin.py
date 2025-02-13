@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Book, Category,Collection,Comment,Notification,Rating,ReadingList,Report,Tag, News, NewsImage
+from .models import Book, Category,Collection,Comment,Notification,Rating,ReadingList,Report,Tag, News, NewsImage, History
 # Register your models here.
 
 admin.site.register(Category)
@@ -10,6 +10,8 @@ admin.site.register(Rating)
 admin.site.register(ReadingList)
 admin.site.register(Report)
 admin.site.register(Tag)
+admin.site.register(History)
+
 
 class NewsImageInline(admin.TabularInline):
     model = NewsImage

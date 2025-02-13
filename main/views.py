@@ -1,11 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Book, Comment, News
+from .models import Book, Comment, News, History
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from accounts.models import UserProfile
 from django.views import View
 from .utils import log_book_view
+from django.utils import timezone, html
+from collections import defaultdict
+from django.contrib import messages
 # Create your views here.
 
 def index(request):
@@ -23,7 +26,15 @@ def book_view(request, slug):
     book = Book.objects.get(slug=slug)
     user = request.user if request.user.is_authenticated else None
     log_book_view(book=book, user=user)
-    
+
+    # Add to history
+    if request.user.is_authenticated:
+        history, created = History.objects.update_or_create(
+            user=request.user,
+            book=book,
+            defaults={'updated_at': timezone.now()}
+        )
+
     comments = Comment.objects.filter(book=book, parent=None).order_by('-created_at')
     follower = False
     if request.user.is_authenticated and request.user.userprofile in book.author.userprofile.followers.all():
@@ -44,8 +55,39 @@ def search_results(request):
         books = books.distinct()
         return render(request, 'search_result.html', {'q': q, 'books': books})
     return redirect('main:index')
+@login_required(login_url='accounts:login')
+def history(request):
+    histories = History.objects.filter(user=request.user).order_by('-updated_at')
 
-@login_required
+    # Get current date and yesterday's date
+    today = timezone.now().date()
+    yesterday = today - timezone.timedelta(days=1)
+
+    # Group histories by date
+    history_dict = defaultdict(list)
+
+    for history in histories:
+        history_date = history.updated_at.date()
+        if history_date == today:
+            history_dict["Today"].append(history)
+        elif history_date == yesterday:
+            history_dict["Yesterday"].append(history)
+        else:
+            history_dict[history_date.strftime("%B %d, %Y")].append(history)
+
+    return render(request, 'history.html', {'history_dict': dict(history_dict)})
+
+@login_required(login_url='accounts:login')
+def continue_reading(request):
+    histories = History.objects.filter(user=request.user).order_by('-updated_at')
+    if histories.exists():
+        his = histories.first()
+        if his.book:
+            return redirect('main:book_view', his.book.slug)
+    messages.error(request, html.format_html("You haven't read anything yet."))
+    return redirect(request.META.get('HTTP_REFERER', '/fallback-url/'))
+
+@login_required(login_url='accounts:login')
 def toggle_follow(request):
     if request.method == "POST":
         user_id = request.POST.get('user_id') 
@@ -66,7 +108,7 @@ def toggle_follow(request):
 
     return JsonResponse({'error': 'Invalid request'}, status=400)
 
-@login_required
+@login_required(login_url='accounts:login')
 def toggle_like(request):
     book_id = request.POST.get('book_id')
     op = request.POST.get("op")

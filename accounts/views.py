@@ -28,6 +28,7 @@ def handleLogin(request):
         else:
             messages.error(request, 'Invalid username or password')
             return redirect('main:index')
+    messages.error(request, 'You have to login first.')
     return redirect('main:index')
 
 
