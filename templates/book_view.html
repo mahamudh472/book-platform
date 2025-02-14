@@ -40,9 +40,9 @@
                 <!-- Reader Container -->
                 <div class="hidden p-6 relative" id="reader-container">
                     <!-- Page Content -->
-                    <div class="transition-transform prose duration-500 ease-in-out bg-gray-100 p-4 rounded-lg text-base"
+                    <div class="transition-transform prose prose-sm duration-500 ease-in-out bg-gray-100 p-4 rounded-lg"
                         id="page-container">
-                        {{book.content|remove_empty_paragraphs|safe}}
+                        {{book.content|safe}}
                        
                     </div>
                     
@@ -225,6 +225,12 @@
     const cardGrid = document.getElementById('content')
     sideBar.classList.toggle('md:translate-x-0')
     cardGrid.classList.remove('md:ml-64')
+
+    document.querySelectorAll('p').forEach((element)=>{
+        if (element.innerHTML==='&nbsp;'){
+            element.style.margin=0;
+        }
+    })
 </script>
 <script src="{% static 'js/book_view.js' %}">
 </script>
