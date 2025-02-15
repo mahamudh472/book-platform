@@ -12,10 +12,23 @@ from django.contrib import messages
 # Create your views here.
 
 def index(request):
-    books = Book.objects.all()
-    context = {
-        'books': books
-    }
+    context = {}
+    path_info = request.META.get('PATH_INFO')
+    if path_info == "/trending":
+        books = Book.objects.all().order_by('-views')
+        context['page'] = "Trending"
+    elif path_info == "/recent":
+        books = Book.objects.all().order_by('-published_date')
+        context['page'] = "Recent"
+    elif path_info == "/popular":
+        books = Book.objects.all().order_by('-views')
+        context['page'] = "Polular"
+    else:
+        books = Book.objects.all().order_by('?')
+        context['page'] = "Recommended"
+    context['books'] = books
+    if request.user.is_authenticated:
+        context['following'] = request.user.userprofile.following.all()[:3]
     return render(request, 'index.html', context)
 
 def profile(request, username):

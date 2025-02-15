@@ -5,6 +5,9 @@ app_name = 'main'
 
 urlpatterns = [
     path('', views.index, name="index"),
+    path('trending', views.index, name="trending"),
+    path('recent', views.index, name="recent"),
+    path('popular', views.index, name="popular"),
     path('profile/<str:username>', views.profile, name="profile"),
     path('book_view/<str:slug>', views.book_view, name="book_view"),
     path('newscast', views.news_cast, name="news_cast"),

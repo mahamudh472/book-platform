@@ -35,52 +35,40 @@ id="sidebar">
         </li>
 
         <hr class="pt-2">
-        <li class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer menu-item">
+        <li onclick="location.href=`{% url 'main:trending' %}`"
+        class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer menu-item">
             <i class="fa fa-arrow-trend-up w-6"></i>
             <span class="text-gray-700">Treanding Books</span>
         </li>
-        <li class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer menu-item">
+        <li onclick="location.href=`{% url 'main:recent' %}`"
+        class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer menu-item">
             <i class="fa fa-clock w-6"></i>
             <span class="text-gray-700">Recently Published</span>
         </li>
-        <li class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer menu-item">
+        <li onclick="location.href=`{% url 'main:popular' %}`"
+        class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer menu-item">
             <i class="fa fa-fire-flame-curved w-6"></i>
             <span class="text-gray-700">Popular Books</span>
         </li>
 
         <hr class="pt-2">
-
+        {% if following %}
         <div class="font-base p-2">
             Subscriptions
         </div>
-
-        <li class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer menu-item">
-            <div class="overflow-hidden bg-red-600 rounded-lg max-w-28">
+        {% for author in following %}
+        <li class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer menu-item" onclick="location.href=`{% url 'main:profile' author.user.username %}`">
+            <div class="overflow-hidden rounded-lg max-w-28">
                 <img class="h-6 w-6"
-                    src="https://cdn.vectorstock.com/i/500p/53/42/user-member-avatar-face-profile-icon-vector-22965342.jpg"
+                    src="{{author.profile_picture.url}}"
                     alt="">
             </div>
-            <span class="text-gray-700">NTV News</span>
+            <span class="text-gray-700">{{author.full_name}}</span>
         </li>
-
-        <li class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer menu-item">
-            <div class="overflow-hidden bg-red-600 rounded-lg max-w-28">
-                <img class="h-6 w-6"
-                    src="https://cdn.vectorstock.com/i/500p/53/42/user-member-avatar-face-profile-icon-vector-22965342.jpg"
-                    alt="">
-            </div>
-            <span class="text-gray-700">NTV News</span>
-        </li>
-
-        <li class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer menu-item">
-            <div class="overflow-hidden bg-red-600 rounded-lg max-w-28">
-                <img class="h-6 w-6"
-                    src="https://cdn.vectorstock.com/i/500p/53/42/user-member-avatar-face-profile-icon-vector-22965342.jpg"
-                    alt="">
-            </div>
-            <span class="text-gray-700">NTV News</span>
-        </li>
+        {% endfor %}
         <hr class="pt-2">
+        {% endif %}
+
 
         <li class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer menu-item">
             <i class="fa fa-gear text-lg w-6"></i>
