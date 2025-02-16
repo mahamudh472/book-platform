@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Book, Comment, News, History
+from .models import Book, Comment, News, History, Collection
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from accounts.models import UserProfile
@@ -34,6 +34,37 @@ def index(request):
 def profile(request, username):
     profile = User.objects.get(username=username)
     return render(request, 'profile.html', {'profile': profile})
+
+
+def subscriptions(request):
+
+    return render(request, 'subscriptions.html')
+
+@login_required(login_url='accounts:login')
+def collections(request):
+    if request.method == "POST":
+        collection_name = request.POST.get('collection_name')
+        collection, created = Collection.objects.get_or_create(
+            user=request.user,
+            name=collection_name
+        )
+        if created:
+            messages.success(request, 'Collection added')
+        else:
+            messages.error(request, "Collection alreay exists.")
+        return redirect('main:collections')
+    return render(request, 'collections.html')
+
+def delete_collection(request, collection_id):
+    collection = Collection.objects.filter(user=request.user, id=collection_id)
+    if collection.exists():
+        collection.first().delete()
+        messages.success(request, 'Collection deleted.')
+    else:
+        messages.error(request, 'Collection not found.')
+    print('cdkfjdkf')
+    return redirect('main:collections')
+
 
 def book_view(request, slug):
     book = Book.objects.get(slug=slug)

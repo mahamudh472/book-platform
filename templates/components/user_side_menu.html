@@ -13,7 +13,8 @@ id="sidebar">
             <i class="fa fa-quote-left text-lg w-6"></i>
             <span class="text-gray-700">News</span>
         </li>
-        <li class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer menu-item">
+        <li onclick="location.href=`{% url 'main:subscriptions' %}`" 
+        class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer menu-item">
             <i class="fa-regular fa-star w-6"></i>
             <span class="text-gray-700">Subscriptions</span>
         </li>
@@ -29,9 +30,10 @@ id="sidebar">
             <i class="fa fa-pause w-6"></i>
             <span class="text-gray-700">Continue Reading</span>
         </li>
-        <li class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer menu-item">
+        <li onclick="location.href=`{% url 'main:collections' %}`"
+        class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer menu-item">
             <i class="fa-regular fa-heart w-6"></i>
-            <span class="text-gray-700">Favorites</span>
+            <span class="text-gray-700">Collections</span>
         </li>
 
         <hr class="pt-2">
@@ -53,9 +55,15 @@ id="sidebar">
 
         <hr class="pt-2">
         {% if following %}
-        <div class="font-base p-2">
-            Subscriptions
+        <div class="flex justify-between items-center">
+            <div class="font-base p-2">
+                Subscriptions
+            </div>
+            <a href="{% url 'main:subscriptions' %}" class="text-blue-400" id="subs">
+                All({{user.userprofile.following.count}})
+            </a>
         </div>
+        
         {% for author in following %}
         <li class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer menu-item" onclick="location.href=`{% url 'main:profile' author.user.username %}`">
             <div class="overflow-hidden rounded-lg max-w-28">

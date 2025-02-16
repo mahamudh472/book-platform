@@ -18,5 +18,8 @@ urlpatterns = [
     path('toggle_follow', views.toggle_follow, name="toggle_follow"),
     path('toggle_like', views.toggle_like, name="toggle_like"),
     path("submit-comment/", views.CommentView.as_view(), name="submit_comment"),
-    path('delete-comment/<int:comment_id>', views.delete_comment, name="delete_comment")
+    path('delete-comment/<int:comment_id>', views.delete_comment, name="delete_comment"),
+    path('subscriptions', views.subscriptions, name="subscriptions"),
+    path('collections', views.collections, name="collections"),
+    path('delete_collection/<int:collection_id>', views.delete_collection, name="delete_collection")
 ]
