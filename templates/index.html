@@ -36,10 +36,38 @@ Homepage
                         </p>
                     </div>
                     <div>
-                        <button class="p-2" onclick="event.stopPropagation()">
-                            <i class="fa fa-ellipsis-vertical">
-                            </i>
-                        </button>
+                        <div class="relative">
+                            <button class="dropdownButton p-2" onclick="event.stopPropagation()">
+                                <i class="fa fa-ellipsis-vertical">
+                                </i>
+                            </button>
+                            <!-- Dropdown Menu -->
+                            <div id="dropdownMenu"
+                                class="dropdownMenu z-50 absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
+                                <ul class="py-1">
+                                    <li>
+                                        <a href="{% url "author:write_book" %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                            <i class="fa fa-upload mr-2"></i> Publish Book
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'author:create_news' %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                            <i class="fa fa-pen mr-2"></i> Create News
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                            <i class="fa fa-file-pdf mr-2"></i> Upload Pdf
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                            <i class="fa fa-headset mr-2"></i> Live
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

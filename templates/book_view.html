@@ -40,7 +40,7 @@
                 <!-- Reader Container -->
                 <div class="hidden p-6 relative" id="reader-container">
                     <!-- Page Content -->
-                    <div class="transition-transform prose prose-sm duration-500 ease-in-out bg-gray-100 p-4 rounded-lg"
+                    <div class="transition-transform m-auto prose max-w-none duration-500 ease-in-out bg-gray-100 p-4 rounded-lg"
                         id="page-container">
                         {{book.content|safe}}
                        
@@ -145,10 +145,26 @@
                     </i>
                     Share
                 </button>
-                <button class="bg-neutral-200 hover:bg-neutral-300 w-12 p-2 rounded-full text-sm">
-                    <i class="fa fa-ellipsis">
-                    </i>
-                </button>
+                <div class="relative">
+                    <button class="dropdownButton bg-neutral-200 hover:bg-neutral-300 w-12 p-2 rounded-full text-sm">
+                        <i class="fa fa-ellipsis">
+                        </i>
+                    </button>
+                    <!-- Dropdown Menu -->
+                    <div id="dropdownMenu"
+                        class="dropdownMenu absolute right-0 mt-2 w-max bg-white border border-gray-200 rounded-lg shadow-lg hidden">
+                        <ul class="py-1">
+                            {% for item in user.reading_list.all %}
+                            <li>
+                                <a href="{% url 'main:add_to_collection' book.slug item.name %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                    <div class="fa fa-plus mr-2"></div>Add to {{item.name}}
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                
             </div>
         </div>
         <!-- Description container -->

@@ -21,5 +21,7 @@ urlpatterns = [
     path('delete-comment/<int:comment_id>', views.delete_comment, name="delete_comment"),
     path('subscriptions', views.subscriptions, name="subscriptions"),
     path('collections', views.collections, name="collections"),
+    path('collection/<str:collection_name>', views.collection, name="collection"),
+    path('add_to_collection/<str:slug>/<str:collection_name>', views.add_to_collection, name="add_to_collection"),
     path('delete_collection/<int:collection_id>', views.delete_collection, name="delete_collection")
 ]

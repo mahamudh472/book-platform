@@ -19,7 +19,7 @@ Subscriptions
 
 <div class="space-y-2">
     {% for collection in user.reading_list.all %}
-    <a href="" class="p-3 border rounded-md flex justify-between items-center">
+    <a href="{% url 'main:collection' collection.name %}" class="p-3 border rounded-md flex justify-between items-center">
         <span>{{collection.name}}</span>
         <i class="fa fa-trash p-2 text-red-600" onclick=" event.preventDefault();event.stopPropagation();location.href=`{% url 'main:delete_collection' collection.id %}`"></i>
     </a>

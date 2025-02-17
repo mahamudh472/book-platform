@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Book, Comment, News, History, Collection
+from .models import Book, Comment, News, History, Collection, ReadingList
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from accounts.models import UserProfile
@@ -62,9 +62,31 @@ def delete_collection(request, collection_id):
         messages.success(request, 'Collection deleted.')
     else:
         messages.error(request, 'Collection not found.')
-    print('cdkfjdkf')
     return redirect('main:collections')
 
+def collection(request, collection_name):
+    coll = Collection.objects.filter(name=collection_name, user=request.user)
+    if coll.exists():
+        return render(request, 'single_collection.html', {'collection': coll.first()})
+    else:
+        messages.error(request, "Collection not found.")
+        return redirect(request.META.get('HTTP_REFERER', '/fallback-url/'))
+
+def add_to_collection(request, slug, collection_name):
+    book = Book.objects.get(slug=slug)
+    coll = Collection.objects.filter(user=request.user, name=collection_name)
+    if coll.exists():
+        obj, created =ReadingList.objects.get_or_create(
+            collection=coll.first(),
+            book=book
+        )
+        if created:
+            messages.success(request, f"Book add to {coll.first().name}")
+        else:
+            messages.error(request, "Book already in this collection")
+    else:
+        messages.error(request, 'Failed adding in collection')
+    return redirect(request.META.get('HTTP_REFERER', '/fallback-url/'))
 
 def book_view(request, slug):
     book = Book.objects.get(slug=slug)
