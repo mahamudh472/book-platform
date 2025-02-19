@@ -8,6 +8,7 @@ Subscriptions
     Subscriptions   
 </h2>
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+    {% if user.userprofile.following.all %}
     {% for author in user.userprofile.following.all %}
     <div class="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer"
         onclick="location.href=`{% url 'main:profile' author.user.username %}`">
@@ -36,6 +37,9 @@ Subscriptions
         </div>
     </div>
     {% endfor %}
+    {% else %}
+    No subscription yet.
+    {% endif %}
 </div>
     
     

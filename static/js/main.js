@@ -22,7 +22,10 @@ document.getElementById('menuToggle').addEventListener('click', function (event)
         sideBar.classList.toggle('py-3')
         cardGrid.classList.toggle('md:ml-64')
         cardGrid.classList.toggle('md:ml-32')
-        document.getElementById('subs').classList.toggle('hidden')
+        let subs = document.getElementById('subs')
+        if(subs){
+            subs.classList.toggle('hidden')
+        }
 
         Array.from(menuItems).forEach(element => {
             element.classList.toggle('flex-col')

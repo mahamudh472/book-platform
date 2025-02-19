@@ -8,6 +8,7 @@ Subscriptions
     {{collection.name}}
 </h2>
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+    {% if collection.reading_list.all %}
     {% for item in collection.reading_list.all %}
     <!-- Book Card -->
     <div class="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer"
@@ -72,6 +73,9 @@ Subscriptions
         </div>
     </div>
     {% endfor %}
+    {% else %}
+    This collection is empty
+    {% endif %}
 </div>
 
 

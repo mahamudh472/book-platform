@@ -11,7 +11,7 @@ Homepage
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
         {% for book in books %}
         <!-- Book Card -->
-        <div class="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer"
+        <div class="bg-white shadow-md rounded-lg cursor-pointer"
             onclick="location.href=`{% url 'main:book_view' book.slug %}`">
             <div class="relative bg-slate-300" style="padding-bottom: 150%;">
                 <!-- 16:9 Aspect Ratio -->
@@ -37,34 +37,31 @@ Homepage
                     </div>
                     <div>
                         <div class="relative">
-                            <button class="dropdownButton p-2" onclick="event.stopPropagation()">
+                            <button class="dropdownButton bg-neutral-200 hover:bg-neutral-300 p-2 rounded-full text-sm">
                                 <i class="fa fa-ellipsis-vertical">
                                 </i>
                             </button>
                             <!-- Dropdown Menu -->
                             <div id="dropdownMenu"
-                                class="dropdownMenu z-50 absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
+                                class="dropdownMenu absolute z-50 right-0 mt-2 w-max bg-white border border-gray-200 rounded-lg shadow-lg hidden">
                                 <ul class="py-1">
                                     <li>
-                                        <a href="{% url "author:write_book" %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                                            <i class="fa fa-upload mr-2"></i> Publish Book
-                                        </a>
+                                        <button class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100" data-url="{{request.scheme}}://{{request.get_host}}{% url 'main:book_view' book.slug %}" onclick="event.stopPropagation();copy_to_clipboard(this, event)">
+                                            <div class="fa fa-share mr-2"></div>Copy link
+                                        </button>
                                     </li>
                                     <li>
-                                        <a href="{% url 'author:create_news' %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                                            <i class="fa fa-pen mr-2"></i> Create News
+                                        <a href="" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                            <div class="fa-regular fa-clipboard mr-2"></div>Share
                                         </a>
                                     </li>
+                                    {% for item in user.reading_list.all %}
                                     <li>
-                                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                                            <i class="fa fa-file-pdf mr-2"></i> Upload Pdf
+                                        <a href="{% url 'main:add_to_collection' book.slug item.name %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                            <div class="fa fa-plus mr-2"></div>Add to {{item.name}}
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                                            <i class="fa fa-headset mr-2"></i> Live
-                                        </a>
-                                    </li>
+                                    {% endfor %}
                                 </ul>
                             </div>
                         </div>
@@ -81,5 +78,13 @@ Homepage
 {% endblock %}
 
 {% block scripts %}
-    
+    <script>
+        function copy_to_clipboard(element, event){
+            
+            let data = element.getAttribute('data-url')
+            navigator.clipboard.writeText(data)
+            element.parentElement.parentElement.parentElement.classList.add('hidden')
+            addNotification('Link copied.', 'green')
+        }
+    </script>
 {% endblock %}
