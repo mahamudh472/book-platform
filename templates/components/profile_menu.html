@@ -8,7 +8,7 @@
         class="dropdownMenu absolute right-0 mt-2 w-60 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
         <ul class="py-1">
             <li class="border-b">
-                <a href="{% url "main:profile" user.username %}" class="block px-4 py-2 hover:bg-gray-100 ">
+                <a href="{% url 'main:profile' user.username %}" class="block px-4 py-2 hover:bg-gray-100 ">
                     <div class="flex space-x-2">
                         <img class="h-10 w-10 rounded-full"
                             src="{{user.userprofile.profile_picture.url}}"

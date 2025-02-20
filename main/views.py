@@ -88,6 +88,21 @@ def add_to_collection(request, slug, collection_name):
         messages.error(request, 'Failed adding in collection')
     return redirect(request.META.get('HTTP_REFERER', '/fallback-url/'))
 
+def remove_from_collection(request, slug, collection_name):
+    book = Book.objects.get(slug=slug)
+    coll = Collection.objects.filter(user=request.user, name=collection_name)
+    if coll.exists():
+        obj = ReadingList.objects.get(collection=coll.first(), book=book)
+        if obj:
+            obj.delete()
+            messages.success(request, f"Book removed from {coll.first().name}")
+        else:
+            messages.error(request, "Book not in collection")
+    else:
+        messages.error(request, 'Failed removing book from collection')
+    return redirect(request.META.get('HTTP_REFERER', '/fallback-url/'))
+
+
 def book_view(request, slug):
     book = Book.objects.get(slug=slug)
     user = request.user if request.user.is_authenticated else None

@@ -62,24 +62,45 @@ document.querySelectorAll('.dropdownButton').forEach(button => {
     button.addEventListener('click', function (event) {
         event.stopPropagation(); // Prevent the event from propagating to the document
         const menu = this.nextElementSibling; // Get the corresponding dropdown menu
+        
+        // Toggle visibility
         menu.classList.toggle('hidden');
+
         // Close other open dropdowns
         document.querySelectorAll('.dropdownMenu').forEach(otherMenu => {
             if (otherMenu !== menu) {
                 otherMenu.classList.add('hidden');
             }
         });
+
+        // Get button & dropdown dimensions
+        let buttonRect = this.getBoundingClientRect();
+        let menuRect = menu.getBoundingClientRect();
+        let spaceBelow = window.innerHeight - buttonRect.bottom;
+        let spaceAbove = buttonRect.top;
+
+        // Adjust position based on available space
+        if (spaceBelow < menuRect.height && spaceAbove > menuRect.height) {
+            // Show above
+            menu.style.bottom = "100%";
+            menu.style.top = "auto";
+            menu.style.marginBottom = "0.5rem";
+        } else {
+            // Show below (default)
+            menu.style.top = "100%";
+            menu.style.bottom = "auto";
+            menu.style.marginTop = "0.5rem";
+        }
     });
 });
 
 // Close dropdowns when clicking outside
-document.addEventListener('click', (event) => {
+document.addEventListener('click', () => {
     document.querySelectorAll('.dropdownMenu').forEach(menu => {
-        if (!menu.classList.contains('hidden')) {
-            menu.classList.add('hidden');
-        }
+        menu.classList.add('hidden');
     });
 });
+
 
 
 const followBtn = document.getElementById('follow-btn');
@@ -214,4 +235,11 @@ function replyForm(element) {
         parent.appendChild(form)
     }
 
+}
+
+function copy_to_clipboard(element, event){
+    let data = element.getAttribute('data-url')
+    navigator.clipboard.writeText(data)
+    element.parentElement.parentElement.parentElement.classList.add('hidden')
+    addNotification('Link copied.', 'green')
 }

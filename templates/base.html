@@ -58,7 +58,29 @@
       <script src="{% static 'js/auth_modal.js' %}"></script>
     {% endif %}
     {% block scripts %}
-
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+          function adjustContentHeight() {
+            const navbar = document.querySelector('header');
+            const content = document.querySelector('main');
+        
+            if (!navbar || !content) {
+              console.error("Navbar or main element not found!");
+              return;
+            }
+        
+            const navHeight = navbar.offsetHeight;
+        
+            const computedHeight = `calc(100vh - ${navHeight}px)`;
+        
+            content.style.setProperty("height", computedHeight, "important");
+          }
+        
+          setTimeout(adjustContentHeight, 100);
+          window.addEventListener('resize', adjustContentHeight);
+        });
+        
+  </script>
     {% endblock %}
   </body>
 </html>

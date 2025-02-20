@@ -88,6 +88,9 @@ class Collection(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def get_book_ids(self):
+        return list(self.reading_list.values_list('book_id', flat=True))
 
 class ReadingList(models.Model):
     collection = models.ForeignKey(Collection, on_delete=models.CASCADE, related_name='reading_list')

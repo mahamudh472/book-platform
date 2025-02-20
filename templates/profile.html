@@ -1,78 +1,61 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}
-  Profile
+Profile
 {% endblock %}
 {% block content %}
-  <!-- banner -->
-  <div class="max-h-36 w-full bg-gray-300 m-0 p-0 relative overflow-hidden">
+<!-- banner -->
+<div class="max-h-36 w-full bg-gray-300 m-0 p-0 relative overflow-hidden">
     <!-- banner image here. -->
-    <img alt="" class="bg-cover w-full m-auto" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9hN28VhVYenw0Og7z1j95n6hQDYw6lMriBA&s" />
-  </div>
-  <div class="flex flex-col gap-3 sm:flex-row sm:justify-between mt-4 sm:items-center">
+    <img alt="" class="bg-cover w-full m-auto"
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9hN28VhVYenw0Og7z1j95n6hQDYw6lMriBA&s" />
+</div>
+<div class="flex flex-col gap-3 sm:flex-row sm:justify-between mt-4 sm:items-center">
     <div class="flex gap-4 text-neutral-600 items-center">
-      <img alt="" class="h-16 w-16 sm:w-32 sm:h-32 rounded-full" src="{{ profile.userprofile.profile_picture.url }}" />
-      <div class="space-y-2">
-        <div class="text-2xl font-medium">{{ profile.userprofile.full_name }}</div>
-        <div class="font-xs flex flex-col lg:flex-row gap-2">
-          <div class="font-medium inline-block">@{{ profile.username }}</div>
-          <span><span id="followers_count">{{ profile.userprofile.followers_count }}</span> subscribers {{ profile.books.count }} Books</span>
+        <img alt="" class="h-16 w-16 sm:w-32 sm:h-32 rounded-full"
+            src="{{ profile.userprofile.profile_picture.url }}" />
+        <div class="space-y-2">
+            <div class="text-2xl font-medium">{{ profile.userprofile.full_name }}</div>
+            <div class="font-xs flex flex-col lg:flex-row gap-2">
+                <div class="font-medium inline-block">@{{ profile.username }}</div>
+                <span><span id="followers_count">{{ profile.userprofile.followers_count }}</span> subscribers {{
+                    profile.books.count }} Books</span>
+            </div>
+            <div class="text-sm">{{ profile.userprofile.bio }}</div>
         </div>
-        <div class="text-sm">{{ profile.userprofile.bio }}</div>
-      </div>
     </div>
     <div>
-      {% if profile == user %}
+        {% if profile == user %}
         <button class="py-2 px-4 ml-20 bg-black text-white text-sm font-medium rounded-full">Edit</button>
-      {% else %}
-        <button id="follow-btn" data-user-id="{{ profile.id }}" data-url="{% url 'main:toggle_follow' %}" class="py-2 px-4 ml-20 bg-black text-white text-sm font-medium rounded-full">
-          {% if user.userprofile in profile.userprofile.followers.all %}
+        {% else %}
+        <button id="follow-btn" data-user-id="{{ profile.id }}" data-url="{% url 'main:toggle_follow' %}"
+            class="py-2 px-4 ml-20 bg-black text-white text-sm font-medium rounded-full">
+            {% if user.userprofile in profile.userprofile.followers.all %}
             Unfollow
-          {% else %}
+            {% else %}
             Follow
-          {% endif %}
+            {% endif %}
         </button>
-      {% endif %}
+        {% endif %}
     </div>
-  </div>
-  <h2 class="text-xl font-bold text-gray-700 mb-4 mt-8">Books</h2>
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+</div>
+<h2 class="text-xl font-bold text-gray-700 mb-4 mt-8">Books</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
     {% if profile.books.all %}
-      {% for book in profile.books.all %}
-        <!-- Book Card -->
-        <div class="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer" onclick="location.href=`{% url 'main:book_view' book.slug %}`">
-          <div class="relative bg-slate-300" style="padding-bottom: 150%;">
-            <!-- 16:9 Aspect Ratio -->
-            <img alt="Book Thumbnail" class="absolute object-cover h-full w-full" src="{{ book.thumbnail.url }}" />
-          </div>
-          <div class="p-1 my-2">
-            <div class="flex gap-2 justify-between items-center">
-              <div onclick="event.stopPropagation();location.href=`{% url 'main:profile' book.author.username %}`">
-                <img alt="" class="h-10 w-10 mx-1 border rounded-full" src="{{ book.author.userprofile.profile_picture.url }}" />
-              </div>
-              <div class="max-w-[60%]">
-                <h3 class="text-sm font-bold truncate text-gray-800">{{ book.title }}</h3>
-                <a href="{% url 'main:profile' book.author.username %}" class="text-xs text-gray-500 hover:text-blue-400">{{ book.author.userprofile.full_name }}</a>
-                <p class="text-xs text-gray-400 truncate">{{ book.views }} views • {{ book.time_difference }} ago</p>
-              </div>
-              <div>
-                <button class="p-2" onclick="event.stopPropagation()"><i class="fa fa-ellipsis-vertical"></i></button>
-              </div>
-            </div>
-          </div>
-        </div>
-      {% endfor %}
+    {% for book in profile.books.all %}
+    {% include 'components/book_card.html' %}
+    {% endfor %}
     {% else %}
-      No book published yet.
+    No book published yet.
     {% endif %}
-  </div>
-  <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+</div>
+<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
 {% endblock %}
 
 {% block scripts %}
-  <script>
+<script>
     let halfMenu = true
     let fullMenuHide = false
-  </script>
+</script>
 {% endblock %}
