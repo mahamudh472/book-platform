@@ -1520,6 +1520,10 @@ video {
   width: max-content;
 }
 
+.w-screen {
+  width: 100vw;
+}
+
 .min-w-32 {
   min-width: 8rem;
 }
@@ -21653,6 +21657,10 @@ video {
 }
 
 @media (min-width: 640px) {
+  .sm\:relative {
+    position: relative;
+  }
+
   .sm\:right-16 {
     right: 4rem;
   }
@@ -21685,12 +21693,20 @@ video {
     width: 10rem;
   }
 
+  .sm\:w-48 {
+    width: 12rem;
+  }
+
   .sm\:w-9\/12 {
     width: 75%;
   }
 
   .sm\:w-auto {
     width: auto;
+  }
+
+  .sm\:w-64 {
+    width: 16rem;
   }
 
   .sm\:max-w-3xl {

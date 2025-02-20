@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 from accounts.models import UserProfile
 from django.views import View
-from .utils import log_book_view
+from .utils import log_book_view, create_notification
 from django.utils import timezone, html
 from collections import defaultdict
 from django.contrib import messages
@@ -121,6 +121,7 @@ def search_results(request):
         books = books.distinct()
         return render(request, 'search_result.html', {'q': q, 'books': books})
     return redirect('main:index')
+
 @login_required(login_url='accounts:login')
 def history(request):
     histories = History.objects.filter(user=request.user).order_by('-updated_at')
@@ -169,6 +170,7 @@ def toggle_follow(request):
         else:
             target_profile.followers.add(follower_profile)
             status = "followed"
+            create_notification(target_profile.user, f"{follower_profile.full_name} followed you.")
 
         return JsonResponse({'status': status, 'followers_count': target_profile.followers.count(),'target_user': target_profile.full_name})
 

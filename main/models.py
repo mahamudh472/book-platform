@@ -98,6 +98,7 @@ class ReadingList(models.Model):
 class Notification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications')
     content = models.TextField()
+    target_url = models.URLField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
 

@@ -58,25 +58,27 @@
                 </div>
             </div>
 
-            <div class="relative">
+            <div class="sm:relative">
                 <button class="dropdownButton text-lg fa-regular fa-bell">
                 </button>
                 <div id="dropdownMenu"
-                    class="dropdownMenu absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
+                    class="dropdownMenu absolute right-0 mt-2 w-screen sm:w-64 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
                     <ul class="py-1">
                         <li>
+                            {% for notification in notifications%}
                             <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 ">
                                 <div class="flex space-x-2">
                                     <img class="h-10 w-10 rounded-full"
                                         src="https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg"
                                         alt="">
                                     <div>
-                                        <div>This is notification title</div>
-                                        <div class="text-xs font-thin">ATN News -10 minutes ago</div>
+                                        <div>{{notification.content}}</div>
+                                        <div class="text-xs font-thin">ATN News -{{notification.created_at|timesince}} ago</div>
                                     </div>
 
                                 </div>
                             </a>
+                            {% endfor %}
                             <hr>
                             <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
                                 <div class="flex space-x-2">

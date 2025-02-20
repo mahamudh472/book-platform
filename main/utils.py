@@ -31,3 +31,10 @@ def log_book_view(book, user=None):
     BookView.objects.create(book=book, user=user)
     book.views = BookView.objects.filter(book=book).count()
     book.save()
+
+def create_notification(user, message):
+    from .models import Notification
+    Notification.objects.create(
+        user=user,
+        content=message
+    )
