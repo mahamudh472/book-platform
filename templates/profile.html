@@ -18,8 +18,7 @@ Profile
             <div class="text-2xl font-medium">{{ profile.userprofile.full_name }}</div>
             <div class="font-xs flex flex-col lg:flex-row gap-2">
                 <div class="font-medium inline-block">@{{ profile.username }}</div>
-                <span><span id="followers_count">{{ profile.userprofile.followers_count }}</span> subscribers {{
-                    profile.books.count }} Books</span>
+                <span><span id="followers_count">{{ profile.userprofile.followers_count }}</span> subscribers {{ profile.books.count }} Books</span>
             </div>
             <div class="text-sm">{{ profile.userprofile.bio }}</div>
         </div>

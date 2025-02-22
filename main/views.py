@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Book, Comment, News, History, Collection, ReadingList
+from .models import Book, Comment, News, History, Collection, ReadingList, Notification
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from accounts.models import UserProfile
@@ -159,6 +159,20 @@ def history(request):
 
     return render(request, 'history.html', {'history_dict': dict(history_dict)})
 
+def clear_notifications(request):
+    Notification.objects.filter(user=request.user).delete()
+    messages.error(request, 'Notifications cleared.')
+    return redirect(request.META.get('HTTP_REFERER', '/fallback-url/'))
+
+
+def mark_all_as_read(request):
+    noti = Notification.objects.filter(user=request.user, is_read=False)
+    for item in noti:
+        item.is_read = True
+        item.save()
+    return redirect(request.META.get('HTTP_REFERER', '/fallback-url/'))
+
+
 @login_required(login_url='accounts:login')
 def continue_reading(request):
     histories = History.objects.filter(user=request.user).order_by('-updated_at')
@@ -204,6 +218,8 @@ def toggle_like(request):
             target_book.likes.remove(user)
         else:
             target_book.likes.add(user)
+            if user != target_book.author: 
+                create_notification(target_book.author, f"{user.userprofile.full_name} liked your book {target_book.title}")
         return JsonResponse({'status': 'success', 'likes': target_book.likes.count(), 'dislikes': target_book.dislikes.count()})
     elif op == "dislike":
         if user in target_book.likes.all():
@@ -240,6 +256,9 @@ class CommentView(View):
         reply = False
         if new_comment.parent:
             reply = True
+            create_notification(new_comment.parent.user, f"{user.userprofile.full_name} replied to your comment.")
+        if request.user != target_book.author:
+            create_notification(target_book.author, f"{user.userprofile.full_name} commentent on your book.")
         response = {
             "message": "Comment submitted successfully", 
             "comment": comment,

@@ -63,63 +63,36 @@
                 </button>
                 <div id="dropdownMenu"
                     class="dropdownMenu absolute right-0 mt-2 w-screen sm:w-64 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
-                    <ul class="py-1">
-                        <li>
-                            {% for notification in notifications%}
-                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 ">
+                    <ul>
+                        
+                        <li class=" min-h-60">
+                            {% if notifications %}
+                            {% for notification in notifications %}
+                            <a href="#" class="block px-4 py-2 text-gray-700 {% if notification.is_read %}bg-white{% else %} bg-gray-100 {% endif %} hover:bg-gray-100 ">
                                 <div class="flex space-x-2">
                                     <img class="h-10 w-10 rounded-full"
                                         src="https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg"
                                         alt="">
-                                    <div>
-                                        <div>{{notification.content}}</div>
-                                        <div class="text-xs font-thin">ATN News -{{notification.created_at|timesince}} ago</div>
+                                    <div class="max-w-fit relative overflow-hidden">
+                                        <div class="truncate">{{notification.content}}</div>
+                                        <div class="text-xs font-thin">{{notification.created_at|timesince}} ago</div>
                                     </div>
 
                                 </div>
                             </a>
+                            <hr>
                             {% endfor %}
-                            <hr>
-                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                                <div class="flex space-x-2">
-                                    <img class="h-10 w-10 rounded-full"
-                                        src="https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg"
-                                        alt="">
-                                    <div>
-                                        <div>This is notification title</div>
-                                        <div class="text-xs font-thin">ATN News -10 minutes ago</div>
-                                    </div>
-
-                                </div>
-                            </a>
-                            <hr>
-                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                                <div class="flex space-x-2">
-                                    <img class="h-10 w-10 rounded-full"
-                                        src="https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg"
-                                        alt="">
-                                    <div>
-                                        <div>This is notification title</div>
-                                        <div class="text-xs font-thin">ATN News -10 minutes ago</div>
-                                    </div>
-
-                                </div>
-                            </a>
-                            <hr>
-                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                                <div class="flex space-x-2">
-                                    <img class="h-10 w-10 rounded-full"
-                                        src="https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg"
-                                        alt="">
-                                    <div>
-                                        <div>This is notification title</div>
-                                        <div class="text-xs font-thin">ATN News -10 minutes ago</div>
-                                    </div>
-
-                                </div>
-                            </a>
+                            {% else %}
+                            <div class="text-center px-2 py-4">Nothing to show.</div>
+                            {% endif %}
                         </li>
-
+                        <li>
+                            <a href="{% url 'main:mark_all_as_read' %}" class="w-full block text-center p-1 border text-blue-600">Mark all as read</a>
+                            <a href="{% url 'main:clear_notifications' %}" class="w-full block text-center p-1 border text-red-600">Clear History</a>
+                        </li>
+                        <li>
+                            <button class="w-full p-1 border">View all</button>
+                        </li>
                     </ul>
                 </div>
             </div>

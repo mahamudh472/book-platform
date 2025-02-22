@@ -24,5 +24,7 @@ urlpatterns = [
     path('collection/<str:collection_name>', views.collection, name="collection"),
     path('add_to_collection/<str:slug>/<str:collection_name>', views.add_to_collection, name="add_to_collection"),
     path('remove_from_collection/<str:slug>/<str:collection_name>', views.remove_from_collection, name="remove_from_collection"),
-    path('delete_collection/<int:collection_id>', views.delete_collection, name="delete_collection")
+    path('delete_collection/<int:collection_id>', views.delete_collection, name="delete_collection"),
+    path('clear_notifications', views.clear_notifications, name="clear_notifications"),
+    path('mark_all_as_read', views.mark_all_as_read, name="mark_all_as_read")
 ]
