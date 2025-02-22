@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from main.models import Book, User, Comment, BookView
 from django.contrib import messages
-from .forms import BookUploadForm, NewsForm, NewsImageFormSet
+from .forms import BookUploadForm, NewsForm, NewsImageFormSet, AudioForm
 import base64
 from django.core.files.base import ContentFile
 from main.utils import get_last_n_days_data, year_specific_data
@@ -87,6 +87,22 @@ def content_translate(request, slug):
     }
     return render(request, 'author/content_translate.html', context)
 
+
+@login_required(login_url='accounts:login')
+def content_audio(request, slug):
+    book = Book.objects.get(slug=slug)
+    if request.method == "POST":
+        form = AudioForm(request.POST, request.FILES)
+        if form.is_valid():
+            audio = form.save(commit=False)
+            audio.book = book
+            audio.save()
+    form = AudioForm()
+    context = {
+        'book': book,
+        'form': form
+    }
+    return render(request, 'author/content_audio.html', context)
 
 @login_required(login_url='accounts:login')
 def write_book(request):

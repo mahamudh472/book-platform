@@ -1,0 +1,18 @@
+{% extends 'author/content_base.html' %}
+{% load static %}
+{% block title %}
+Content audio
+{% endblock %}
+{% block content %}
+<div>
+    <h2 class="text-3xl font-semibold">Book audio</h2>
+</div>
+
+<div>
+    <form action="" class="sm:max-w-sm my-2">
+        {% csrf_token %}
+        {{form.as_p}}
+    </form>
+   
+</div>
+{% endblock %}

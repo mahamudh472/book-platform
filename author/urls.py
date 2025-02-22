@@ -14,6 +14,7 @@ urlpatterns = [
     path('book-analytics/<str:slug>', views.content_analytics, name="content_analytics"),
     path('book-comments/<str:slug>', views.content_comments, name="content_comments"),
     path('book-translate/<str:slug>', views.content_translate, name="content_translate"),
+    path('book-audio/<str:slug>', views.content_audio, name="content_audio"),
     path('book-copyright/<str:slug>', views.content_copyright, name="content_copyright"),
     path('write-book', views.write_book, name="write_book"),
     path('create-news', views.create_news, name="create_news")

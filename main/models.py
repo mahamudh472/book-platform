@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django_ckeditor_5.fields import CKEditor5Field
 from autoslug import AutoSlugField
 from  django.utils import timezone
+from django.core.validators import FileExtensionValidator
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -127,3 +128,12 @@ class History(models.Model):
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField()
+
+class AudioBook(models.Model):
+    book = models.ForeignKey(Book, related_name='audiobooks', on_delete=models.CASCADE)
+    language = models.CharField(max_length=50)
+    narrator = models.CharField(max_length=255, blank=True, null=True)
+    file = models.FileField(upload_to='audiobooks/', validators=[FileExtensionValidator(allowed_extensions=['mp3', 'wav', 'ogg', 'flac'])]
+)
+
+
