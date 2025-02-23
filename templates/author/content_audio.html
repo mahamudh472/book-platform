@@ -9,10 +9,35 @@ Content audio
 </div>
 
 <div>
-    <form action="" class="sm:max-w-sm my-2">
+    <form action="{% url 'author:content_audio' book.slug %}" enctype="multipart/form-data" class="sm:max-w-sm my-2 mb-6" method="post">
         {% csrf_token %}
         {{form.as_p}}
+        <button type="submit" class="p-2 border rounded mt-2 bg-green-600 hover:bg-green-700 text-white">Submit</button>
     </form>
-   
+
+    <div class="text-xl font-medium">Available audios</div>
+    {% with audios=book.audiobooks.all %}
+    {% if audios %}
+    <table class="w-full text-left border-collapse table-auto">
+        <tr class="*:border *:p-2">
+            <th>#</th>
+            <th>Language</th>
+            <th>Narator</th>
+            <th>File name</th>
+        </tr>
+        {% for audio in audios %}
+        <tr class="*:border *:p-2">
+            <td>{{forloop.counter}}</td>
+            <td>{{audio.language}}</td>
+            <td>{{audio.narrator}}</td>
+            <td>{{audio.file}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+    {% else %}
+    No audio for this book found.
+    {% endif %}
+    {% endwith %}
 </div>
 {% endblock %}

@@ -44,8 +44,8 @@ class AudioForm(forms.ModelForm):
         model = AudioBook
         fields = ['language','narrator', 'file']
         widgets = {
-            'language': forms.TextInput(attrs={'class': 'w-full border p-2 rounded'}),
-            'narrator': forms.TextInput(attrs={'class': 'w-full border p-2 rounded'}),
+            'language': forms.TextInput(attrs={'class': 'w-full border p-2 rounded mb-2'}),
+            'narrator': forms.TextInput(attrs={'class': 'w-full border p-2 rounded mb-2'}),
             'file': forms.ClearableFileInput(attrs={'class': 'w-full border p-2 rounded' , 'accept': 'audio/*'})
         }
         

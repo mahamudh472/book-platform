@@ -93,10 +93,16 @@ def content_audio(request, slug):
     book = Book.objects.get(slug=slug)
     if request.method == "POST":
         form = AudioForm(request.POST, request.FILES)
+        print(request.POST)
+        print(request.FILES)
+        print(form.errors)
         if form.is_valid():
             audio = form.save(commit=False)
             audio.book = book
             audio.save()
+            messages.success(request, "Audio added to book.")
+        else:
+            messages.error(request, 'Invalid files')
     form = AudioForm()
     context = {
         'book': book,

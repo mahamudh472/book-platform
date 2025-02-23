@@ -133,7 +133,6 @@ class AudioBook(models.Model):
     book = models.ForeignKey(Book, related_name='audiobooks', on_delete=models.CASCADE)
     language = models.CharField(max_length=50)
     narrator = models.CharField(max_length=255, blank=True, null=True)
-    file = models.FileField(upload_to='audiobooks/', validators=[FileExtensionValidator(allowed_extensions=['mp3', 'wav', 'ogg', 'flac'])]
-)
+    file = models.FileField(upload_to='audiobooks/')
 
 

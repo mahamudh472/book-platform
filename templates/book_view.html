@@ -2,291 +2,275 @@
 {% load static %}
 {% load custom_filters %}
 {% block title %}
-{{book.title}}
+  {{ book.title }}
 {% endblock %}
 {% block header %}
-<style>
+  <style>
     .ckeditor-content p {
-        margin: 0;
-        padding: 0;
+      margin: 0;
+      padding: 0;
     }
     
     .ckeditor-content p:empty {
-        display: none;
+      display: none;
     }
-
-</style>
+  </style>
 {% endblock %}
 {% block content %}
-<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-<div class="flex lg:flex-row flex-col gap-4 md:mx-6">
+  <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
+  <div class="flex lg:flex-row flex-col gap-4 md:mx-6">
     <div class="lg:w-3/5 space-y-2">
-        <div class="container mx-auto">
-            <!-- Book Container -->
-            <div class="border rounded-xl shadow-md mx-auto bg-white overflow-hidden" id="book-container">
-                <!-- Cover and Read Now Button -->
-                <div class="relative max-h-96" id="cover-container">
-                    <img alt="Book Cover" class="mx-auto h-96 w-auto" src="{{ book.thumbnail.url }}" />
-                    <button
-                        class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700"
-                        id="read-now-btn">
-                        Read Now
-                    </button>
+      <div class="container mx-auto">
+        <!-- Book Container -->
+        <div class="border rounded-xl shadow-md mx-auto bg-white overflow-hidden" id="book-container">
+          <!-- Cover and Read Now Button -->
+          <div class="relative max-h-96" id="cover-container">
+            <img alt="Book Cover" class="mx-auto h-96 w-auto" src="{{ book.thumbnail.url }}" />
+            <button class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700" id="read-now-btn">Read Now</button>
+          </div>
+
+          <!-- Temporary Container for Off-DOM Content -->
+          <div id="temp-container" style="visibility: hidden; position: absolute; z-index: -1;"></div>
+
+          <!-- Reader Container -->
+          <div class="hidden p-6 relative" id="reader-container">
+            <!-- Page Content -->
+            <div class="transition-transform m-auto prose max-w-none duration-500 ease-in-out bg-gray-100 p-4 rounded-lg" id="page-container">{{ book.content|safe }}</div>
+
+            <!-- Pagination and Controls -->
+            <div class="flex justify-between items-center mt-4">
+              <div class="flex gap-2 items-center">
+                <!-- Previous Button -->
+                <button class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700" id="prev-btn"><i class="fa fa-chevron-left"></i></button>
+
+                <!-- Page Number Input -->
+                <div>
+                  <label class="mr-2" for="page-number">Page:</label>
+                  <input class="border rounded w-12 text-center" id="page-number" min="1" type="number" value="1" />
+                  <span class="ml-1" id="total-pages">/ 1</span>
                 </div>
 
-                <!-- Temporary Container for Off-DOM Content -->
-                <div id="temp-container" style="visibility: hidden; position: absolute; z-index: -1;"></div>
+                <!-- Next Button -->
+                <button class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700" id="next-btn"><i class="fa fa-chevron-right"></i></button>
+              </div>
 
-                <!-- Reader Container -->
-                <div class="hidden p-6 relative" id="reader-container">
-                    <!-- Page Content -->
-                    <div class="transition-transform m-auto prose max-w-none duration-500 ease-in-out bg-gray-100 p-4 rounded-lg"
-                        id="page-container">
-                        {{book.content|safe}}
-                       
-                    </div>
-                    
+              <select name="" id="audio_select" class="p-2 text-xs w-20">
+                <option value="" selected disabled>Audio</option>
+                {% for audio in book.audiobooks.all %}
+                  <option value="audio-{{ audio.id }}">{{ audio.language }} - {{ audio.narrator }}</option>
+                {% endfor %}
+              </select>
 
-                    <!-- Pagination and Controls -->
-                    <div class="flex justify-between items-center mt-4">
-                        <!-- Previous Button -->
-                        <button class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700" id="prev-btn">
-                            Previous
-                        </button>
-
-                        <!-- Page Number Input -->
-                        <div>
-                            <label class="mr-2" for="page-number">
-                                Page:
-                            </label>
-                            <input class="border rounded w-12 text-center" id="page-number" min="1" type="number"
-                                value="1" />
-                            <span class="ml-1" id="total-pages">
-                                / 1
-                            </span>
-                        </div>
-
-                        <!-- Next Button -->
-                        <button class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700" id="next-btn">
-                            Next
-                        </button>
-
-                        <!-- Font Size Selector -->
-                        <div class="flex justify-center items-center">
-                            <label class="mr-2" for="ratio">
-                                Font Size:
-                            </label>
-                            <select class="border rounded px-2 py-1" id="ratio">
-                                <option value="text-sm">Small</option>
-                                <option value="text-base" selected>Normal</option>
-                                <option value="text-lg">Large</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Hidden Full Content for Fallback -->
-                <div class="hidden" id="book_content">
-                    {{book.content}}
-                </div>
+              <!-- Font Size Selector -->
+              <div class="flex justify-center items-center">
+                <label class="mr-2" for="ratio">Font Size:</label>
+                <select class="border rounded px-2 py-1" id="ratio">
+                  <option value="text-sm">Small</option>
+                  <option value="text-base" selected>Normal</option>
+                  <option value="text-lg">Large</option>
+                </select>
+              </div>
             </div>
-
-        </div>
-        <div class="text-xl font-medium my-2">
-            {{book.title}}
-        </div>
-        <div class="flex flex-col space-y-2 md:flex-row justify-between">
-            <div class="flex space-x-3  items-center justify-between">
-                <div class="flex gap-2">
-                    <img onclick="location.href=`{% url 'main:profile' book.author.username %}`" alt="" class="h-10 w-10 cursor-pointer"
-                        src="{{book.author.userprofile.profile_picture.url}}" />
-                    <div class="flex flex-col">
-                        <div class="font-medium cursor-pointer hover:text-blue-500" onclick="location.href=`{% url 'main:profile' book.author.username %}`">
-                            {{book.author.userprofile.full_name}}
-                        </div>
-                        <div class="font-sm text-xs">
-                            <span id="followers_count">{{book.author.userprofile.followers_count}}</span> subscribers
-                        </div>
-                    </div>
-                </div>
-                {% if user != book.author %}
-                <button id="follow-btn" data-user-id="{{ book.author.id }}" data-url="{% url 'main:toggle_follow' %}"  class="bg-black text-white px-2 py-1 rounded-xl">
-                    {% if follower %}
-                    Unfollow
-                    {% else %}
-                    Follow
-                    {% endif %}
-                    
-                </button>
-                {% endif %}
+            <div class="w-full">
+              {% for audio in book.audiobooks.all %}
+                <audio src="{{ audio.file.url }}" class="w-full my-2 hidden audio-player" id="audio-{{audio.id}}" controls></audio>
+              {% endfor %}
             </div>
-            <div class="flex items-center">
-                <div class="flex">
-                    <div id="like-dislike-btn" data-book-id="{{book.id}}" data-url="{% url 'main:toggle_like' %}" data-op="like"
-                        class="bg-neutral-200 border-gray-300 flex p-2 px-3 space-x-1 items-center text-sm rounded-l-full border-r-2 cursor-pointer hover:bg-neutral-300">
-                        <i class="{% if book in user.liked_books.all %}fa{% else %} fa-regular{% endif %} fa-thumbs-up">
-                        </i>
-                        <div class="text-normal">
-                            {{book.likes_count}}
-                        </div>
-                    </div>
-                    <div id="like-dislike-btn" data-book-id="{{book.id}}" data-url="{% url 'main:toggle_like' %}" data-op="dislike"
-                        class="bg-neutral-200 flex p-2 mr-3 space-x-1 px-3 items-center text-sm rounded-r-full cursor-pointer hover:bg-neutral-300">
-                        <i class="{% if book in user.disliked_books.all %}fa{% else %} fa-regular{% endif %} fa-thumbs-down">
-                        </i>
-                        <div class="text-normal">
-                            {{book.dislikes_count}}
-                        </div>
-                    </div>
-                </div>
+          </div>
 
-                <button class="bg-neutral-200 hover:bg-neutral-300 p-2 mr-3 rounded-full text-sm">
-                    <i class="fa fa-share">
-                    </i>
-                    Share
-                </button>
-                <div class="relative">
-                    <button class="dropdownButton bg-neutral-200 hover:bg-neutral-300 w-12 p-2 rounded-full text-sm">
-                        <i class="fa fa-ellipsis">
-                        </i>
-                    </button>
-                    <!-- Dropdown Menu -->
-                    <div id="dropdownMenu"
-                        class="dropdownMenu absolute right-0 mt-2 w-max bg-white border border-gray-200 rounded-lg shadow-lg hidden">
-                        <ul class="py-1">
-                            {% for item in user.reading_list.all %}
-                            <li>
-                                <a href="{% url 'main:add_to_collection' book.slug item.name %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                                    <div class="fa fa-plus mr-2"></div>Add to {{item.name}}
-                                </a>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-                
+          <!-- Hidden Full Content for Fallback -->
+          <div class="hidden" id="book_content">{{ book.content }}</div>
+        </div>
+      </div>
+      <div class="text-xl font-medium my-2">{{ book.title }}</div>
+      <div class="flex flex-col space-y-2 md:flex-row justify-between">
+        <div class="flex space-x-3 items-center justify-between">
+          <div class="flex gap-2">
+            <img onclick="location.href=`{% url 'main:profile' book.author.username %}`" alt="" class="h-10 w-10 cursor-pointer" src="{{ book.author.userprofile.profile_picture.url }}" />
+            <div class="flex flex-col">
+              <div class="font-medium cursor-pointer hover:text-blue-500" onclick="location.href=`{% url 'main:profile' book.author.username %}`">{{ book.author.userprofile.full_name }}</div>
+              <div class="font-sm text-xs">
+                <span id="followers_count">{{ book.author.userprofile.followers_count }}</span> subscribers
+              </div>
             </div>
+          </div>
+          {% if user != book.author %}
+            <button id="follow-btn" data-user-id="{{ book.author.id }}" data-url="{% url 'main:toggle_follow' %}" class="bg-black text-white px-2 py-1 rounded-xl">
+              {% if follower %}
+                Unfollow
+              {% else %}
+                Follow
+              {% endif %}
+            </button>
+          {% endif %}
         </div>
-        <!-- Description container -->
-        <div class="w-full bg-gray-200 p-4 rounded-lg">
-            <div class="font-bold text-sm">
-                {{book.views}} views {% now "N j, Y" %}
-            </div>
-            {{book.description}}
-        </div>
-        <div class="font-bold text-lg py-3">
-            <span id="comment-count">{{book.comments.count}}</span> Comments
-        </div>
+        <div class="flex items-center">
+          <div class="flex">
+            <div id="like-dislike-btn" data-book-id="{{ book.id }}" data-url="{% url 'main:toggle_like' %}" data-op="like" class="bg-neutral-200 border-gray-300 flex p-2 px-3 space-x-1 items-center text-sm rounded-l-full border-r-2 cursor-pointer hover:bg-neutral-300">
+              <i class="{% if book in user.liked_books.all %}
+                  
+                  fa
 
-        {% if user.is_authenticated %}
-        <form id="comment-form" class="py-4 flex gap-2" data-url="{% url 'main:submit_comment' %}" data-parent-id="" data-book-id="{{book.id}}" onsubmit="submitComment(this, event)">
-            <img src="{% if user.userprofile.profile_picture %}{{user.userprofile.profile_picture.url}}{% else %}{% static 'profile_img/profile_img3.png' %}{% endif %}" class="h-10 w-10" alt="">
-            <input type="text" id="comment-input" name="comment" class="w-full px-2 border-b focus:ring-0 focus:outline-none" placeholder="Add a comment">
-            <button type="submit" class="hidden"></button> <!-- Hidden submit button -->
+                {% else %}
+                  
+                   fa-regular
+
+                {% endif %} fa-thumbs-up">
+
+              </i>
+              <div class="text-normal">{{ book.likes_count }}</div>
+            </div>
+            <div id="like-dislike-btn" data-book-id="{{ book.id }}" data-url="{% url 'main:toggle_like' %}" data-op="dislike" class="bg-neutral-200 flex p-2 mr-3 space-x-1 px-3 items-center text-sm rounded-r-full cursor-pointer hover:bg-neutral-300">
+              <i class="{% if book in user.disliked_books.all %}
+                  
+                  fa
+
+                {% else %}
+                  
+                   fa-regular
+
+                {% endif %} fa-thumbs-down">
+
+              </i>
+              <div class="text-normal">{{ book.dislikes_count }}</div>
+            </div>
+          </div>
+
+          <button class="bg-neutral-200 hover:bg-neutral-300 p-2 mr-3 rounded-full text-sm">
+            <i class="fa fa-share"></i>
+            Share
+          </button>
+          <div class="relative">
+            <button class="dropdownButton bg-neutral-200 hover:bg-neutral-300 w-12 p-2 rounded-full text-sm"><i class="fa fa-ellipsis"></i></button>
+            <!-- Dropdown Menu -->
+            <div id="dropdownMenu" class="dropdownMenu absolute right-0 mt-2 w-max bg-white border border-gray-200 rounded-lg shadow-lg hidden">
+              <ul class="py-1">
+                {% for item in user.reading_list.all %}
+                  <li>
+                    <a href="{% url 'main:add_to_collection' book.slug item.name %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100"><div class="fa fa-plus mr-2"></div>Add to {{ item.name }}</a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Description container -->
+      <div class="w-full bg-gray-200 p-4 rounded-lg">
+        <div class="font-bold text-sm">
+          {{ book.views }} views{% now 'N j, Y' %}
+        </div>
+        {{ book.description }}
+      </div>
+      <div class="font-bold text-lg py-3">
+        <span id="comment-count">{{ book.comments.count }}</span> Comments
+      </div>
+
+      {% if user.is_authenticated %}
+        <form id="comment-form" class="py-4 flex gap-2" data-url="{% url 'main:submit_comment' %}" data-parent-id="" data-book-id="{{ book.id }}" onsubmit="submitComment(this, event)">
+          <img src="{% if user.userprofile.profile_picture %}
+              {{ user.userprofile.profile_picture.url }}
+            {% else %}
+              {% static 'profile_img/profile_img3.png' %}
+            {% endif %}"
+            class="h-10 w-10"
+            alt="" />
+          <input type="text" id="comment-input" name="comment" class="w-full px-2 border-b focus:ring-0 focus:outline-none" placeholder="Add a comment" />
+          <button type="submit" class="hidden"></button> <!-- Hidden submit button -->
         </form>
-        {% else %}
-        <div class="p-2 border text-red-500 bg-red-100 border-red-500 rounded-md">You have to 
-            <a onclick="const modal = document.getElementById('modal');modal.classList.remove(`hidden`); modal.classList.add(`flex`)" class="text-blue-500 hover:border-b border-blue-500 cursor-pointer" >login</a> for comments</div>
-        {% endif %}
-
-        <div class="space-y-4" id="comments-container">
-            {% for comment in comments %}
-            {% include "components/comment.html" %}
-            {% endfor %}
-            
+      {% else %}
+        <div class="p-2 border text-red-500 bg-red-100 border-red-500 rounded-md">
+          You have to
+          <a onclick="const modal = document.getElementById('modal');modal.classList.remove(`hidden`); modal.classList.add(`flex`)" class="text-blue-500 hover:border-b border-blue-500 cursor-pointer">login</a> for comments
         </div>
+      {% endif %}
+
+      <div class="space-y-4" id="comments-container">
+        {% for comment in comments %}
+          {% include 'components/comment.html' %}
+        {% endfor %}
+      </div>
     </div>
     <div class="lg:w-2/5">
-        {% for item in suggestions %}
+      {% for item in suggestions %}
         <!-- side content container -->
         <div class="flex h-36 justify-between space-x-2 mb-3 cursor-pointer" onclick="location.href=`{% url 'main:book_view' item.slug %}`">
-            <div class="flex gap-3">
-                <!-- image container -->
-                <div class="overflow-hidden bg-red-600 rounded-lg max-w-28">
-                    <img alt="" class="h-full w-full object-cover" src="{{item.thumbnail.url}}" />
-                </div>
-                <!-- text container  -->
-                <div class="py-2">
-                    <div class="font-medium">
-                        {{item.title}}
-                    </div>
-                    <a href="{% url 'main:profile' book.author.username %}" class="text-xs text-gray-500 hover:text-blue-400">
-                        {{item.author.userprofile.full_name}}
-                    </a>
-                    <div class="text-xs font-thin">
-                        {{item.views}} views • {{item.published_date|timesince}} ago 
-                    </div>
-                </div>
+          <div class="flex gap-3">
+            <!-- image container -->
+            <div class="overflow-hidden bg-red-600 rounded-lg max-w-28">
+              <img alt="" class="h-full w-full object-cover" src="{{ item.thumbnail.url }}" />
             </div>
-
-            <div>
-                <div class="relative">
-                    <button class="dropdownButton bg-neutral-200 hover:bg-neutral-300 p-2 rounded-full text-sm">
-                        <i class="fa fa-ellipsis-vertical">
-                        </i>
-                    </button>
-                    <!-- Dropdown Menu -->
-                    <div id="dropdownMenu"
-                        class="dropdownMenu absolute z-[1000] right-0 mt-2 w-max bg-white border border-gray-200 rounded-lg shadow-lg hidden">
-                        <ul class="py-1">
-                            <li>
-                                <button class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
-                                    data-url="{{request.scheme}}://{{request.get_host}}{% url 'main:book_view' item.slug %}"
-                                    onclick="event.stopPropagation();copy_to_clipboard(this, event)">
-                                    <div class="fa fa-share mr-2"></div>Copy link
-                                </button>
-                            </li>
-                            <li>
-                                <a href="" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                                    <div class="fa-regular fa-clipboard mr-2"></div>Share
-                                </a>
-                            </li>
-                            {% for coll_item in user.reading_list.all %}
-                            {% with coll_item.get_book_ids as book_ids %}
-                            <li>
-                                {% if item.id in book_ids %}
-                                <a href="{% url 'main:remove_from_collection' item.slug coll_item.name %}"
-                                    class="block px-4 py-2 text-gray-700 hover:bg-gray-100 truncate max-w-48">
-                                    <div class="fa fa-minus mr-2"></div>Remove from {{ coll_item.name }}
-                                </a>
-                                {% else %}
-                                <a href="{% url 'main:add_to_collection' item.slug coll_item.name %}"
-                                    class="block px-4 py-2 text-gray-700 hover:bg-gray-100 truncate max-w-48">
-                                    <div class="fa fa-plus mr-2"></div>Add to {{ coll_item.name }}
-                                </a>
-                                {% endif %}
-                            </li>
-                            {% endwith %}
-                            {% endfor %}
-
-
-                        </ul>
-                    </div>
-                </div>
+            <!-- text container -->
+            <div class="py-2">
+              <div class="font-medium">{{ item.title }}</div>
+              <a href="{% url 'main:profile' book.author.username %}" class="text-xs text-gray-500 hover:text-blue-400">{{ item.author.userprofile.full_name }}</a>
+              <div class="text-xs font-thin">{{ item.views }} views • {{ item.published_date|timesince }} ago</div>
             </div>
+          </div>
+
+          <div>
+            <div class="relative">
+              <button class="dropdownButton bg-neutral-200 hover:bg-neutral-300 p-2 rounded-full text-sm"><i class="fa fa-ellipsis-vertical"></i></button>
+              <!-- Dropdown Menu -->
+              <div id="dropdownMenu" class="dropdownMenu absolute z-[1000] right-0 mt-2 w-max bg-white border border-gray-200 rounded-lg shadow-lg hidden">
+                <ul class="py-1">
+                  <li>
+                    <button class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100" data-url="{{ request.scheme }}://{{ request.get_host }}{% url 'main:book_view' item.slug %}" onclick="event.stopPropagation();copy_to_clipboard(this, event)"><div class="fa fa-share mr-2"></div>Copy link</button>
+                  </li>
+                  <li>
+                    <a href="" class="block px-4 py-2 text-gray-700 hover:bg-gray-100"><div class="fa-regular fa-clipboard mr-2"></div>Share</a>
+                  </li>
+                  {% for coll_item in user.reading_list.all %}
+                    {% with book_ids=coll_item.get_book_ids %}
+                      <li>
+                        {% if item.id in book_ids %}
+                          <a href="{% url 'main:remove_from_collection' item.slug coll_item.name %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 truncate max-w-48"><div class="fa fa-minus mr-2"></div>Remove from {{ coll_item.name }}</a>
+                        {% else %}
+                          <a href="{% url 'main:add_to_collection' item.slug coll_item.name %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 truncate max-w-48"><div class="fa fa-plus mr-2"></div>Add to {{ coll_item.name }}</a>
+                        {% endif %}
+                      </li>
+                    {% endwith %}
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
-        {% endfor %}
+      {% endfor %}
     </div>
-</div>
-
-
+  </div>
 {% endblock %}
 
 {% block scripts %}
-<script>
+  <script>
     let fullMenuHide = true
     let halfMenu = false
     const sideBar = document.getElementById('sidebar')
     const cardGrid = document.getElementById('content')
     sideBar.classList.toggle('md:translate-x-0')
     cardGrid.classList.remove('md:ml-64')
-
-    document.querySelectorAll('p').forEach((element)=>{
-        if (element.innerHTML==='&nbsp;'){
-            element.style.margin=0;
-        }
+    
+    document.querySelectorAll('p').forEach((element) => {
+      if (element.innerHTML === '&nbsp;') {
+        element.style.margin = 0
+      }
     })
-</script>
-<script src="{% static 'js/book_view.js' %}">
-</script>
+
+    document.getElementById('audio_select').addEventListener("change", function() {
+        let targetAudioId = this.value;  // Get selected audio ID
+        let allAudios = document.querySelectorAll('.audio-player'); // Select all audio elements
+    
+        allAudios.forEach(audio => {
+            if (audio.id === `${targetAudioId}`) {
+                audio.classList.remove('hidden'); // Show selected audio
+            } else {
+                audio.classList.add('hidden'); // Hide others
+                audio.pause(); // Stop playback of hidden audio
+                audio.currentTime = 0; // Reset playback position
+            }
+        });
+    });
+    
+  </script>
+  <script src="{% static 'js/book_view.js' %}"></script>
 {% endblock %}
