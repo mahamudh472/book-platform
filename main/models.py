@@ -19,6 +19,7 @@ class Book(models.Model):
     slug = AutoSlugField(populate_from='title', unique=True)
     description = models.TextField()
     content = CKEditor5Field(config_name="extends") 
+    language = models.CharField(max_length=50, default="default")
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='books')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='books', blank=True, null=True)
     published_date = models.DateTimeField(auto_now_add=True)
@@ -135,4 +136,9 @@ class AudioBook(models.Model):
     narrator = models.CharField(max_length=255, blank=True, null=True)
     file = models.FileField(upload_to='audiobooks/')
 
-
+class Booktranslation(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='translations')
+    language = models.CharField(max_length=50)
+    translated_title = models.CharField(max_length=255)
+    translated_description = models.TextField()
+    translated_content = CKEditor5Field(config_name='default')

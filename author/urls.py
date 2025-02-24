@@ -17,6 +17,7 @@ urlpatterns = [
     path('book-audio/<str:slug>', views.content_audio, name="content_audio"),
     path('book-copyright/<str:slug>', views.content_copyright, name="content_copyright"),
     path('write-book', views.write_book, name="write_book"),
-    path('create-news', views.create_news, name="create_news")
+    path('create-news', views.create_news, name="create_news"),
+    path('get-translation/<int:book_id>/<int:translation_id>', views.get_translation, name='get_translation')
 
 ]

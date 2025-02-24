@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
-from main.models import Book, User, Comment, BookView
+from main.models import Book, User, Comment, BookView, Booktranslation
 from django.contrib import messages
-from .forms import BookUploadForm, NewsForm, NewsImageFormSet, AudioForm
+from .forms import BookUploadForm, NewsForm, NewsImageFormSet, AudioForm, TranslationForm
 import base64
 from django.core.files.base import ContentFile
 from main.utils import get_last_n_days_data, year_specific_data
@@ -82,10 +83,40 @@ def content_copyright(request, slug):
 @login_required(login_url='accounts:login')
 def content_translate(request, slug):
     book = Book.objects.get(slug=slug)
+    if request.method == "POST":
+        form = TranslationForm(request.POST)
+        if form.is_valid():
+            translation = form.save(commit=False)
+            translation.book = book
+            translation.save()
+            messages.success(request, 'Translation added to book')
+        else:
+            print(form.errors)
+            messages.error(request, 'Invalid response')
+    form = TranslationForm()
     context = {
-        'book': book
+        'book': book,
+        'form': form
     }
     return render(request, 'author/content_translate.html', context)
+
+
+def get_translation(request, book_id, translation_id):
+    if translation_id == 0:
+        book = Book.objects.get(id=book_id)
+        context = {
+            'translated_title': book.title,
+            'translated_description': book.description,
+            'translated_content': book.content
+        }
+    else:
+        translation = Booktranslation.objects.get(id=translation_id)
+        context = {
+            'translated_title': translation.translated_title,
+            'translated_description': translation.translated_description,
+            'translated_content': translation.translated_content
+        }
+    return JsonResponse(context)
 
 
 @login_required(login_url='accounts:login')
@@ -93,9 +124,6 @@ def content_audio(request, slug):
     book = Book.objects.get(slug=slug)
     if request.method == "POST":
         form = AudioForm(request.POST, request.FILES)
-        print(request.POST)
-        print(request.FILES)
-        print(form.errors)
         if form.is_valid():
             audio = form.save(commit=False)
             audio.book = book

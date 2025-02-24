@@ -47,7 +47,7 @@ Publish Book
             <label class="block text-gray-700">Preview</label>
             <img id="thumbnailPreview" src="" class="w-40 h-auto border rounded">
         </div>
-    
+        {{ form.language.label_tag }} {{form.language}}
         {{ form.title.label_tag }} {{ form.title }}
         {{ form.description.label_tag }} {{ form.description }}
         {{ form.content.label_tag }} {{ form.content }}

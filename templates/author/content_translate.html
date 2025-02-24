@@ -9,6 +9,13 @@ Content translate
 </div>
 
 <div>
+    <form action="" method="post" class="sm:w-[80%] *:mb-2">
+        {% csrf_token %}
+        {{form.media}}
+        {{form.as_p}}
+        <input type="submit" value="Submit" class="p-2 rounded bg-green-600 hover:bg-green-700 text-white">
+    </form>
+    
     <div class="felx flex-col max-w-lg m-auto space-y-3 mt-24 text-center">
         <select name="" id="" class="border rounded-lg px-4 py-2 bg-white m-auto w-64">
             <option value="">Select language</option>

@@ -61,13 +61,20 @@
                 {% endfor %}
               </select>
 
+              <select name="" id="translation_select" class="p-2 text-xs w-20">
+                <option value="0" selected>default</option>
+                {% for translation in book.translations.all %}
+                  <option value="{{ translation.id }}">{{ translation.language }}</option>
+                {% endfor %}
+              </select>
+
               <!-- Font Size Selector -->
               <div class="flex justify-center items-center">
                 <label class="mr-2" for="ratio">Font Size:</label>
-                <select class="border rounded px-2 py-1" id="ratio">
-                  <option value="text-sm">Small</option>
-                  <option value="text-base" selected>Normal</option>
-                  <option value="text-lg">Large</option>
+                <select class="border rounded px-2 py-1" id="text-size">
+                  <option value="sm">Small</option>
+                  <option value="base" selected>Normal</option>
+                  <option value="lg">Large</option>
                 </select>
               </div>
             </div>
@@ -270,6 +277,31 @@
             }
         });
     });
+    document.getElementById('translation_select').addEventListener('change', function(){
+      let translation_id = this.value
+      let book_id = {{book.id}}
+      fetch(`/author/get-translation/${book_id}/${translation_id}`)
+      .then(data => data.json())
+      .then(data => {
+        document.getElementById('page-container').innerHTML = data.translated_content
+      })
+    })
+
+    document.getElementById('text-size').addEventListener('change', function(){
+      let page_container = document.getElementById('page-container')
+      if (this.value == 'sm'){
+        page_container.classList.add('text-sm')
+      }else if (this.value == 'base'){
+        page_container.classList.remove('text-sm')
+        page_container.classList.remove('text-lg')
+        page_container.classList.add('text-base')
+      }else if (this.value == 'lg'){
+        page_container.classList.add('text-lg')
+        page_container.classList.remove('text-sm')
+        page_container.classList.remove('text-base')
+
+      } 
+    })
     
   </script>
   <script src="{% static 'js/book_view.js' %}"></script>
