@@ -184,10 +184,10 @@
             <nav>
                 <ul class="space-y-1 text-sm mt-4" id="sidebarItems">
                     <li class="flex flex-col justify-center items-center">
-                        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" id="sidebar_profile_img"
+                        <img src="{{user.userprofile.profile_picture.url}}" id="sidebar_profile_img"
                             class="h-24 w-24 rounded-full mb-2 transition-all duration-300" alt="">
                         <div class="text-sm font-bold">Your channel</div>
-                        <div class="text-sm font-thin">One man studio</div>
+                        <div class="text-sm font-thin">{{user.userprofile.full_name}}</div>
                     </li>
                     <li onclick="location.href=`{% url 'author:author_dashboard' %}`" data-page="dashboard"
                         class="flex items-center space-x-3 p-2 rounded-lg transition-all hover:bg-gray-200 cursor-pointer menu-item">
