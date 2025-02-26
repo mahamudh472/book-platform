@@ -24,36 +24,40 @@ Dashboard
             <!-- Latest Video Performance -->
             <div class="bg-white shadow-md p-4 rounded-md">
                 <h3 class="text-lg font-bold mb-2">Latest Book Performance</h3>
+                {% with book=user.books.first %}
+                {% if book %}
                 <div class="space-y-2">
-                    <img alt="Latest Video" class="w-48 h-64 rounded-md" src="{% static 'book images/img1.jpg' %}" />
-                    <p class="text-gray-600">Soul by Olivia Wilson</p>
+                    <img alt="Latest Video" class="w-48 h-64 rounded-md" src="{{book.thumbnail.url}}" />
+                    <p class="text-gray-600">{{book.title}}</p>
                     <ul class="text-sm space-y-2 py-4">
                         <li class="flex justify-between">
-                            <div>Ranking by views</div>
+                            <div>Ranking by reads</div>
                             <div>6 of 10 <button class="fa fa-chevron-right pl-1"></button></div>
                         </li>
                         <li class="flex justify-between">
-                            <div>Views</div>
-                            <div>1<button class="fa fa-circle-up pl-1 text-green-600"></button></div>
+                            <div>Reads</div>
+                            <div>{{book.views}}<button class="fa fa-circle-up pl-1 text-green-600"></button></div>
                         </li>
                         <li class="flex justify-between">
                             <div>Impression Click-through rate</div>
                             <div>11.9% <button class="fa fa-circle-down text-red-600 pl-1"></button></div>
                         </li>
                         <li class="flex justify-between">
-                            <div>Avarage view duration</div>
+                            <div>Avarage read duration</div>
                             <div>3:25 <button class="fa fa-circle-minus pl-1 text-gray-500"></button></div>
                         </li>
                     </ul>
-                    <button
-                        class="px-4 py-2 font-medium text-sm block bg-gray-200 rounded-md hover:bg-gray-300">Go
-                        to Video
-                        Analytics</button>
-                    <button
-                        class="px-4 py-2 font-medium block text-sm bg-gray-200 rounded-md hover:bg-gray-300">
-                        See comments(0)
-                    </button>
+                    <a href="{% url 'author:content_analytics' book.slug %}"
+                        class="px-4 py-2 font-medium block w-fit text-sm bg-gray-200 rounded-md hover:bg-gray-300">Go
+                        to book
+                        Analytics</a>
+                    <a href="{% url 'author:content_comments' book.slug %}"
+                        class="px-4 py-2 block w-fit font-medium text-sm bg-gray-200 rounded-md hover:bg-gray-300">
+                        See comments({{book.comments.count}})
+                </a>
                 </div>
+                {% endif %}
+                {% endwith %}
             </div>
             <!-- Published Videos -->
             <div class="bg-white shadow-md p-4 rounded-md">
@@ -86,12 +90,12 @@ Dashboard
                     </div>
                     <ul class="text-sm space-y-2">
                         <li class="flex justify-between">
-                            <div>Views</div>
+                            <div>Reads</div>
                             <div>8.5k<button class="fa-regular fa-circle-check pl-1 text-green-600"></button>
                             </div>
                         </li>
                         <li class="flex justify-between">
-                            <div>Watch time(hours)</div>
+                            <div>Reading time(hours)</div>
                             <div>435.8 <button class="fa-regular fa-circle-xmark text-red-600 pl-1"></button>
                             </div>
                         </li>
@@ -105,7 +109,7 @@ Dashboard
                 <div>
                     <div class="text-sm space-y-1">
                         <div class="font-bold">Summary</div>
-                        <div class="text-gray-600">Last 48 hours - Views</div>
+                        <div class="text-gray-600">Last 48 hours - Reads</div>
                     </div>
                 </div>
             </div>
@@ -118,10 +122,10 @@ Dashboard
         <!-- column 3 -->
         <div class="flex flex-col gap-4">
             <!-- What's New -->
-            <div class="bg-white shadow-md p-4 rounded-md">
-                <h3 class="text-lg font-bold mb-2">What's New in Studio</h3>
-                <p class="text-gray-600">Upcoming changes to community guidelines</p>
-            </div>
+                {% comment %} <div class="bg-white shadow-md p-4 rounded-md">
+                    <h3 class="text-lg font-bold mb-2">What's New in Studio</h3>
+                    <p class="text-gray-600">Upcoming changes to community guidelines</p>
+                </div> {% endcomment %}
         </div>
     </div>
 
