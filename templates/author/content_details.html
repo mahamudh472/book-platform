@@ -79,8 +79,7 @@ Content details
                         <div class="text-xs font-medium text-neutral-500">Book link</div>
                         <a href="{{ request.scheme }}://{{ request.get_host }}{% url 'main:book_view' book.slug %}"
                             id="book_link"
-                            class="inline-block max-w-40 overflow-hidden text-ellipsis whitespace-nowrap text-sm text-blue-500 font-medium">{{
-                            request.scheme }}://{{ request.get_host }}{% url 'main:book_view' book.slug %}</a>
+                            class="inline-block max-w-40 overflow-hidden text-ellipsis whitespace-nowrap text-sm text-blue-500 font-medium">{{request.scheme }}://{{ request.get_host }}{% url 'main:book_view' book.slug %}</a>
                     </div>
 
                     <i class="block fa-regular fa-copy cursor-pointer" onclick="copy_to_clipboard(this)"></i>

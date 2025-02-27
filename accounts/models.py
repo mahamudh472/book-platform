@@ -14,3 +14,6 @@ class UserProfile(models.Model):
 
     def followers_count(self):
         return self.followers.count()
+    
+    def get_total_views(self):
+        return self.user.books.aggregate(models.Sum('views'))['views__sum'] or 0

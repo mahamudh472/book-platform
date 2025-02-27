@@ -37,6 +37,7 @@ class Book(models.Model):
     
     def dislikes_count(self):
         return self.dislikes.count()
+    
 
 class BookView(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="book_views")

@@ -40,6 +40,7 @@ Content
              <style>
                 .description {
                     display: -webkit-box;
+                    line-clamp: 2;
                     -webkit-line-clamp: 2; /* Limits text to 2 lines */
                     -webkit-box-orient: vertical;
                     overflow: hidden;
@@ -62,7 +63,7 @@ Content
                 <td class="px-2 py-6 whitespace-nowrap">
                     <select name="" id="" class="block p-1 rounded">
                         <option value="">Public</option>
-                        <option value="">Privet</option>
+                        <option value="">Private</option>
                     </select>
                     {% comment %} <i class="fa fa-earth-asia"></i> <span>Public</span>
                     <i class="fa fa-chevron-down cursor-pointer p-2 rounded-full hover:bg-gray-200"></i> {% endcomment %}
