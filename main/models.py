@@ -12,7 +12,9 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-
+class PublicBookManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().exclude(status="Private")
 
 class Book(models.Model):
     title = models.CharField(max_length=255)
@@ -29,6 +31,9 @@ class Book(models.Model):
     views = models.PositiveIntegerField(default=0)
     thumbnail = models.ImageField(upload_to='thumbnails/', blank=True, null=True)
     status = models.CharField(max_length=50, default='Public')
+
+    objects = models.Manager()
+    public_objects = PublicBookManager()
 
     def __str__(self):
         return self.title

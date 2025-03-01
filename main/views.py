@@ -15,16 +15,16 @@ def index(request):
     context = {}
     path_info = request.META.get('PATH_INFO')
     if path_info == "/trending":
-        books = Book.objects.all().order_by('-views')
+        books = Book.public_objects.all().order_by('-views')
         context['page'] = "Trending"
     elif path_info == "/recent":
-        books = Book.objects.all().order_by('-published_date')
+        books = Book.public_objects.all().order_by('-published_date')
         context['page'] = "Recent"
     elif path_info == "/popular":
-        books = Book.objects.all().order_by('-views')
+        books = Book.public_objects.all().order_by('-views')
         context['page'] = "Polular"
     else:
-        books = Book.objects.all().order_by('?')
+        books = Book.public_objects.all().order_by('?')
         context['page'] = "Recommended"
     context['books'] = books
     if request.user.is_authenticated:
@@ -73,7 +73,7 @@ def collection(request, collection_name):
         return redirect(request.META.get('HTTP_REFERER', '/fallback-url/'))
 
 def add_to_collection(request, slug, collection_name):
-    book = Book.objects.get(slug=slug)
+    book = Book.public_objects.get(slug=slug)
     coll = Collection.objects.filter(user=request.user, name=collection_name)
     if coll.exists():
         obj, created =ReadingList.objects.get_or_create(
@@ -89,7 +89,7 @@ def add_to_collection(request, slug, collection_name):
     return redirect(request.META.get('HTTP_REFERER', '/fallback-url/'))
 
 def remove_from_collection(request, slug, collection_name):
-    book = Book.objects.get(slug=slug)
+    book = Book.public_objects.get(slug=slug)
     coll = Collection.objects.filter(user=request.user, name=collection_name)
     if coll.exists():
         obj = ReadingList.objects.get(collection=coll.first(), book=book)
@@ -104,7 +104,7 @@ def remove_from_collection(request, slug, collection_name):
 
 
 def book_view(request, slug):
-    book = Book.objects.get(slug=slug)
+    book = Book.public_objects.get(slug=slug)
     user = request.user if request.user.is_authenticated else None
     log_book_view(book=book, user=user)
 
@@ -121,7 +121,7 @@ def book_view(request, slug):
     if request.user.is_authenticated and request.user.userprofile in book.author.userprofile.followers.all():
         follower = True
     
-    suggestions = Book.objects.all().exclude(id__in=[book.id])
+    suggestions = Book.public_objects.all().exclude(id__in=[book.id])
     return render(request, 'main/book_view.html', {
         'book': book, 
         'suggestions': suggestions, 
@@ -132,7 +132,7 @@ def book_view(request, slug):
 def search_results(request):
     if request.method == "GET":
         q = request.GET.get('q')
-        books = Book.objects.filter(title__icontains=q) | Book.objects.filter(description__icontains=q) | Book.objects.filter(author__userprofile__full_name__icontains=q) | Book.objects.filter(category__name__icontains=q)
+        books = Book.public_objects.filter(title__icontains=q) | Book.public_objects.filter(description__icontains=q) | Book.public_objects.filter(author__userprofile__full_name__icontains=q) | Book.public_objects.filter(category__name__icontains=q)
         books = books.distinct()
         return render(request, 'main/search_result.html', {'q': q, 'books': books})
     return redirect('main:index')
@@ -247,7 +247,7 @@ class CommentView(View):
         user=request.user
         if not comment:
             return JsonResponse({"error": "Comment cannot be empty"}, status=400)
-        target_book = Book.objects.get(id=book_id)
+        target_book = Book.public_objects.get(id=book_id)
         new_comment = Comment.objects.create(user=user, content=comment, book=target_book)
         if parent.exists():
             new_comment.parent = parent.first()
