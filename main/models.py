@@ -28,6 +28,7 @@ class Book(models.Model):
     dislikes = models.ManyToManyField(User, related_name='disliked_books', blank=True)
     views = models.PositiveIntegerField(default=0)
     thumbnail = models.ImageField(upload_to='thumbnails/', blank=True, null=True)
+    status = models.CharField(max_length=50, default='Public')
 
     def __str__(self):
         return self.title

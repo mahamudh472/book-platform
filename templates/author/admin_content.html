@@ -16,7 +16,7 @@ Content
     <li class="hover:border-b-2 hover:border-gray-300 p-2 cursor-pointer">
         News
     </li>
-    
+
 </ul>
 <div class="w-full overflow-x-scroll">
     <table class="text-sm text-left rtl:text-right overflow-x-scroll">
@@ -33,27 +33,28 @@ Content
                 <th class="px-2 py-3 text-end" scope="col">Likes(vs Dislikes)</th>
             </tr>
         </thead>
-        <tbody> 
+        <tbody>
             <!-- ------------------------ -->
             <!-- Content item row -->
             <!-- ------------------------ -->
-             <style>
+            <style>
                 .description {
                     display: -webkit-box;
                     line-clamp: 2;
-                    -webkit-line-clamp: 2; /* Limits text to 2 lines */
+                    -webkit-line-clamp: 2;
+                    /* Limits text to 2 lines */
                     -webkit-box-orient: vertical;
                     overflow: hidden;
                     text-overflow: ellipsis;
                 }
-                
-             </style>
-             {% for book in user.books.all %}
+            </style>
+            {% for book in user.books.all %}
             <tr class="bg-white border-b align-top text-xs">
                 <th class="px-6 py-4 font-medium text-gray-900 dark:text-white flex gap-3 border-r" scope="col">
                     <input id="" name="" type="checkbox" />
                     <img alt="" class="h-20 w-12 object-cover" src="{{book.thumbnail.url}}" />
-                    <div class="text-sm cursor-pointer" onclick="location.href=`{% url 'author:content_details' book.slug %}`">
+                    <div class="text-sm cursor-pointer"
+                        onclick="location.href=`{% url 'author:content_details' book.slug %}`">
                         <div class="font-bold">{{book.title}}</div>
                         <div class="text-gray-600 description">
                             {{book.description}}
@@ -61,12 +62,10 @@ Content
                     </div>
                 </th>
                 <td class="px-2 py-6 whitespace-nowrap">
-                    <select name="" id="" class="block p-1 rounded">
-                        <option value="">Public</option>
-                        <option value="">Private</option>
-                    </select>
-                    {% comment %} <i class="fa fa-earth-asia"></i> <span>Public</span>
-                    <i class="fa fa-chevron-down cursor-pointer p-2 rounded-full hover:bg-gray-200"></i> {% endcomment %}
+                        <select name="" id="" data-book-id="{{book.id}}" class="block p-1 rounded visibility-toggle">
+                            <option value="Public" {% if book.status == 'Public' %} selected {% endif %}>Public</option>
+                            <option value="Private" {% if book.status == 'Private' %} selected {% endif %}>Private</option>
+                        </select>
                 </td>
                 <td class="px-2 py-6">None</td>
                 <td class="px-2 py-4 whitespace-nowrap">
@@ -85,7 +84,7 @@ Content
                 </td>
             </tr>
             {% endfor %}
-            
+
         </tbody>
     </table>
 </div>
@@ -109,4 +108,24 @@ Content
     </div>
 
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.querySelectorAll('.visibility-toggle').forEach(element => {
+        element.addEventListener('change', function() {
+            let book_id = this.getAttribute('data-book-id')
+            let status = this.value
+            fetch(`/author/change-visibility/${book_id}/${status}`)
+            .then(data => data.json())
+            .then(data => {
+                console.log(data.status)
+            })
+            .catch(error => console.log(error))
+
+            console.log(book_id)
+        })
+    })
+</script>
+
 {% endblock %}

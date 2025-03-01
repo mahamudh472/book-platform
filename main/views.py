@@ -29,16 +29,16 @@ def index(request):
     context['books'] = books
     if request.user.is_authenticated:
         context['following'] = request.user.userprofile.following.all()[:3]
-    return render(request, 'index.html', context)
+    return render(request, 'main/index.html', context)
 
 def profile(request, username):
     profile = User.objects.get(username=username)
-    return render(request, 'profile.html', {'profile': profile})
+    return render(request, 'main/profile.html', {'profile': profile})
 
 
 def subscriptions(request):
 
-    return render(request, 'subscriptions.html')
+    return render(request, 'main/subscriptions.html')
 
 @login_required(login_url='accounts:login')
 def collections(request):
@@ -53,7 +53,7 @@ def collections(request):
         else:
             messages.error(request, "Collection alreay exists.")
         return redirect('main:collections')
-    return render(request, 'collections.html')
+    return render(request, 'main/collections.html')
 
 def delete_collection(request, collection_id):
     collection = Collection.objects.filter(user=request.user, id=collection_id)
@@ -122,7 +122,7 @@ def book_view(request, slug):
         follower = True
     
     suggestions = Book.objects.all().exclude(id__in=[book.id])
-    return render(request, 'book_view.html', {
+    return render(request, 'main/book_view.html', {
         'book': book, 
         'suggestions': suggestions, 
         'follower': follower,
@@ -134,7 +134,7 @@ def search_results(request):
         q = request.GET.get('q')
         books = Book.objects.filter(title__icontains=q) | Book.objects.filter(description__icontains=q) | Book.objects.filter(author__userprofile__full_name__icontains=q) | Book.objects.filter(category__name__icontains=q)
         books = books.distinct()
-        return render(request, 'search_result.html', {'q': q, 'books': books})
+        return render(request, 'main/search_result.html', {'q': q, 'books': books})
     return redirect('main:index')
 
 @login_required(login_url='accounts:login')
@@ -157,7 +157,7 @@ def history(request):
         else:
             history_dict[history_date.strftime("%B %d, %Y")].append(history)
 
-    return render(request, 'history.html', {'history_dict': dict(history_dict)})
+    return render(request, 'main/history.html', {'history_dict': dict(history_dict)})
 
 def clear_notifications(request):
     Notification.objects.filter(user=request.user).delete()
@@ -286,7 +286,7 @@ def delete_comment(request, comment_id):
     
 def news_cast(request):
     news = News.objects.all()
-    return render(request, 'newscast.html', {'news': news})
+    return render(request, 'main/newscast.html', {'news': news})
 
 def news(request):
-    return render(request, 'news.html')
+    return render(request, 'main/news.html')

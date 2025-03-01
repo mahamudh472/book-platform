@@ -184,3 +184,13 @@ def create_news(request):
         form = NewsForm()
         formset = NewsImageFormSet()
         return render(request, 'author/create_news.html', {'form': form, 'formset': formset})
+    
+@login_required(login_url='accounts:login')
+def change_visibility(request, book_id, status):
+    book = Book.objects.get(id=book_id)
+    if book.author == request.user:
+        book.status = status
+        book.save()
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'failed'})
+
