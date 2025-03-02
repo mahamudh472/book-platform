@@ -28,7 +28,7 @@ Analytics
     </ul>
     <div class="relative pb-2">
         <div class="flex gap-6 cursor-pointer dropdownButton">
-            <div class="text-xs hidden sm:block"> Oct 5, 2024 - Jan 05, 2025 <div class="text-sm">Last 90 days</div>
+            <div class="text-xs hidden sm:block"> {{start_date}} - {{end_date|date:'M. d, Y'}} <div class="text-sm">Last {{days}} days</div>
             </div>
             <button><i class="fa fa-chevron-down p-2 rounded-full"></i></button>
         </div>
@@ -37,22 +37,22 @@ Analytics
             id="dropdownMenu">
             <ul class="py-1">
                 <li>
-                    <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+                    <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="{% url 'author:author_analytics' %}?days=7">
                         Last 7 days
                     </a>
                 </li>
                 <li>
-                    <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+                    <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="{% url 'author:author_analytics' %}?days=28">
                         Last 28 days
                     </a>
                 </li>
                 <li>
-                    <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+                    <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="{% url 'author:author_analytics' %}?days=90">
                         Last 90 days
                     </a>
                 </li>
                 <li>
-                    <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+                    <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="{% url 'author:author_analytics' %}?days=365">
                         Last 365 days
                     </a>
                 </li>
@@ -83,13 +83,13 @@ Analytics
 <div class="flex flex-col sm:flex-row gap-4">
     <div class="sm:w-9/12">
         <div class="text-center text-xl sm:text-3xl font-medium py-6">
-            Your channel got {{views.count}} reads in last 90 days
+            Your channel got {{views.count}} reads in last {{days}} days
         </div>
         <div class="border rounded-xl">
             <div class="grid grid-cols-3">
                 <div class="text-center border-r space-y-2 my-2 p-2 cursor-pointer">
                     <div class="text-sm">Reads</div>
-                    <div class="text-xl">20 <i class="fa fa-circle-arrow-down text-gray-400"></i></div>
+                    <div class="text-xl">{{views.count}} <i class="fa fa-circle-arrow-down text-gray-400"></i></div>
                     <div class="text-sm text-black opacity-80">82% less then previous 90days</div>
                 </div>
                 <div class="text-center border-r space-y-2 my-2 p-2 cursor-pointer bg-gray-50">
@@ -155,5 +155,9 @@ Analytics
 {% endblock %}
 
 {% block scripts %}
+
 <script src="{% static 'js/chart_data.js' %}"></script>
+<script>
+    render_chart(JSON.parse('{{labels|safe}}'), JSON.parse('{{data|safe}}'))
+</script>
 {% endblock %}

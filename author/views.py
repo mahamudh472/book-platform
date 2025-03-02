@@ -7,6 +7,8 @@ from .forms import BookUploadForm, NewsForm, NewsImageFormSet, AudioForm, Transl
 import base64
 from django.core.files.base import ContentFile
 from main.utils import get_last_n_days_data, year_specific_data
+import json, datetime
+from django.utils import timezone
 
 # Create your views here.
 @login_required(login_url='accounts:login')
@@ -19,16 +21,25 @@ def author_content(request):
 
 @login_required(login_url='accounts:login',)
 def author_analytics(request):
-    views = get_last_n_days_data(BookView, 90, user=request.user)
-    # days = request.GET.get('days', None)
-    # year = request.GET.get('year', None)
-    # if days:
-    #     views = get_last_n_days_data(BookView, int(days), user=request.user)
-    # elif year:
-    #     views = year_specific_data(BookView, int(year))
+    days = request.GET.get('days', 90)
+        
+    days = int(days)
+    views = get_last_n_days_data(BookView, days, user=request.user)
+    entries = get_last_n_days_data(BookView, days, user=request.user, formatted=True)
+
+    start_date = (timezone.now() - datetime.timedelta(days=days)).date()
+    end_date = timezone.now()
+    labels = [item['date'] for item in entries]
+    data = [item['count'] for item in entries]
+
 
     context = {
-        'views': views
+        'views': views,
+        'labels': json.dumps(labels),
+        'data': json.dumps(data),
+        'start_date': start_date,
+        'end_date': end_date,
+        'days': days
     }
     return render(request, 'author/admin_analytics.html', context)
 
