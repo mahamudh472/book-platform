@@ -32,38 +32,31 @@ Content analytics
     </ul>
     <div class="relative pb-2">
         <div class="flex gap-6 cursor-pointer dropdownButton">
-            <div class="text-xs hidden sm:block">
-                Oct 5, 2024 - Jan 05, 2025
-                <div class="text-sm">
-                    Last 90 days
-                </div>
+            <div class="text-xs hidden sm:block"> {{start_date}} - {{end_date|date:'M. d, Y'}} <div class="text-sm">Last {{days}} days</div>
             </div>
-            <button>
-                <i class="fa fa-chevron-down p-2 rounded-full">
-                </i>
-            </button>
+            <button><i class="fa fa-chevron-down p-2 rounded-full"></i></button>
         </div>
         <!-- Dropdown Menu -->
-        <div class="dropdownMenu absolute right-0 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden"
+        <div class="dropdownMenu absolute right-0 w-48 z-40 bg-white border border-gray-200 rounded-lg shadow-lg hidden"
             id="dropdownMenu">
             <ul class="py-1">
                 <li>
-                    <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+                    <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="{% url 'author:content_analytics' book.slug %}?days=7">
                         Last 7 days
                     </a>
                 </li>
                 <li>
-                    <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+                    <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="{% url 'author:content_analytics' book.slug %}?days=28">
                         Last 28 days
                     </a>
                 </li>
                 <li>
-                    <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+                    <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="{% url 'author:content_analytics' book.slug %}?days=90">
                         Last 90 days
                     </a>
                 </li>
                 <li>
-                    <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">
+                    <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="{% url 'author:content_analytics' book.slug %}?days=365">
                         Last 365 days
                     </a>
                 </li>
@@ -93,59 +86,31 @@ Content analytics
 </div>
 <div class="flex flex-col sm:flex-row gap-4">
     <div class="sm:w-9/12">
-        <div class="text-center text-3xl font-medium py-6">
-            Your book got 20 reads in last 90 days
+        <div class="text-center text-xl sm:text-3xl font-medium py-6">
+            Your book got {{views.count}} reads in last {{days}} days
         </div>
         <div class="border rounded-xl">
             <div class="grid grid-cols-3">
                 <div class="text-center border-r space-y-2 my-2 p-2 cursor-pointer">
-                    <div class="text-sm">
-                        Reads
-                    </div>
-                    <div class="text-xl">
-                        20
-                        <i class="fa fa-circle-arrow-down text-gray-400">
-                        </i>
-                    </div>
-                    <div class="text-sm text-black opacity-80">
-                        82% less then previous 90days
-                    </div>
+                    <div class="text-sm">Reads</div>
+                    <div class="text-xl">{{views.count}} <i class="fa fa-circle-arrow-down text-gray-400"></i></div>
+                    <div class="text-sm text-black opacity-80">82% less then previous 90days</div>
                 </div>
                 <div class="text-center border-r space-y-2 my-2 p-2 cursor-pointer bg-gray-50">
-                    <div class="text-sm">
-                        Reading time(hours)
-                    </div>
-                    <div class="text-xl">
-                        0.4
-                        <i class="fa fa-circle-arrow-down text-gray-400">
-                        </i>
-                    </div>
-                    <div class="text-sm text-black opacity-80">
-                        82% less then previous 90days
-                    </div>
+                    <div class="text-sm">Reading time(hours)</div>
+                    <div class="text-xl">0.4 <i class="fa fa-circle-arrow-down text-gray-400"></i></div>
+                    <div class="text-sm text-black opacity-80">82% less then previous 90days</div>
                 </div>
                 <div class="text-center space-y-2 my-2 p-2 cursor-pointer bg-gray-50">
-                    <div class="text-sm">
-                        Subscribers
-                    </div>
-                    <div class="text-xl">
-                        +2
-                        <i class="fa fa-circle-arrow-down text-gray-400">
-                        </i>
-                    </div>
-                    <div class="text-sm text-black opacity-80">
-                        82% less then previous 90days
-                    </div>
+                    <div class="text-sm">Subscribers</div>
+                    <div class="text-xl">+2 <i class="fa fa-circle-arrow-down text-gray-400"></i></div>
+                    <div class="text-sm text-black opacity-80">82% less then previous 90days</div>
                 </div>
             </div>
-            <canvas class="h-72 px-6" id="myChart">
-            </canvas>
-            <script src="https://cdn.jsdelivr.net/npm/chart.js">
-            </script>
-            <button class="py-2 px-4 mx-6 my-3 rounded-full bg-gray-100 hover:bg-gray-200 font-medium text-sm">
-                See
-                more
-            </button>
+            <canvas class="h-72 px-6" id="myChart"></canvas>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <button class="py-2 px-4 mx-6 my-3 rounded-full bg-gray-100 hover:bg-gray-200 font-medium text-sm">See
+                more</button>
         </div>
     </div>
     <div class="sm:w-3/12">
@@ -185,4 +150,7 @@ Content analytics
 
 {% block scripts %}
 <script src="{% static 'js/chart_data.js' %}"></script>
+<script>
+    render_chart(JSON.parse('{{labels|safe}}'), JSON.parse('{{data|safe}}'))
+</script>
 {% endblock %}

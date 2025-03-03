@@ -18,57 +18,77 @@ Content details
 
 <div class="flex gap-4 flex-col sm:flex-row">
     <div class="sm:w-9/12">
-        <div class="space-y-6 w-full mx-auto">
-            <!-- Title Field -->
-            <div class="relative border rounded-md">
-                <input type="text" id="title" placeholder=" " value="{{ book.title }}"
-                    class="peer block w-full rounded-md h-20 border-gray-300 px-4 pt-5 pb-2 text-sm text-gray-900 focus:border-black focus:ring focus:ring-black focus:outline-none" />
-                <label for="title"
-                    class="absolute left-3 top-2.5 text-sm text-gray-500 bg-white px-1 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-base peer-focus:top-2.5 peer-focus:text-sm peer-focus:text-black">Title
-                    (required)</label>
-            </div>
+        <form action="{% url 'author:content_details' book.slug %}" method="post" enctype="multipart/form-data">
+            <div class="space-y-6 w-full mx-auto">
 
-            <!-- Description Field -->
-            <div class="relative border rounded-md">
-                <textarea id="description" placeholder=" " rows="4"
-                    class="peer block w-full rounded-md border-gray-300 px-4 pt-9 pb-2 text-sm text-gray-900 focus:border-black focus:ring focus:ring-black focus:outline-none">{{ book.description }}</textarea>
-                <label for="description"
-                    class="absolute left-3 top-2.5 text-sm text-gray-500 bg-white px-1 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-base peer-focus:top-2.5 peer-focus:text-sm peer-focus:text-black">Description</label>
-            </div>
-
-            <div>
-                <div class="font-medium">Thumbnail</div>
-                <div class="text-xs font-medium text-neutral-500">
-                    Set a thumbnail that stands out and draws viewers' attention. <a href="" class="text-blue-600">Learn
-                        more</a>
+                {% csrf_token %}
+                {{ form.media }}
+                <div>
+                    {{ form.language.label_tag }} {{form.language}}
+                </div>
+                <!-- Title Field -->
+                <div class="relative border rounded-md">
+                    <input type="text" id="title" name="title" placeholder=" " value="{{ book.title }}"
+                        class="peer block w-full rounded-md h-20 border-gray-300 px-4 pt-5 pb-2 text-sm text-gray-900 focus:border-black focus:ring focus:ring-black focus:outline-none" />
+                    <label for="title"
+                        class="absolute left-3 top-2.5 text-sm text-gray-500 bg-white px-1 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-base peer-focus:top-2.5 peer-focus:text-sm peer-focus:text-black">Title
+                        (required)</label>
                 </div>
 
-                <label
-                    class="relative cursor-pointer inline-block border-2 border-dashed mt-3 border-gray-300 rounded-lg p-4 w-48 text-center">
-                    <span class="text-gray-500" id="image_span">Click to select an image</span>
-                    <input type="file" accept="image/*" onchange="previewImage(event)"
-                        class="absolute inset-0 opacity-0 cursor-pointer" />
-                    <img id="image-preview" src="{{ book.thumbnail.url }}" alt="Image Preview"
-                        class="w-full h-auto rounded-lg mt-2" />
-                </label>
+                <!-- Description Field -->
+                <div class="relative border rounded-md">
+                    <textarea id="description" name="description" placeholder=" " rows="4"
+                        class="peer block w-full rounded-md border-gray-300 px-4 pt-9 pb-2 text-sm text-gray-900 focus:border-black focus:ring focus:ring-black focus:outline-none">{{ book.description }}</textarea>
+                    <label for="description"
+                        class="absolute left-3 top-2.5 text-sm text-gray-500 bg-white px-1 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-base peer-focus:top-2.5 peer-focus:text-sm peer-focus:text-black">Description</label>
+                </div>
+                <div>
+                    {{form.content.label_tag}}
+                    {{form.content}}
+                </div>
 
-                <script>
-                    function previewImage(event) {
-                        const file = event.target.files[0]
-                        const reader = new FileReader()
+                <div>
+                    <div class="font-medium">Thumbnail</div>
+                    <div class="text-xs font-medium text-neutral-500">
+                        Set a thumbnail that stands out and draws viewers' attention. <a href=""
+                            class="text-blue-600">Learn
+                            more</a>
+                    </div>
 
-                        reader.onload = function () {
-                            const preview = document.getElementById('image-preview')
-                            preview.src = reader.result
+                    <label
+                        class="relative cursor-pointer inline-block border-2 border-dashed mt-3 border-gray-300 rounded-lg p-4 w-48 text-center">
+                        <span class="text-gray-500" id="image_span">Click to select an image</span>
+                        <input type="file" accept="image/*" onchange="previewImage(event)" name="thumbnail"
+                            class="absolute inset-0 opacity-0 cursor-pointer" value="{{book.thumbnail.url}}" />
+                        <img id="image-preview" src="{{ book.thumbnail.url }}"  alt="Image Preview"
+                            class="w-full h-auto rounded-lg mt-2" />
+                    
+                    </label>
+
+                    <script>
+                        function previewImage(event) {
+                            const file = event.target.files[0]
+                            const reader = new FileReader()
+
+                            reader.onload = function () {
+                                const preview = document.getElementById('image-preview')
+                                preview.src = reader.result
+                            }
+                            document.getElementById('image_span').classList.add('hidden')
+                            if (file) {
+                                reader.readAsDataURL(file)
+                            }
                         }
-                        document.getElementById('image_span').classList.add('hidden')
-                        if (file) {
-                            reader.readAsDataURL(file)
-                        }
-                    }
-                </script>
+                    </script>
+                </div>
+
+                <div>
+                    {{ form.category.label_tag }} {{ form.category }}
+                </div>
+
+                <input type="submit" value="Save", class="py-2 px-4 border rounded cursor-pointer bg-gray-100 hover:bg-gray-200">
             </div>
-        </div>
+        </form>
     </div>
     <div class="max-w-sm:3/12">
         <div class="my-4 p-2 px-4">
@@ -79,7 +99,8 @@ Content details
                         <div class="text-xs font-medium text-neutral-500">Book link</div>
                         <a href="{{ request.scheme }}://{{ request.get_host }}{% url 'main:book_view' book.slug %}"
                             id="book_link"
-                            class="inline-block max-w-40 overflow-hidden text-ellipsis whitespace-nowrap text-sm text-blue-500 font-medium">{{request.scheme }}://{{ request.get_host }}{% url 'main:book_view' book.slug %}</a>
+                            class="inline-block max-w-40 overflow-hidden text-ellipsis whitespace-nowrap text-sm text-blue-500 font-medium">{{request.scheme
+                            }}://{{ request.get_host }}{% url 'main:book_view' book.slug %}</a>
                     </div>
 
                     <i class="block fa-regular fa-copy cursor-pointer" onclick="copy_to_clipboard(this)"></i>
@@ -88,9 +109,11 @@ Content details
                 <div class="flex justify-between border rounded-xl px-4 py-2 items-center cursor-pointer">
                     <div class="text-sm w-full">
                         <div class="text-neutral-500">Visibility</div>
-                        <select name="" id="" data-book-id="{{book.id}}" class="block p-1 w-full rounded visibility-toggle">
+                        <select name="" id="" data-book-id="{{book.id}}"
+                            class="block p-1 w-full rounded visibility-toggle">
                             <option value="Public" {% if book.status == 'Public' %} selected {% endif %}>Public</option>
-                            <option value="Private" {% if book.status == 'Private' %} selected {% endif %}>Private</option>
+                            <option value="Private" {% if book.status == 'Private' %} selected {% endif %}>Private
+                            </option>
                         </select>
                     </div>
                 </div>
@@ -103,15 +126,15 @@ Content details
 {% block scripts %}
 <script>
     document.querySelectorAll('.visibility-toggle').forEach(element => {
-        element.addEventListener('change', function() {
+        element.addEventListener('change', function () {
             let book_id = this.getAttribute('data-book-id')
             let status = this.value
             fetch(`/author/change-visibility/${book_id}/${status}`)
-            .then(data => data.json())
-            .then(data => {
-                console.log(data.status)
-            })
-            .catch(error => console.log(error))
+                .then(data => data.json())
+                .then(data => {
+                    console.log(data.status)
+                })
+                .catch(error => console.log(error))
 
             console.log(book_id)
         })

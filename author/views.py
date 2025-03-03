@@ -61,18 +61,55 @@ def author_copyright(request):
 
 @login_required(login_url='accounts:login')
 def content_details(request, slug):
-    book = Book.objects.get(slug=slug)
+    book = Book.objects.get(slug=slug)  # Fetch the existing book
+
+    if request.method == "POST":
+        form = BookUploadForm(request.POST, request.FILES, instance=book)  # Bind the form with the book instance
+        print(request.FILES)
+        if form.is_valid():
+            book = form.save(commit=False)  # Get the book instance with updated data
+            book.author = request.user  # Ensure the author is set to the current user
+            # Check if a new thumbnail is provided
+            if 'thumbnail' in request.FILES:
+                book.thumbnail = request.FILES['thumbnail']
+            book.save()  # Save the updated book object to the database
+            return redirect(request.META.get('HTTP_REFERER', '/fallback-url/'))  # Redirect after saving
+
+    else:
+        form = BookUploadForm(instance=book)  # Prefill the form with the existing book data
+
     context = {
-        'book': book
+        'book': book,
+        'form': form
     }
     return render(request, 'author/content_details.html', context)
+
 
 @login_required(login_url='accounts:login')
 def content_analytics(request, slug):
     book = Book.objects.get(slug=slug)
+    days = request.GET.get('days', 90)
+        
+    days = int(days)
+    views = get_last_n_days_data(BookView, days, user=request.user, book=book)
+    entries = get_last_n_days_data(BookView, days, user=request.user, book=book, formatted=True)
+
+    start_date = (timezone.now() - datetime.timedelta(days=days)).date()
+    end_date = timezone.now()
+    labels = [item['date'] for item in entries]
+    data = [item['count'] for item in entries]
+
+
     context = {
+        'views': views,
+        'labels': json.dumps(labels),
+        'data': json.dumps(data),
+        'start_date': start_date,
+        'end_date': end_date,
+        'days': days,
         'book': book
     }
+    
     return render(request, 'author/content_analytics.html', context)
 
 @login_required(login_url='accounts:login')
