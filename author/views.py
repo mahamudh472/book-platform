@@ -9,6 +9,7 @@ from django.core.files.base import ContentFile
 from main.utils import get_last_n_days_data, year_specific_data
 import json, datetime
 from django.utils import timezone
+from django.core.paginator import Paginator
 
 # Create your views here.
 @login_required(login_url='accounts:login')
@@ -17,7 +18,14 @@ def author_dashboard(request):
 
 @login_required(login_url='accounts:login')
 def author_content(request):
-    return render(request, 'author/admin_content.html')
+    books = Book.objects.filter(author=request.user)
+    paginator = Paginator(books, 10)
+    page = request.GET.get('page')
+    page_obj = paginator.get_page(page)
+    context = {
+        'books': page_obj
+    }
+    return render(request, 'author/admin_content.html', context)
 
 @login_required(login_url='accounts:login',)
 def author_analytics(request):

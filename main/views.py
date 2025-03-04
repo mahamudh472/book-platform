@@ -31,9 +31,20 @@ def index(request):
         context['following'] = request.user.userprofile.following.all()[:3]
     return render(request, 'main/index.html', context)
 
+from accounts.forms import profileForm
 def profile(request, username):
+    
     profile = User.objects.get(username=username)
-    return render(request, 'main/profile.html', {'profile': profile})
+    context = {'profile': profile}
+    if request.user.username == username:
+        if request.method == "POST":
+            form = profileForm(request.POST, request.FILES, instance=profile.userprofile)
+            if form.is_valid():
+                form.save()
+                return redirect(request.META.get('HTTP_REFERER', '/fallback-url/'))
+        form = profileForm(request.POST or None, request.FILES or None, instance=profile.userprofile)
+        context['form'] = form
+    return render(request, 'main/profile.html', context)
 
 
 def subscriptions(request):

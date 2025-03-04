@@ -25,7 +25,7 @@ Profile
     </div>
     <div>
         {% if profile == user %}
-        <button class="py-2 px-4 ml-20 bg-black text-white text-sm font-medium rounded-full">Edit</button>
+        <button class="py-2 px-4 ml-20 bg-black text-white text-sm font-medium rounded-full" id="openProfileModalBtn">Edit</button>
         {% else %}
         <button id="follow-btn" data-user-id="{{ profile.id }}" data-url="{% url 'main:toggle_follow' %}"
             class="py-2 px-4 ml-20 bg-black text-white text-sm font-medium rounded-full">
@@ -38,6 +38,7 @@ Profile
         {% endif %}
     </div>
 </div>
+{% include 'components/edit_profile_modal.html' %}
 <h2 class="text-xl font-bold text-gray-700 mb-4 mt-8">Books</h2>
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
     {% if profile.books.all %}
@@ -57,4 +58,19 @@ Profile
     let halfMenu = true
     let fullMenuHide = false
 </script>
+<script>
+    const modal = document.getElementById("profileModal")
+    const openModalBtn = document.getElementById('openProfileModalBtn')
+    const closdModalBtn = document.getElementById('closeProfileModalBtn')
+
+    openModalBtn.addEventListener('click', () => {
+        modal.classList.remove('hidden')
+        modal.classList.add('flex')
+    })
+    closdModalBtn.addEventListener('click', () => {
+        modal.classList.add('hidden')
+        modal.classList.remove("flex")
+    })
+</script>
+
 {% endblock %}
