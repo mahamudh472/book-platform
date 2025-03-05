@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Book, Comment, News, History, Collection, ReadingList, Notification
 from django.contrib.auth.models import User
 from django.http import JsonResponse
-from accounts.models import UserProfile
+from accounts.models import UserProfile, UserFollow
 from django.views import View
 from .utils import log_book_view, create_notification
 from django.utils import timezone, html
@@ -28,15 +28,19 @@ def index(request):
         context['page'] = "Recommended"
     context['books'] = books
     if request.user.is_authenticated:
-        context['following'] = request.user.userprofile.following.all()[:3]
+        context['following'] = UserFollow.objects.filter(follower=request.user)[:3]
     return render(request, 'main/index.html', context)
 
 from accounts.forms import profileForm
 def profile(request, username):
     
     profile = User.objects.get(username=username)
-    context = {'profile': profile}
+    follower = False
+    if UserFollow.objects.filter(follower=request.user, following=profile).exists():
+        follower = True
+    context = {'profile': profile, 'follower': follower}
     if request.user.username == username:
+        
         if request.method == "POST":
             form = profileForm(request.POST, request.FILES, instance=profile.userprofile)
             if form.is_valid():
@@ -129,7 +133,7 @@ def book_view(request, slug):
 
     comments = Comment.objects.filter(book=book, parent=None).order_by('-created_at')
     follower = False
-    if request.user.is_authenticated and request.user.userprofile in book.author.userprofile.followers.all():
+    if request.user.is_authenticated and UserFollow.objects.filter(follower=request.user, following=book.author).exists():
         follower = True
     
     suggestions = Book.public_objects.all().exclude(id__in=[book.id])
@@ -199,20 +203,24 @@ def toggle_follow(request):
     if request.method == "POST":
         user_id = request.POST.get('user_id') 
         target_profile = get_object_or_404(UserProfile, user_id=user_id)
-        follower_profile = get_object_or_404(UserProfile, user=request.user)
+        follower_user = request.user  # The logged-in user
 
-        if target_profile == follower_profile:
+        if target_profile.user == follower_user:
             return JsonResponse({'error': 'You cannot follow yourself.'}, status=400)
-        
-        if follower_profile in target_profile.followers.all():
-            target_profile.followers.remove(follower_profile)
+
+        # Check if the user is already following
+        follow_instance = UserFollow.objects.filter(follower=follower_user, following=target_profile.user).first()
+
+        if follow_instance:
+            follow_instance.delete()  # Unfollow
             status = "unfollowed"
         else:
-            target_profile.followers.add(follower_profile)
+            UserFollow.objects.create(follower=follower_user, following=target_profile.user)  # Follow
             status = "followed"
-            create_notification(target_profile.user, f"{follower_profile.full_name} followed you.")
+            create_notification(target_profile.user, f"{follower_user.get_full_name()} followed you.")
 
-        return JsonResponse({'status': status, 'followers_count': target_profile.followers.count(),'target_user': target_profile.full_name})
+        followers_count = UserFollow.objects.filter(following=target_profile.user).count()
+        return JsonResponse({'status': status, 'followers_count': followers_count, 'target_user': target_profile.full_name})
 
     return JsonResponse({'error': 'Invalid request'}, status=400)
 

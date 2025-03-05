@@ -4,6 +4,7 @@ module.exports = {
     "templates/*.{html,js}",
     "templates/author/*.{html,js}",
     "templates/components/*.{html,js}",
+    "templates/main/*.{html,js}",
     "static/js/*{html,js}"
 
   ],

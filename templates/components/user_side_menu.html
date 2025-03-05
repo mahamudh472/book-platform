@@ -60,18 +60,18 @@ id="sidebar">
                 Subscriptions
             </div>
             <a href="{% url 'main:subscriptions' %}" class="text-blue-400" id="subs">
-                All({{user.userprofile.following.count}})
+                All({{user.following_users.count}})
             </a>
         </div>
         
-        {% for author in following %}
-        <li class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer menu-item" onclick="location.href=`{% url 'main:profile' author.user.username %}`">
+        {% for entry in following %}
+        <li class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer menu-item" onclick="location.href=`{% url 'main:profile' entry.following.username %}`">
             <div class="overflow-hidden rounded-lg max-w-28">
                 <img class="h-6 w-6"
-                    src="{{author.profile_picture.url}}"
+                    src="{{entry.following.userprofile.profile_picture.url}}"
                     alt="">
             </div>
-            <span class="text-gray-700">{{author.full_name}}</span>
+            <span class="text-gray-700">{{entry.following.userprofile.full_name}}</span>
         </li>
         {% endfor %}
         <hr class="pt-2">

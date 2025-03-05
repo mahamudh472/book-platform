@@ -97,7 +97,7 @@
             <div class="flex flex-col">
               <div class="font-medium cursor-pointer hover:text-blue-500" onclick="location.href=`{% url 'main:profile' book.author.username %}`">{{ book.author.userprofile.full_name }}</div>
               <div class="font-sm text-xs">
-                <span id="followers_count">{{ book.author.userprofile.followers_count }}</span> subscribers
+                <span id="followers_count">{{ book.author.followers_users.count }}</span> subscribers
               </div>
             </div>
           </div>

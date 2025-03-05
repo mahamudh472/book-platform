@@ -1256,11 +1256,6 @@ video {
   margin-bottom: 2.25rem;
 }
 
-.my-auto {
-  margin-top: auto;
-  margin-bottom: auto;
-}
-
 .mb-2 {
   margin-bottom: 0.5rem;
 }
@@ -1291,10 +1286,6 @@ video {
 
 .ml-20 {
   margin-left: 5rem;
-}
-
-.ml-64 {
-  margin-left: 16rem;
 }
 
 .mr-2 {
@@ -1442,6 +1433,10 @@ video {
 
 .max-h-96 {
   max-height: 24rem;
+}
+
+.max-h-screen {
+  max-height: 100vh;
 }
 
 .min-h-60 {
@@ -1741,6 +1736,10 @@ video {
   --tw-space-y-reverse: 0;
   margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
+}
+
+.overflow-auto {
+  overflow: auto;
 }
 
 .overflow-hidden {

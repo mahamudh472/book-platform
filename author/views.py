@@ -10,11 +10,16 @@ from main.utils import get_last_n_days_data, year_specific_data
 import json, datetime
 from django.utils import timezone
 from django.core.paginator import Paginator
+from accounts.models import UserFollow
 
 # Create your views here.
 @login_required(login_url='accounts:login')
 def author_dashboard(request):
-    return render(request, 'author/admin_dashboard.html')
+    followers_in_28 = get_last_n_days_data(UserFollow, user=request.user, n=28)
+    context = {
+        'followers_in_28': followers_in_28
+    }
+    return render(request, 'author/admin_dashboard.html', context)
 
 @login_required(login_url='accounts:login')
 def author_content(request):

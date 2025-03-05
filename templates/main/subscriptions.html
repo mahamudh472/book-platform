@@ -8,20 +8,20 @@ Subscriptions
     Subscriptions   
 </h2>
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-    {% if user.userprofile.following.all %}
-    {% for author in user.userprofile.following.all %}
+    {% if user.following_users.all %}
+    {% for entry in user.following_users.all %}
     <div class="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer"
-        onclick="location.href=`{% url 'main:profile' author.user.username %}`">
+        onclick="location.href=`{% url 'main:profile' entry.following.username %}`">
             <img alt="Book Thumbnail" class="m-auto sm:h-40 sm:w-40"
-                src="{{ author.profile_picture.url }}" />
+                src="{{ entry.following.userprofile.profile_picture.url }}" />
         <div class="p-1 my-2">
             <div class="flex gap-2 justify-between mx-4 items-center">
                 <div class="max-w-[60%]">
                     <h3 class="text-sm  font-bold truncate text-gray-800">
-                        {{author.full_name}}
+                        {{entry.following.userprofile.full_name}}
                     </h3>
                     <a href="" class="text-xs text-gray-500 hover:text-blue-400">
-                        @{{author.user.username}}
+                        @{{entry.following.username}}
                     </a>
                     <p class="text-xs text-gray-400 truncate">
                         1 followers, 2 books published

@@ -27,7 +27,7 @@
     <div class="flex">
       {% include 'components/user_side_menu.html' %}
 
-      <main class="flex-1 p-4 md:ml-64 mx-auto overflow-hidden" id="content">
+      <main class="flex-1 p-4 md:ml-64 mx-auto overflow-hidden overflow-y-auto" id="content">
         {% block content %}
 
         {% endblock %}
@@ -35,8 +35,6 @@
     </div>
 
     <script src="{% static 'js/main.js' %}"></script>
-
-    
 
     {% for message in messages %}
       {% if message.tags == 'success' %}

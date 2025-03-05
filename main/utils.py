@@ -4,11 +4,17 @@ from main.models import BookView
 from django.db.models import Count
 from collections import defaultdict
 from django.db.models.functions import TruncDate
+from accounts.models import UserFollow
 
 def get_last_n_days_data(model, n, user=None, book=None, formatted=False):
     startdate = (timezone.now() - timedelta(days=n)).date()  # Ensure date only
+    
+    if model==UserFollow:
+        filters = {'followed_at__date__gte': startdate}
+        filters['following'] = user
+        return UserFollow.objects.filter(**filters)
+    
     filters = {"created_at__date__gte": startdate}  # Filter by date only
-
     if user:
         filters["user"] = user
     if book:
