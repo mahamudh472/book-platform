@@ -91,23 +91,26 @@ Content analytics
         </div>
         <div class="border rounded-xl">
             <div class="grid grid-cols-3">
-                <div class="text-center border-r space-y-2 my-2 p-2 cursor-pointer">
+                <div class="text-center border-r space-y-2 my-2 p-2 cursor-pointer" onclick="showReadsChart()">
                     <div class="text-sm">Reads</div>
                     <div class="text-xl">{{views.count}} <i class="fa fa-circle-arrow-down text-gray-400"></i></div>
-                    <div class="text-sm text-black opacity-80">82% less then previous 90days</div>
                 </div>
                 <div class="text-center border-r space-y-2 my-2 p-2 cursor-pointer bg-gray-50">
                     <div class="text-sm">Reading time(hours)</div>
                     <div class="text-xl">0.4 <i class="fa fa-circle-arrow-down text-gray-400"></i></div>
-                    <div class="text-sm text-black opacity-80">82% less then previous 90days</div>
                 </div>
-                <div class="text-center space-y-2 my-2 p-2 cursor-pointer bg-gray-50">
+                <div class="text-center space-y-2 my-2 p-2 cursor-pointer bg-gray-50" onclick="showFollwerChart()">
                     <div class="text-sm">Subscribers</div>
-                    <div class="text-xl">+2 <i class="fa fa-circle-arrow-down text-gray-400"></i></div>
-                    <div class="text-sm text-black opacity-80">82% less then previous 90days</div>
+                    <div class="text-xl">+0 <i class="fa fa-circle-arrow-down text-gray-400"></i></div>
                 </div>
             </div>
-            <canvas class="h-72 px-6" id="myChart"></canvas>
+            <div>
+                <canvas class="h-72 px-6" id="myChart"></canvas>
+            </div>
+            <div class="hidden">
+                <canvas class="h-72 px-6" id="follower_chart"></canvas>
+
+            </div>
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
             <button class="py-2 px-4 mx-6 my-3 rounded-full bg-gray-100 hover:bg-gray-200 font-medium text-sm">See
                 more</button>
@@ -151,6 +154,25 @@ Content analytics
 {% block scripts %}
 <script src="{% static 'js/chart_data.js' %}"></script>
 <script>
-    render_chart(JSON.parse('{{labels|safe}}'), JSON.parse('{{data|safe}}'))
+    render_chart('myChart', JSON.parse('{{labels|safe}}'), JSON.parse('{{data|safe}}'), 'Reads')
+    render_chart('follower_chart', JSON.parse('{{follower_entries_labels|safe}}'), JSON.parse('{{follower_entries_data|safe}}'), 'Followers')
+    document.addEventListener('onload', () => {
+        let chart1 = document.getElementById('myChart')
+        let chart2 = document.getElementById('follower_chart')
+        chart2.classList.add('hidden')
+        
+    })
+    function showFollwerChart(){
+        let chart1 = document.getElementById('myChart')
+        let chart2 = document.getElementById('follower_chart')
+        chart1.parentElement.classList.add('hidden')
+        chart2.parentElement.classList.remove('hidden')
+    }
+    function showReadsChart(){
+        let chart1 = document.getElementById('myChart')
+        let chart2 = document.getElementById('follower_chart')
+        chart2.parentElement.classList.add('hidden')
+        chart1.parentElement.classList.remove('hidden')
+    }
 </script>
 {% endblock %}

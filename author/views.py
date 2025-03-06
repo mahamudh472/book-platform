@@ -34,16 +34,19 @@ def author_content(request):
 
 @login_required(login_url='accounts:login',)
 def author_analytics(request):
-    days = request.GET.get('days', 90)
+    days = request.GET.get('days', 28)
         
     days = int(days)
     views = get_last_n_days_data(BookView, days, user=request.user)
     entries = get_last_n_days_data(BookView, days, user=request.user, formatted=True)
+    follower_entries = get_last_n_days_data(UserFollow, days, user=request.user, formatted=True)
 
     start_date = (timezone.now() - datetime.timedelta(days=days)).date()
     end_date = timezone.now()
     labels = [item['date'] for item in entries]
     data = [item['count'] for item in entries]
+    follower_entries_labels = [item['date'] for item in follower_entries]
+    follower_entries_data = [item['count'] for item in follower_entries]
 
 
     context = {
@@ -52,7 +55,9 @@ def author_analytics(request):
         'data': json.dumps(data),
         'start_date': start_date,
         'end_date': end_date,
-        'days': days
+        'days': days,
+        'follower_entries_labels': json.dumps(follower_entries_labels),
+        'follower_entries_data': json.dumps(follower_entries_data)
     }
     return render(request, 'author/admin_analytics.html', context)
 
@@ -106,11 +111,14 @@ def content_analytics(request, slug):
     days = int(days)
     views = get_last_n_days_data(BookView, days, user=request.user, book=book)
     entries = get_last_n_days_data(BookView, days, user=request.user, book=book, formatted=True)
+    follower_entries = get_last_n_days_data(UserFollow, days, user=request.user, formatted=True, book=book)
 
     start_date = (timezone.now() - datetime.timedelta(days=days)).date()
     end_date = timezone.now()
     labels = [item['date'] for item in entries]
     data = [item['count'] for item in entries]
+    follower_entries_labels = [item['date'] for item in follower_entries]
+    follower_entries_data = [item['count'] for item in follower_entries]
 
 
     context = {
@@ -120,7 +128,9 @@ def content_analytics(request, slug):
         'start_date': start_date,
         'end_date': end_date,
         'days': days,
-        'book': book
+        'book': book,
+        'follower_entries_labels': json.dumps(follower_entries_labels),
+        'follower_entries_data': json.dumps(follower_entries_data)
     }
     
     return render(request, 'author/content_analytics.html', context)

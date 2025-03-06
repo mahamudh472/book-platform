@@ -12,7 +12,30 @@ def get_last_n_days_data(model, n, user=None, book=None, formatted=False):
     if model==UserFollow:
         filters = {'followed_at__date__gte': startdate}
         filters['following'] = user
-        return UserFollow.objects.filter(**filters)
+        if book:
+            filters['from_book'] = book
+        if not formatted:
+            return UserFollow.objects.filter(**filters)
+
+        # Query & aggregate by date
+        queryset = (
+            UserFollow.objects.filter(**filters)
+            .annotate(date=TruncDate("followed_at"))  # Truncate DateTime to Date
+            .values("date")
+            .annotate(count=Count("id"))
+            .order_by("date")
+        )
+
+        # Convert queryset to dict {date: count}
+        data_dict = {entry["date"]: entry["count"] for entry in queryset}
+
+        # Generate full date range with default count = 0
+        result = []
+        for i in range(n + 1):
+            date = startdate + timedelta(days=i)
+            result.append({"date": date.strftime("%Y-%m-%d"),"count" : data_dict.get(date, 0)})
+
+        return result
     
     filters = {"created_at__date__gte": startdate}  # Filter by date only
     if user:
@@ -39,7 +62,7 @@ def get_last_n_days_data(model, n, user=None, book=None, formatted=False):
     result = []
     for i in range(n + 1):
         date = startdate + timedelta(days=i)
-        result.append({"date": date.strftime("%Y-%m-%d"), "count": data_dict.get(date, 0)})
+        result.append({'date': date.strftime("%Y-%m-%d"), 'count': data_dict.get(date, 0)})
 
     return result
 
