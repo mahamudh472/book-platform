@@ -204,7 +204,13 @@ def toggle_follow(request):
         user_id = request.POST.get('user_id') 
         target_profile = get_object_or_404(UserProfile, user_id=user_id)
         follower_user = request.user  # The logged-in user
-
+        referer = request.META.get('HTTP_REFERER')
+        followed_from_book = False
+        if 'book_view' in referer:
+            followed_from_book = True
+            book_title = referer.split('/')[-1]
+            from_book = Book.objects.get(slug=book_title)
+            print(book_title)
         if target_profile.user == follower_user:
             return JsonResponse({'error': 'You cannot follow yourself.'}, status=400)
 
@@ -215,8 +221,11 @@ def toggle_follow(request):
             follow_instance.delete()  # Unfollow
             status = "unfollowed"
         else:
-            UserFollow.objects.create(follower=follower_user, following=target_profile.user)  # Follow
+            obj = UserFollow.objects.create(follower=follower_user, following=target_profile.user)  # Follow
             status = "followed"
+            if followed_from_book:
+                obj.from_book = from_book
+            obj.save()
             create_notification(target_profile.user, f"{follower_user.get_full_name()} followed you.")
 
         followers_count = UserFollow.objects.filter(following=target_profile.user).count()

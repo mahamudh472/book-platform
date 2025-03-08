@@ -37,12 +37,13 @@ def author_analytics(request):
     days = request.GET.get('days', 28)
         
     days = int(days)
-    views = get_last_n_days_data(BookView, days, user=request.user)
     entries = get_last_n_days_data(BookView, days, user=request.user, formatted=True)
     follower_entries = get_last_n_days_data(UserFollow, days, user=request.user, formatted=True)
 
     start_date = (timezone.now() - datetime.timedelta(days=days)).date()
     end_date = timezone.now()
+    views = BookView.objects.filter(book__author=request.user, created_at__gte=start_date)
+
     labels = [item['date'] for item in entries]
     data = [item['count'] for item in entries]
     follower_entries_labels = [item['date'] for item in follower_entries]
@@ -109,7 +110,7 @@ def content_analytics(request, slug):
     days = request.GET.get('days', 90)
         
     days = int(days)
-    views = get_last_n_days_data(BookView, days, user=request.user, book=book)
+    views = get_last_n_days_data(BookView, days, book=book)
     entries = get_last_n_days_data(BookView, days, user=request.user, book=book, formatted=True)
     follower_entries = get_last_n_days_data(UserFollow, days, user=request.user, formatted=True, book=book)
 
@@ -120,9 +121,11 @@ def content_analytics(request, slug):
     follower_entries_labels = [item['date'] for item in follower_entries]
     follower_entries_data = [item['count'] for item in follower_entries]
 
+    followers = get_last_n_days_data(UserFollow, days, user=request.user, book=book).count()
 
     context = {
         'views': views,
+        'followers': followers,
         'labels': json.dumps(labels),
         'data': json.dumps(data),
         'start_date': start_date,

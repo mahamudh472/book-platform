@@ -24,27 +24,27 @@ Dashboard
             <!-- Latest Video Performance -->
             <div class="bg-white shadow-md p-4 rounded-md">
                 <h3 class="text-lg font-bold mb-2">Latest Book Performance</h3>
-                {% with book=user.books.first %}
+                {% with book=user.books.last %}
                 {% if book %}
                 <div class="space-y-2">
                     <img alt="Latest Video" class="w-48 h-64 rounded-md" src="{{book.thumbnail.url}}" />
                     <p class="text-gray-600">{{book.title}}</p>
                     <ul class="text-sm space-y-2 py-4">
-                        <li class="flex justify-between">
+                        {% comment %} <li class="flex justify-between">
                             <div>Ranking by reads</div>
                             <div>6 of 10 <button class="fa fa-chevron-right pl-1"></button></div>
-                        </li>
+                        </li> {% endcomment %}
                         <li class="flex justify-between">
                             <div>Reads</div>
                             <div>{{book.views}}<button class="fa fa-circle-up pl-1 text-green-600"></button></div>
                         </li>
                         <li class="flex justify-between">
                             <div>Impression Click-through rate</div>
-                            <div>11.9% <button class="fa fa-circle-down text-red-600 pl-1"></button></div>
+                            <div>0% <button class="fa fa-circle-down text-red-600 pl-1"></button></div>
                         </li>
                         <li class="flex justify-between">
                             <div>Avarage read duration</div>
-                            <div>3:25 <button class="fa fa-circle-minus pl-1 text-gray-500"></button></div>
+                            <div>0 <button class="fa fa-circle-minus pl-1 text-gray-500"></button></div>
                         </li>
                     </ul>
                     <a href="{% url 'author:content_analytics' book.slug %}"
@@ -60,14 +60,14 @@ Dashboard
                 {% endwith %}
             </div>
             <!-- Published Videos -->
-            <div class="bg-white shadow-md p-4 rounded-md">
+            {% comment %} <div class="bg-white shadow-md p-4 rounded-md">
                 <h3 class="text-lg font-bold mb-2">Published Books</h3>
                 <ul class="text-gray-600 space-y-2">
                     <li>My Kaku! Who is a Famous Video Creator</li>
                     <li>Subscription Gera</li>
                     <li>Abir Biman Play</li>
                 </ul>
-            </div>
+            </div> {% endcomment %}
         </div>
         <!-- column 2 -->
         <div class="flex flex-col gap-4">
@@ -96,12 +96,12 @@ Dashboard
                         </li>
                         <li class="flex justify-between">
                             <div>Reading time(hours)</div>
-                            <div>435.8 <button class="fa-regular fa-circle-xmark text-red-600 pl-1"></button>
+                            <div>0 <button class="fa-regular fa-circle-xmark text-red-600 pl-1"></button>
                             </div>
                         </li>
                         <li class="flex justify-between">
                             <div>Your estimated Revenew</div>
-                            <div>14.5$ <button class="fa fa-circle-minus pl-1 text-gray-500"></button></div>
+                            <div>0$ <button class="fa fa-circle-minus pl-1 text-gray-500"></button></div>
                         </li>
                     </ul>
                 </div>

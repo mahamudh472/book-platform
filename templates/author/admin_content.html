@@ -23,7 +23,7 @@ Content
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
             <tr>
                 <th class="px-6 py-5 flex gap-3 items-center border-r h-full min-w-96" scope="col">
-                    <input id="" name="" type="checkbox" /> Books
+                    <input id="select_all" name="" type="checkbox" /> Books
                 </th>
                 <th class="px-2 py-3" scope="col">Visibility</th>
                 <th class="px-2 py-3" scope="col">Restrictions</th>
@@ -51,7 +51,7 @@ Content
             {% for book in books %}
             <tr class="bg-white border-b align-top text-xs">
                 <th class="px-6 py-4 font-medium text-gray-900 dark:text-white flex gap-3 border-r" scope="col">
-                    <input id="" name="" type="checkbox" />
+                    <input id="select-{{book.id}}" class="select" name="" type="checkbox" />
                     <img alt="" class="h-20 w-12 object-cover" src="{{book.thumbnail.url}}" />
                     <div class="text-sm cursor-pointer"
                         onclick="location.href=`{% url 'author:content_details' book.slug %}`">
@@ -124,6 +124,16 @@ Content
             .catch(error => console.log(error))
 
             console.log(book_id)
+        })
+    })
+
+    document.querySelector('#select_all').addEventListener('change', () => {
+        document.querySelectorAll('.select').forEach((element) => {
+            if (element.checked){
+                element.checked = false
+            }else {
+                element.checked = true
+            }
         })
     })
 </script>
