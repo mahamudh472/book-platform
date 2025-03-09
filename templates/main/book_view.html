@@ -35,10 +35,10 @@
           <!-- Reader Container -->
           <div class="hidden p-6 relative" id="reader-container">
             <!-- Page Content -->
-            <div class="transition-transform m-auto prose max-w-none duration-500 ease-in-out bg-gray-100 p-4 rounded-lg" id="page-container">{{ book.content|safe }}</div>
+            <div class="transition-transform m-auto prose max-w-none duration-500 h-96  pb-20 ease-in-out bg-gray-100 p-4 rounded-lg" id="page-container">{{ book.content|safe }}</div>
 
             <!-- Pagination and Controls -->
-            <div class="flex justify-between items-center mt-4">
+            <div class="flex justify-between items-center mt-4 h-60">
               <div class="flex gap-2 items-center">
                 <!-- Previous Button -->
                 <button class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700" id="prev-btn"><i class="fa fa-chevron-left"></i></button>
@@ -86,7 +86,7 @@
           </div>
 
           <!-- Hidden Full Content for Fallback -->
-          <div class="hidden" id="book_content">{{ book.content }}</div>
+          <div class="hidden" id="book_content">{{ book.content|safe }}</div>
         </div>
       </div>
       <div class="text-xl font-medium my-2">{{ book.title }}</div>
@@ -304,5 +304,6 @@
     })
     
   </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="{% static 'js/book_view.js' %}"></script>
 {% endblock %}
