@@ -1,3 +1,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    #page-container h1 {
+        @apply text-2xl font-bold mt-4;
+    }
+
+    #page-container h2 {
+        @apply text-xl font-semibold mt-3;
+    }
+
+    #page-container h3 {
+        @apply text-lg font-medium mt-2;
+    }
+
+    #page-container p {
+        @apply text-base leading-relaxed;
+    }
+
+    #page-container b {
+        @apply font-bold;
+    }
+
+    #page-container i {
+        @apply italic;
+    }
+}

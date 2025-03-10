@@ -36,10 +36,10 @@ def profile(request, username):
     
     profile = User.objects.get(username=username)
     follower = False
-    if UserFollow.objects.filter(follower=request.user, following=profile).exists():
+    if request.user.is_authenticated and UserFollow.objects.filter(follower=request.user, following=profile).exists():
         follower = True
     context = {'profile': profile, 'follower': follower}
-    if request.user.username == username:
+    if request.user.is_authenticated and request.user.username == username:
         
         if request.method == "POST":
             form = profileForm(request.POST, request.FILES, instance=profile.userprofile)
