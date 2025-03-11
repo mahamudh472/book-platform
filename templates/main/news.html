@@ -7,13 +7,107 @@
 
 {% endblock %}
 {% block content %}
-  <div class="max-w-3xl">
+<div class="flex">
+  <div class="lg:w-2/3">
     <div class="text-md my-4">বিশ্ব</div>
 
-    <div class="font-medium text-3xl my-4">রোম শহরের বুকে আস্ত এক দেশ ভ্যাটিকান সিটি</div>
-    <div class="text-gray-400">আয়তনে বিশ্বের সবচেয়ে ছোট দেশ ভ্যাটিকান সিটি। রোমান ক্যাথলিক গির্জার ধর্মগুরুদের আবাসভূমি এটি। ভ্যাটিকান সিটি থেকে গির্জার সরকার বা ধর্ম যাজকীয় শাসনব্যবস্থা পরিচালনা করেন পোপ। বিভিন্ন দেশ থেকে আসা ধর্মযাজক ও সন্ন্যাসীরাই মূলত এখানকার বাসিন্দা। এখানে সেন্ট পিটার্স ব্যাসিলিকা গির্জাসহসহ বেশ কিছু গুরুত্বপূর্ণ ভবনের অবস্থান। ১৯২৯ সালের ১১ ফেব্রুয়ারি ভ্যাটিকান সিটি স্বাধীন দেশের স্বীকৃতি পায়। জাতিসংঘের শিক্ষা, বিজ্ঞান ও সংস্কৃতিবিষয়ক সংস্থা ইউনেসকো ১৯৮৪ সালে ভ্যাটিকান সিটিকে বিশ্ব ঐতিহ্যের এলাকা ঘোষণা করে। আজ মঙ্গলবার দেশটির স্বাধীনতা লাভের ৯৬ বছর পূর্ণ হলো। বিশেষ এই দিনটিতে ভ্যাটিকান সিটির আদ্যোপান্ত জেনে নেওয়া যাক।</div>
-    <img class="m-auto mt-4" src="https://media.prothomalo.com/prothomalo-bangla%2F2025-02-11%2Fu87u9wsh%2FVatican-1.jpg?rect=0%2C2%2C844%2C563&w=622&auto=format%2Ccompress&fmt=avif" alt="">
+    <div class="font-medium text-3xl my-4">{{news.title}}</div>
+    <div class="relative m-auto max-w-lg my-4 overflow-hidden rounded-lg shadow-lg border border-gray-300">
+      <!-- Slider Images -->
+      <div class="flex transition-transform duration-500 ease-in-out" id="image-container">
+        {% for image in news.images.all %}
+          <img src="{{image.image.url}}" alt="Image 1" class="w-full block" id="image1">
+          
+          {% endfor %}
+      </div>
+      {% if news.images.count > 1%}
+      <!-- Navigation Buttons -->
+      <button class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white rounded-full p-2 hover:bg-opacity-70" onclick="prevImage()">
+          ❮
+      </button>
+      <button class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white rounded-full p-2 hover:bg-opacity-70" onclick="nextImage()">
+          ❯
+      </button>
+      {% endif %}
   </div>
+    <div class="text-gray-400">{{news.content|safe}}</div>
+    
+  <script>
+      let currentIndex = 0;
+      const images = document.querySelector('#image-container').querySelectorAll('img');
+
+      function showImage(index) {
+          images.forEach((img, i) => {
+              img.classList.add('hidden');
+              if (i === index) {
+                  img.classList.remove('hidden');
+              }
+          });
+      }
+
+      function nextImage() {
+          currentIndex = (currentIndex + 1) % images.length;
+          showImage(currentIndex);
+      }
+
+      function prevImage() {
+          currentIndex = (currentIndex - 1 + images.length) % images.length;
+          showImage(currentIndex);
+      }
+
+      // Initialize the slider with the first image
+      showImage(currentIndex);
+  </script>
+  </div>
+  <div class="lg:w-1/3">
+    <h2>Suggested news</h2>
+    {% for item in suggested_news %}
+    <div class="flex h-24 justify-between space-x-2 mb-3 cursor-pointer" onclick="location.href=`{% url 'main:news' item.id %}`">
+      <div class="flex gap-3">
+        <!-- image container -->
+        <div class="overflow-hidden bg-red-600 rounded-lg max-w-32">
+          <img alt="" class="h-full w-full object-cover" src="{{ item.images.first.image.url }}" />
+        </div>
+        <!-- text container -->
+        <div class="py-2">
+          <div class="font-medium">{{ item.title }}</div>
+          <a href="{% url 'main:profile' news.author.username %}" class="text-xs text-gray-500 hover:text-blue-400">{{ item.author.userprofile.full_name }}</a>
+          <div class="text-xs font-thin">{{ item.views }} views • {{ item.created_at|timesince }} ago</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="relative">
+          <button class="dropdownButton bg-neutral-200 hover:bg-neutral-300 p-2 rounded-full text-sm"><i class="fa fa-ellipsis-vertical"></i></button>
+          <!-- Dropdown Menu -->
+          <div id="dropdownMenu" class="dropdownMenu absolute z-[1000] right-0 mt-2 w-max bg-white border border-gray-200 rounded-lg shadow-lg hidden">
+            <ul class="py-1">
+              <li>
+                <button class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100" data-url="{{ request.scheme }}://{{ request.get_host }}{% url 'main:news' item.id %}" onclick="event.stopPropagation();copy_to_clipboard(this, event)"><div class="fa fa-share mr-2"></div>Copy link</button>
+              </li>
+              <li>
+                <a href="" class="block px-4 py-2 text-gray-700 hover:bg-gray-100"><div class="fa-regular fa-clipboard mr-2"></div>Share</a>
+              </li>
+              <!-- {% for coll_item in user.reading_list.all %}
+                {% with book_ids=coll_item.get_book_ids %}
+                  <li>
+                    {% if item.id in book_ids %}
+                      <a href="{% url 'main:remove_from_collection' item.slug coll_item.name %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 truncate max-w-48"><div class="fa fa-minus mr-2"></div>Remove from {{ coll_item.name }}</a>
+                    {% else %}
+                      <a href="{% url 'main:add_to_collection' item.slug coll_item.name %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 truncate max-w-48"><div class="fa fa-plus mr-2"></div>Add to {{ coll_item.name }}</a>
+                    {% endif %}
+                  </li>
+                {% endwith %}
+              {% endfor %} -->
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+  
 
 
 

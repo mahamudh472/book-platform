@@ -316,5 +316,11 @@ def news_cast(request):
     news = News.objects.all()
     return render(request, 'main/newscast.html', {'news': news})
 
-def news(request):
-    return render(request, 'main/news.html')
+def news(request, news_id):
+    news_obj = News.objects.get(id=news_id)
+    suggested_news = News.objects.exclude(id=news_id)
+    context = {
+        'news': news_obj,
+        'suggested_news': suggested_news
+    }
+    return render(request, 'main/news.html', context)
