@@ -7,8 +7,8 @@
 
 {% endblock %}
 {% block content %}
-<div class="flex">
-  <div class="lg:w-2/3">
+<div class="flex flex-col lg:flex-row">
+  <div class="lg:w-2/3 sm:p-4">
     <div class="text-md my-4">বিশ্ব</div>
 
     <div class="font-medium text-3xl my-4">{{news.title}}</div>
@@ -112,7 +112,12 @@
 
 
   <script>
-    let halfMenu = true;
-    let fullMenuHide = false;
+    let halfMenu = false;
+    let fullMenuHide = true;
+    const sideBar = document.getElementById('sidebar')
+    const cardGrid = document.getElementById('content')
+    sideBar.classList.toggle('md:translate-x-0')
+    cardGrid.classList.remove('md:ml-64')
+
 </script>
 {% endblock %}
