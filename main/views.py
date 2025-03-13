@@ -9,11 +9,19 @@ from .utils import log_book_view, create_notification
 from django.utils import timezone, html
 from collections import defaultdict
 from django.contrib import messages
+from django.core.paginator import Paginator
+from django.core.serializers import serialize
+from django.template.loader import render_to_string
 # Create your views here.
+
+from django.core.paginator import Paginator
 
 def index(request):
     context = {}
     path_info = request.META.get('PATH_INFO')
+    items_per_page = 10  # Number of books to load initially
+
+    # Determine the sorting based on the path
     if path_info == "/trending":
         books = Book.public_objects.all().order_by('-views')
         context['page'] = "Trending"
@@ -22,14 +30,32 @@ def index(request):
         context['page'] = "Recent"
     elif path_info == "/popular":
         books = Book.public_objects.all().order_by('-views')
-        context['page'] = "Polular"
+        context['page'] = "Popular"
     else:
         books = Book.public_objects.all().order_by('?')
         context['page'] = "Recommended"
-    context['books'] = books
+
+    # Paginate the initial set of books
+    paginator = Paginator(books, items_per_page)
+    initial_books = paginator.page(1)
+    context['books'] = initial_books
+
     if request.user.is_authenticated:
         context['following'] = UserFollow.objects.filter(follower=request.user)[:3]
+
     return render(request, 'main/index.html', context)
+def load_more_data(request):
+    page = int(request.GET.get('page', 1))
+    items_per_page = 10
+    objects = Book.objects.all().order_by('?')
+    paginator = Paginator(objects, items_per_page)
+    if page > paginator.num_pages:
+        return JsonResponse({'data':[], 'has_next': False})
+    
+    books_html = [render_to_string('components/book_card.html', {'book': book, 'request': request}) for book in paginator.page(page)]
+    
+    return JsonResponse({'data': books_html, 'has_next': page < paginator.num_pages}, safe=False)
+
 
 from accounts.forms import profileForm
 def profile(request, username):

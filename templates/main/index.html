@@ -5,21 +5,48 @@ Homepage
 {% endblock %}
 {% block content %}
 
-    <h2 class="text-xl font-bold text-gray-700 mb-4">
-        {{page}} Books
-    </h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+<h2 class="text-xl font-bold text-gray-700 mb-4">
+    {{page}} Books
+</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6" id="book_container">
 
-        {% for book in books %}
+    {% for book in books %}
 
-        {% include 'components/book_card.html' %}
-        
-        {% endfor %}
+    {% include 'components/book_card.html' %}
 
-    </div>
-   <script>
-        let halfMenu = true;
-        let fullMenuHide = false;
-    </script>
+    {% endfor %}
+
+    <div id="loading">Loading...</div>
+</div>
+<script>
+    let halfMenu = true;
+    let fullMenuHide = false;
+</script>
+
+<script>
+    let page = 1;
+const bookContainer = document.getElementById("book_container"); // Ensure this div wraps the book list
+const loadMoreUrl = "{% url 'main:load_more_data' %}"; // Adjust this to match your Django view
+const parent = bookContainer.parentElement
+parent.addEventListener("scroll", function () {
+    if (parent.scrollHeight - parent.scrollTop <= parent.clientHeight + 100) {
+        loadMoreBooks();
+    }
+});
+
+async function loadMoreBooks() {
+    page += 1;
+    const response = await fetch(`${loadMoreUrl}?page=${page}`);
+    const data = await response.json();
+
+    if (data.has_next === false) {
+        window.removeEventListener("scroll", loadMoreBooks);
+    }
+
+    data.data.forEach(bookHTML => {
+        bookContainer.insertAdjacentHTML("beforeend", bookHTML);
+    });
+}
+
+</script>
 {% endblock %}
-
