@@ -162,7 +162,7 @@ def book_view(request, slug):
     if request.user.is_authenticated and UserFollow.objects.filter(follower=request.user, following=book.author).exists():
         follower = True
     
-    suggestions = Book.public_objects.all().exclude(id__in=[book.id])
+    suggestions = Book.public_objects.all().order_by('?').exclude(id__in=[book.id])[:20]
     return render(request, 'main/book_view.html', {
         'book': book, 
         'suggestions': suggestions, 
@@ -350,3 +350,6 @@ def news(request, news_id):
         'suggested_news': suggested_news
     }
     return render(request, 'main/news.html', context)
+
+def temp_book_view(request):
+    return render(request, 'temp_book_view.html', {'book': Book.objects.get(slug="omujk-28fc-9bd0")})

@@ -27,5 +27,6 @@ urlpatterns = [
     path('delete_collection/<int:collection_id>', views.delete_collection, name="delete_collection"),
     path('clear_notifications', views.clear_notifications, name="clear_notifications"),
     path('mark_all_as_read', views.mark_all_as_read, name="mark_all_as_read"),
-    path('load-more-data', views.load_more_data, name="load_more_data")
+    path('load-more-data', views.load_more_data, name="load_more_data"),
+    path('temp', views.temp_book_view)
 ]

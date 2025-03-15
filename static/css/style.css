@@ -3,27 +3,20 @@
 @tailwind utilities;
 
 @layer components {
-    #page-container h1 {
-        @apply text-2xl font-bold mt-4;
+    #page-container h1, #book_content h1 {
+        @apply text-2xl font-bold mt-2 leading-tight;
     }
 
-    #page-container h2 {
-        @apply text-xl font-semibold mt-3;
+    #page-container h2, #book_content h2 {
+        @apply text-xl font-semibold mt-2 leading-tight;
     }
 
-    #page-container h3 {
-        @apply text-lg font-medium mt-2;
+    #page-container h3, #book_content h3 {
+        @apply text-lg font-medium mt-1 leading-tight;
     }
 
-    #page-container p {
-        @apply text-base leading-relaxed;
-    }
-
-    #page-container b {
-        @apply font-bold;
-    }
-
-    #page-container i {
-        @apply italic;
+    #page-container p, #book_content p {
+        @apply text-base leading-normal;
     }
 }
+

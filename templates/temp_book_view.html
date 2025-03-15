@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 py-8">
+  <!-- Book Container -->
+  <div id="book-container" class="relative bg-white rounded-lg shadow-lg overflow-hidden" 
+       style="max-width: 800px; height: 600px; margin: 0 auto">
+       
+    <!-- Thumbnail View -->
+    <div id="thumbnail-view" class="absolute inset-0 flex items-center justify-center bg-gray-100">
+      <img src="{{ book.thumbnail.url }}" alt="{{ book.title }}" class="max-h-full object-contain">
+      <button id="read-button" class="absolute inset-0 w-full h-full flex items-center justify-center bg-black bg-opacity-30 hover:bg-opacity-40 transition-colors">
+        <span class="bg-blue-600 text-white px-8 py-3 rounded-lg text-lg font-medium hover:bg-blue-700">
+          Read Now
+        </span>
+      </button>
+    </div>
+
+    <!-- Content View -->
+    <div id="content-view" class="h-full relative overflow-hidden" style="display: none">
+      <div id="pages-container" class="h-full relative"></div>
+
+      <!-- Pagination Controls -->
+      <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-4">
+        <button id="prev-page" class="px-4 py-2 bg-white bg-opacity-80 rounded-lg shadow-md hover:bg-opacity-100" disabled>
+          ← Previous
+        </button>
+        <span id="page-indicator" class="px-4 py-2 bg-white bg-opacity-80 rounded-lg">
+          Page 1/1
+        </span>
+        <button id="next-page" class="px-4 py-2 bg-white bg-opacity-80 rounded-lg shadow-md hover:bg-opacity-100" disabled>
+          Next →
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const BOOK_CONTENT = `{{ book.content|escapejs }}`;
+  const container = document.getElementById('book-container');
+  const pagesContainer = document.getElementById('pages-container');
+  let currentPage = 0;
+  let totalPages = 0;
+  const PAGE_HEIGHT = 600;
+
+  // Read Button Click Handler
+  document.getElementById('read-button').addEventListener('click', () => {
+    document.getElementById('thumbnail-view').style.display = 'none';
+    document.getElementById('content-view').style.display = 'block';
+    initializeBook();
+  });
+
+  function initializeBook() {
+    pagesContainer.innerHTML = '';
+    const contentWrapper = createMeasurementDiv();
+    contentWrapper.innerHTML = BOOK_CONTENT;
+    
+    // Remove images and clean content
+    contentWrapper.querySelectorAll('img').forEach(img => img.remove());
+    
+    // Process all nodes recursively
+    processContent(contentWrapper, pagesContainer);
+    contentWrapper.remove();
+    
+    updatePagination();
+  }
+
+  function createMeasurementDiv() {
+    const div = document.createElement('div');
+    div.style.cssText = `
+      width: ${container.offsetWidth}px;
+      padding: 2rem;
+      font-size: 1rem;
+      line-height: 1.5;
+      position: absolute;
+      visibility: hidden;
+    `;
+    document.body.appendChild(div);
+    return div;
+  }
+
+  function processContent(source, target) {
+    let currentPage = document.createElement('div');
+    currentPage.className = 'page absolute w-full p-8';
+    currentPage.style.height = `${PAGE_HEIGHT}px`;
+    let currentHeight = 0;
+
+    function createNewPage() {
+      target.appendChild(currentPage);
+      currentPage = document.createElement('div');
+      currentPage.className = 'page absolute w-full p-8';
+      currentPage.style.height = `${PAGE_HEIGHT}px`;
+      currentHeight = 0;
+      totalPages++;
+    }
+
+    function processNode(node) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        processTextNode(node, currentPage, createNewPage);
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        processElementNode(node, currentPage, createNewPage);
+      }
+    }
+
+    function processElementNode(node, page, createNewPage) {
+      const clone = node.cloneNode(false);
+      let childHeight = 0;
+
+      // Process child nodes
+      Array.from(node.childNodes).forEach(child => {
+        const tempContainer = document.createElement('div');
+        tempContainer.appendChild(child.cloneNode(true));
+        tempContainer.style.whiteSpace = 'nowrap';
+        
+        if (child.nodeType === Node.TEXT_NODE) {
+          processTextNode(child, clone, createNewPage);
+        } else {
+          processElementNode(child, clone, createNewPage);
+        }
+
+        childHeight = clone.offsetHeight;
+      });
+
+      if (currentHeight + childHeight > PAGE_HEIGHT) {
+        createNewPage();
+      }
+
+      if (clone.childNodes.length > 0) {
+        page.appendChild(clone);
+        currentHeight += childHeight;
+      }
+    }
+
+    function processTextNode(node, page, createNewPage) {
+      const text = node.textContent;
+      let currentText = '';
+      let tempSpan = document.createElement('span');
+      
+      for (let char of text) {
+        tempSpan.textContent = currentText + char;
+        const textHeight = tempSpan.offsetHeight;
+        
+        if (currentHeight + textHeight > PAGE_HEIGHT) {
+          if (currentText.length > 0) {
+            page.appendChild(document.createTextNode(currentText));
+            createNewPage();
+          }
+          currentText = char;
+        } else {
+          currentText += char;
+        }
+      }
+      
+      if (currentText.length > 0) {
+        page.appendChild(document.createTextNode(currentText));
+        currentHeight += tempSpan.offsetHeight;
+      }
+    }
+
+    // Start processing
+    Array.from(source.childNodes).forEach(processNode);
+    
+    // Add the last page if it has content
+    if (currentPage.childNodes.length > 0) {
+      target.appendChild(currentPage);
+      totalPages++;
+    }
+  }
+
+  function updatePagination() {
+    document.getElementById('page-indicator').textContent = 
+      `Page ${currentPage + 1}/${totalPages}`;
+    document.getElementById('prev-page').disabled = currentPage === 0;
+    document.getElementById('next-page').disabled = currentPage === totalPages - 1;
+    
+    pagesContainer.style.transform = `translateY(-${currentPage * 100}%)`;
+    pagesContainer.style.transition = 'transform 0.3s ease';
+  }
+
+  // Pagination Controls
+  document.getElementById('prev-page').addEventListener('click', () => {
+    if (currentPage > 0) {
+      currentPage--;
+      updatePagination();
+    }
+  });
+
+  document.getElementById('next-page').addEventListener('click', () => {
+    if (currentPage < totalPages - 1) {
+      currentPage++;
+      updatePagination();
+    }
+  });
+});
+</script>
+
+<style>
+.page {
+  transition: transform 0.3s ease;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.page p {
+  margin-bottom: 1rem;
+  text-align: justify;
+  word-break: break-word;
+}
+
+.page h1 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.page h2 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.page h3 {
+  font-size: 1.125rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+</style>
+{% endblock %}

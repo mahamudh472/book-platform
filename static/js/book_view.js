@@ -13,77 +13,19 @@ const totalPagesSpan = document.getElementById("total-pages");
 let pages = [];
 let currentPage = 0;
 
-// Read Now Button Functionality
 readNowButton.addEventListener("click", function () {
     coverContainer.classList.add("hidden");
     readerContainer.classList.remove("hidden");
-    paginateContent(); // Initialize pagination when reading starts
+
+    // Wait for styles to fully apply before paginating
+    requestAnimationFrame(() => {
+        paginateContent();
+    });
 });
 
-// Function to paginate the content dynamically
-// function paginateContent() {
-//     pages = [];
-//     tempContainer.innerHTML = ""; // Clear previous content
-//     tempContainer.style.width = pageContainer.clientWidth + "px"; // Match width
-//     tempContainer.style.position = "absolute"; // Prevent layout shifting
-//     tempContainer.style.visibility = "hidden"; // Hide from view
-//     document.body.appendChild(tempContainer); // Append for measurement
 
-//     // 🔥 Get padding values dynamically
-//     const computedStyle = window.getComputedStyle(pageContainer);
-//     const paddingTop = parseFloat(computedStyle.paddingTop);
-//     const paddingBottom = parseFloat(computedStyle.paddingBottom);
-//     const availableHeight = pageContainer.clientHeight - (paddingTop + paddingBottom); // Adjust height
 
-//     let content = document.createElement("div");
-//     content.innerHTML = bookContent; // Convert string to actual HTML elements
-//     let elements = Array.from(content.childNodes); // Get elements
-//     let tempPage = document.createElement("div"); // Container for one page
 
-//     for (let element of elements) {
-//         let clonedElement = element.cloneNode(true);
-//         tempPage.appendChild(clonedElement); // Add element
-//         tempContainer.innerHTML = tempPage.innerHTML; // Insert into temp container
-
-//         // 🔥 If content overflows, we need to break it
-//         if (tempContainer.scrollHeight > availableHeight) {
-//             tempPage.removeChild(tempPage.lastChild); // Remove overflowing element
-
-//             // 🔥 Special handling for long paragraphs (split by line)
-//             if (clonedElement.nodeName === "P") {
-//                 let words = clonedElement.innerHTML.split(" ");
-//                 let newParagraph = document.createElement("p");
-//                 let tempText = "";
-
-//                 for (let word of words) {
-//                     tempText += word + " ";
-//                     newParagraph.innerHTML = tempText;
-//                     tempContainer.innerHTML = tempPage.innerHTML + newParagraph.outerHTML;
-
-//                     if (tempContainer.scrollHeight > availableHeight) {
-//                         tempText = tempText.trim().split(" ").slice(0, -1).join(" ");
-//                         newParagraph.innerHTML = tempText;
-//                         tempPage.appendChild(newParagraph.cloneNode(true));
-//                         pages.push(tempPage.innerHTML); // Save full page
-//                         tempPage = document.createElement("div"); // Start new page
-//                         newParagraph.innerHTML = word + " ";
-//                         tempPage.appendChild(newParagraph.cloneNode(true));
-//                         break;
-//                     }
-//                 }
-//             } else {
-//                 pages.push(tempPage.innerHTML); // Store full page
-//                 tempPage = document.createElement("div"); // Start new page
-//                 tempPage.appendChild(clonedElement.cloneNode(true)); // Move overflowed element
-//             }
-//         }
-//     }
-
-//     pages.push(tempPage.innerHTML); // Store last page
-//     totalPagesSpan.textContent = `/ ${pages.length}`; // Update total pages
-//     document.body.removeChild(tempContainer); // Cleanup
-//     displayPage(0);
-// }
 
 function paginateContent() {
     pages = [];
@@ -97,7 +39,10 @@ function paginateContent() {
     const computedStyle = window.getComputedStyle(pageContainer);
     const paddingTop = parseFloat(computedStyle.paddingTop);
     const paddingBottom = parseFloat(computedStyle.paddingBottom);
-    const availableHeight = pageContainer.clientHeight - (paddingTop + paddingBottom); // Adjust height
+    const lineHeight = parseFloat(computedStyle.lineHeight) || 24; // Default fallback
+    const extraMargin = 8; // Additional buffer space
+
+    const availableHeight = pageContainer.clientHeight - (paddingTop + paddingBottom + extraMargin);
 
     let content = document.createElement("div");
     content.innerHTML = bookContent; // Convert string to actual HTML elements
@@ -123,30 +68,51 @@ function paginateContent() {
                 let words = clonedElement.textContent.split(" ");
                 let newParagraph = document.createElement("p");
                 let tempText = "";
-
+            
                 for (let word of words) {
                     tempText += word + " ";
                     newParagraph.textContent = tempText.trim();
                     tempContainer.innerHTML = tempPage.innerHTML + newParagraph.outerHTML;
-
+            
                     if (tempContainer.scrollHeight > availableHeight) {
-                        // Remove the last word and save the current page
-                        tempText = tempText.trim().split(" ").slice(0, -1).join(" ");
-                        newParagraph.textContent = tempText;
-                        tempPage.appendChild(newParagraph.cloneNode(true));
-                        pages.push(tempPage.innerHTML); // Save full page
-                        tempPage = document.createElement("div"); // Start new page
-                        newParagraph.textContent = word + " ";
-                        tempPage.appendChild(newParagraph.cloneNode(true));
+                        let sentenceEndIndex = tempText.lastIndexOf(". "); // Try to split at full stop
+                        if (sentenceEndIndex === -1) {
+                            sentenceEndIndex = tempText.lastIndexOf(", "); // Otherwise, try a comma
+                        }
+                        if (sentenceEndIndex === -1) {
+                            sentenceEndIndex = tempText.lastIndexOf(" "); // Otherwise, use the last space
+                        }
+                    
+                        let firstPart = tempText.slice(0, sentenceEndIndex + 1).trim();
+                        let remainingPart = tempText.slice(sentenceEndIndex + 1).trim();
+                    
+                        if (firstPart) {
+                            newParagraph.textContent = firstPart;
+                            tempPage.appendChild(newParagraph.cloneNode(true));
+                        }
+                        
+                        pages.push(tempPage.innerHTML);
+                        tempPage = document.createElement("div");
+                    
+                        if (remainingPart) {
+                            let nextParagraph = document.createElement("p");
+                            nextParagraph.textContent = remainingPart;
+                            tempPage = document.createElement("div"); // Create a new page
+                            tempPage.appendChild(nextParagraph);
+                        }
+                        
+                    
                         break;
                     }
+                    
                 }
             } else {
-                // For non-paragraph elements, just move them to the next page
-                pages.push(tempPage.innerHTML); // Store full page
-                tempPage = document.createElement("div"); // Start new page
-                tempPage.appendChild(clonedElement.cloneNode(true)); // Move overflowed element
+                // For non-paragraph elements, move them to the next page
+                pages.push(tempPage.innerHTML);
+                tempPage = document.createElement("div");
+                tempPage.appendChild(clonedElement.cloneNode(true));
             }
+            
         }
     }
 
@@ -157,6 +123,12 @@ function paginateContent() {
 
     totalPagesSpan.textContent = `/ ${pages.length}`; // Update total pages
     document.body.removeChild(tempContainer); // Cleanup
+    if (tempContainer.scrollHeight > availableHeight) {
+        while (tempContainer.scrollHeight > availableHeight && tempPage.lastChild) {
+            tempPage.removeChild(tempPage.lastChild);
+        }
+        pages.push(tempPage.innerHTML);
+    }    
     displayPage(0);
 }
 
